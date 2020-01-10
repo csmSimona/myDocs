@@ -235,14 +235,14 @@ PS：其中created和mounted比较重要，一个是data数据和事件的初始
 
 对于所有的数据绑定，Vue.js 都提供了完全的 JavaScript **表达式**支持。注意：每个绑定都只能包含**单个表达式**。
 
+```js
 {{ number + 1 }}
 {{ ok ? 'YES' : 'NO' }}
 {{ message.split('').reverse().join('') }}
 
 // 这是语句，不是表达式
 {{ var a = 1 }}
-// 流控制也不会生效，请使用三元表达式
-// {{ if (ok) { return message } }}
+```
 
 - 指令
 
