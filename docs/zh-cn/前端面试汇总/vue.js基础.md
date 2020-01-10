@@ -242,6 +242,8 @@ PS：其中created和mounted比较重要，一个是data数据和事件的初始
 
 // 这是语句，不是表达式
 {{ var a = 1 }}
+// 流控制也不会生效，请使用三元表达式
+{{ if (ok) { return message } }}
 ```
 
 - 指令
