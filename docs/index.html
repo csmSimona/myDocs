@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="Description">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <!-- <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css"> -->
+  <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/buble.css">
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+    window.$docsify = {
+      // name: 'Simona\'s docs',
+      repo: 'https://github.com/csmSimona',
+      coverpage: true,
+      loadNavbar: true,
+      onlyCover: true,
+      auto2top: true,
+      search: {
+        maxAge: 86400000,               // 过期时间，单位毫秒，默认一天
+        paths: [
+          'zh-cn/前端面试汇总',
+          'zh-cn/前端面试汇总/HTML小记',
+          'zh-cn/前端面试汇总/CSS小记',
+          'zh-cn/前端面试汇总/react基础',
+          'zh-cn/前端面试汇总/vue.js基础',
+          'zh-cn/前端面试汇总/计算机网络',
+          'zh-cn/JavaScript/js异步及处理异步的几种方法',
+          'zh-cn/webpack/webpack概念与配置',
+          'zh-cn/node/nodejs'
+        ],                  
+        placeholder: '搜索一下',
+        noData: '没有找到对应的内容',
+        depth: 6,                       // 搜索标题的最大程级, 1 - 6
+      }
+    }
+  </script>
+  <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
+  <script src="//unpkg.com/docsify/lib/plugins/search.js"></script>
+  <script src="//unpkg.com/docsify-copy-code"></script>
+</body>
+</html>
