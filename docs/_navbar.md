@@ -1,12 +1,12 @@
 - [首页](/)
 
-* 前端面试汇总
-  * [JavaScript小记](zh-cn/前端面试汇总/JavaScript小记)
-  * [HTML小记](zh-cn/前端面试汇总/HTML小记)
-  * [CCS小记](zh-cn/前端面试汇总/CSS小记)
-  * [react基础](zh-cn/前端面试汇总/react基础)
-  * [vue.js基础](zh-cn/前端面试汇总/vue.js基础)
-  * [计算机网络](zh-cn/前端面试汇总/计算机网络)
+* 前端基础汇总
+  * [JavaScript小记](zh-cn/前端基础汇总/JavaScript小记)
+  * [HTML小记](zh-cn/前端基础汇总/HTML小记)
+  * [CCS小记](zh-cn/前端基础汇总/CSS小记)
+  * [react基础](zh-cn/前端基础汇总/react基础)
+  * [vue.js基础](zh-cn/前端基础汇总/vue.js基础)
+  * [计算机网络](zh-cn/前端基础汇总/计算机网络)
   
 * node
   * [nodejs](zh-cn/node/nodejs)
