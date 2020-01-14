@@ -26,7 +26,7 @@
 - 在 Node 中为 JavaScript 提供了一些服务器级别的 API
   - 文件操作的能力，例如文件读写
 
-    ```JavaScript
+    ```js
     //读取文件.js
     
     // 浏览器中的 JavaScript 是没有文件操作的能力的
@@ -71,7 +71,7 @@
     
     ```
 
-    ```JavaScript
+    ```js
     //写文件.js
     var fs = require('fs')
     
@@ -111,7 +111,7 @@
 
   - http服务器
 
-    ```JavaScript
+    ```js
     // 可以使用 Node 非常轻松的构建一个 Web 服务器
     // 在 Node 中专门提供了一个核心模块：http
     // http 这个模块的职责就是帮你创建编写服务器的
@@ -142,7 +142,7 @@
     
     ```
 
-    ```javascript
+    ```js
     //http-res.js
     var http = require('http')
     
@@ -183,7 +183,7 @@
     
     ```
 
-    ```javascript
+    ```js
     //http-url-res.js
     var http = require('http')
     
@@ -274,7 +274,7 @@
 
   - path 路径处理模块
 
-    ```javascript
+    ```js
     // 用来获取机器信息的
     var os = require('os')
     
@@ -296,9 +296,9 @@
 
   - `var fs = require('fs')`          (require是同步的)
 
-    ```javascript
-    //加载
+    加载
     
+    ```js
     //a.js
     // require 是一个方法
     // 它的作用就是用来加载模块的
@@ -336,8 +336,7 @@
     
     console.log('foo 的值是：', foo)
     
-    
-    //b.js
+    // b.js
     console.log('b start')
     
     // console.log(add(10, 20))
@@ -347,8 +346,7 @@
     require('./c.js')
     console.log('b end')
     
-    
-    //c.js
+    // c.js
     console.log('b start')
     
     // console.log(add(10, 20))
@@ -359,11 +357,11 @@
     console.log('b end')
     
     ```
-
-    ```javascript
-    //导出
     
-    //a.js
+    导出
+
+    ```js
+    // a.js
     // require 方法有两个作用：
     //    1. 加载文件模块并执行里面的代码
     //    2. 拿到被加载文件模块导出的接口对象
@@ -390,8 +388,7 @@
       }
     })
     
-    
-    //b.js
+    // b.js
     var foo = 'bbb'
     
     // console.log(exports)
@@ -415,7 +412,7 @@
     }
     
     ```
-
+    
     
 
 ## web服务器开发
@@ -434,7 +431,7 @@
 
   - 我们在开发过程中使用一些简单好记的就可以了，例如3000、5000等没什么含义的
 
-    ```javascript
+    ```js
     // ip 地址用来定位计算机
     // 端口号用来定位具体的应用程序
     // 所有需要联网通信的应用程序都会占用一个端口号
@@ -464,7 +461,7 @@
 
   - 对于文本类型的数据，最好都加上编码，目的是为了防止中文解析乱码问题
 
-    ```javascript
+    ```js
     // require
     // 端口号
     
@@ -506,7 +503,7 @@
 
   - 当浏览器收到服务器响应内容之后，就会根据你的 Content-Type 进行对应的解析处理
 
-    ```javascript
+    ```js
     // 1. 结合 fs 发送文件中的数据
     // 2. Content-Type
     //    http://tool.oschina.net/commons
@@ -573,7 +570,7 @@
 
   所以你会发现在一些第三方的代码中能看到一上来就以一个 ; 开头。
 
-## 在node中使用模板引擎
+## 在node中使用`art-template`模板引擎
 
 在 Node 中使用 art-template 模板引擎
 
@@ -699,7 +696,7 @@ fs.readFile('./tpl.html', function (err, data) {
 - 我们可以把需要导出的成员都挂载到 module.exports 接口对象中，也就是：`moudle.exports.xxx = xxx` 的方式
 - 但是每次都 `moudle.exports.xxx = xxx` 很麻烦，点儿的太多了
 - 所以 Node 为了你方便，同时在每一个模块中都提供了一个成员叫：`exports`
-- `exports === module.exports` 结果为  `true`s
+- `exports === module.exports` 结果为  `true`
 - 所以对于：`moudle.exports.xxx = xxx` 的方式 完全可以：`expots.xxx = xxx`
 - 当一个模块需要导出单个成员的时候，这个时候必须使用：`module.exports = xxx` 的方式
 - 不要使用 `exports = xxx` 不管用
@@ -708,7 +705,7 @@ fs.readFile('./tpl.html', function (err, data) {
 - 所以即便你为 `exports = xx` 重新赋值，也不会影响 `module.exports`
 - 但是有一种赋值方式比较特殊：`exports = module.exports` 这个用来重新建立引用关系的
 
-```javascript
+```js
 moudle.exports = {
   a: 123
 }
@@ -744,4 +741,674 @@ exports.foo = 'bar'
 
   - 一个项目有且仅有一个 node_modules 而且是存放到项目的根目录
 
-    
+## 模块标识中的 `/` 和文件操作路径中的 `/`
+
+- 文件操作中的相对路径可以省略 ./
+
+     ./data/a.txt 相对于当前目录
+
+ 	  data/a.txt   相对于当前目录
+
+​	   /data/a.txt  绝对路径，当前文件模块所处磁盘根目录
+
+​	   c:/xx/xx...  绝对路径
+
+- 在模块加载中，相对路径中的 ./ 不能省略
+
+  // 这里如果忽略了 . 则也是磁盘根目录
+
+  require('/data/foo.js')
+
+## 修改完代码自动重启工具
+
+第三方命令行工具：nodemon 帮助解决频繁修改代码重启服务器问题
+
+```shell
+npm install --global nodemon
+```
+
+安装完毕之后
+
+```shell
+node app.js => nodemon app.js
+```
+
+只要是通过nodemon启动的服务，则它会监视你的文件变化，当文件发生变化的时候，自动帮你重启服务器
+
+## Express
+
+### Express 基本使用
+
+`npm init ` 生成package.json
+
+`npm i --save express`
+
+```js
+// 1.引包
+var express = require('express')
+// 2.创建你的服务器应用程序 也就是原来的http.createServer
+var app = express()
+
+// 公开指定目录-开放资源
+
+// 只要这样做了，你就可以直接通过 /public/xx 的方式访问 public 目录中的所有资源了
+app.use('/public/', express.static('./public/'))
+app.use('/static/', express.static('./static/'))
+app.use('/node_modules/', express.static('./node_modules/'))
+
+// 当省略第一个参数的时候，则可以通过 省略 /public 的方式来访问（就是路径从public后面开始写）
+// 这种方式的好处就是可以省略 /public/
+app.use(express.static('./public/'))
+
+
+// 当服务器收到get请求 / 的时候，执行回调处理函数
+app.get('/', function(req, res) {
+    res.send('hello express')
+})
+
+app.get('/hello', function(req, res) {
+    // 在 Express 中可以直接 req.query 来获取查询字符串参数
+    console.log(req.query)
+    res.send('你好，我是express')
+})
+
+app.get('/pinglun', function (req, res) {
+    // req.query
+    // 在 Express 中使用模板引擎有更好的方式：res.render(文件名， {模板对象})
+    // 可以自己尝试去看 art-template 官方文档：如何让 art-template 结合 Express 来使用
+})
+
+//相当于server.listen
+app.listen(3000, function() {
+    console.log('app is running at port 3000.')
+})
+```
+
+### 在Express中配置使用`art-template`模板引擎
+
+安装：
+
+```shell
+npm install --save art-template
+npm install --save express-art-template
+```
+
+配置：
+
+```js
+// 配置使用 art-template 模板引擎
+// 第一个参数，表示，当渲染以 .art 结尾的文件的时候，使用 art-template 模板引擎
+// express-art-template 是专门用来在 Express 中把 art-template 整合到 Express 中
+// 虽然外面这里不需要记载 art-template 但是也必须安装
+// 原因就在于 express-art-template 依赖了 art-template
+app.engine('art', require('express-art-template'))
+```
+
+使用：
+
+```js
+// Express 为 Response 相应对象提供了一个方法：render
+// render 方法默认是不可以使用，但是如果配置了模板引擎就可以使用了
+// res.render('html模板名', {模板数据})
+// 第一个参数不能写路径，默认会去项目中的 views 目录查找该模板文件
+// 也就是说 Express 有一个约定：开发人员把所有的视图文件都放到 views 目录中
+
+// 如果想要修改默认的 views 视图渲染存储目录，则可以
+// app.set('views', render函数的默认路径)
+
+app.get('/', function (req, res) {
+    res.render('index.html', {
+        title: 'hello world'
+    })
+})
+```
+
+### 在Express获取表单GET请求参数
+
+Express内置了一个API，可以直接通过`req.query`来获取请求参数
+
+```js
+app.get('/pinglun', function (req, res) {
+  var comment = req.query
+  comment.dateTime = '2017-11-5 10:58:51'
+  comments.unshift(comment)
+  res.redirect('/')
+})
+```
+
+### 在Express获取表单POST请求体数据
+
+在Express中没有内置获取表单POST请求体的API，这里我们需要使用一个第三方包：`body-parser`
+
+安装：
+
+```shell
+npm install --save body-parser
+```
+
+配置：
+
+```js
+var express = require('express')
+var bodyParser = require('body-parser')
+
+var app = express()
+
+// 配置 body-parser 中间件（插件，专门用来解析表单 POST 请求体）
+// 只要加入这个配置，则在req请求对象上会多出一个出现：body
+// 也就是说你就可以直接通过req.body来获取表单POST请求体数据了
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+// parse application/json
+app.use(bodyParser.json())
+
+app.use(function (req, res) {
+    res.setHeader('Content-Type', 'text/plain')
+    res.write('you posted:\n')
+    // 可以通过req.body来获取表单POST请求体数据
+    res.end(JSON.stringify(req.body, null, 2))
+})
+```
+
+从文件中读取数据
+
+```js
+var fs = require('fs')
+
+app.get('/students', function (req, res) {
+    // readFile 的第二个参数是可选的，传入 utf8 就是告诉它把读取到的文件直接按照 utf8 编码转成我们能认识的字符
+    // 除了这样来转换之外，也可以通过 data.toString() 的方式
+    fs.readFile('./db.json', 'utf8', function (err, data) {
+      if (err) {
+        return res.status(500).send('Server error.')
+      }
+
+      // 从文件中读取到的数据一定是字符串
+      // 所以这里一定要手动转成对象
+      var students = JSON.parse(data).students
+
+      res.render('index.html', {
+        fruits: [
+          '苹果',
+          '香蕉',
+          '橘子'
+        ],
+        students: students
+      })
+    })
+```
+
+### Epress处理404
+
+```js
+// 只需要在自己的路由之后增加一个
+app.use(function (req, res) {
+  // 所有未处理的请求路径都会跑到这里
+  // 404
+})
+```
+
+### CRUD案例
+
+#### 起步
+
+- 初始化
+- 安装依赖
+- 模板处理
+
+#### 路由设计
+
+| 请求方式 | 请求路径         | get参数 | post参数                       | 备注             |
+| -------- | ---------------- | ------- | ------------------------------ | ---------------- |
+| GET      | /students        |         |                                | 渲染首页         |
+| GET      | /students/new    |         |                                | 渲染添加学生页面 |
+| POST     | /students/new    |         | name、age、gender、hobbies     | 处理添加学生请求 |
+| GET      | /students/edit   | id      |                                | 渲染编辑页面     |
+| POST     | /students/edit   |         | id、name、age、gender、hobbies | 处理编辑请求     |
+| GET      | /students/delete | id      |                                | 处理删除请求     |
+
+#### 提取路由模块
+
+router.js
+
+```js
+/**
+ * router.js 路由模块
+ * 职责：
+ *   处理路由
+ *   根据不同的请求方法+请求路径设置具体的请求处理函数
+ * 模块职责要单一，不要乱写
+ * 我们划分模块的目的就是为了增强项目代码的可维护性
+ * 提升开发效率
+ */
+
+var express = require('express')
+
+// 1. 创建一个路由容器
+var router = express.Router()
+
+// 2. 把路由都挂载到 router 路由容器中
+router.get('/students', function (req, res) {
+})
+
+// 3. 把 router 导出
+module.exports = router
+```
+
+app.js
+
+```js
+var router = require('./router')
+
+// 把路由容器挂载到 app 服务中
+app.use(router)
+```
+
+#### 设计操作数据的API文件模块
+
+```js
+/**
+ * student.js
+ * 数据操作文件模块
+ * 职责：操作文件中的数据，只处理数据，不关心业务
+ *
+ * 这里才是我们学习 Node 的精华部分：奥义之所在
+ * 封装异步 API
+ */
+
+var fs = require('fs')
+
+var dbPath = './db.json'
+
+/**
+ * 获取学生列表
+ * @param  {Function} callback 回调函数
+ */
+exports.find = function (callback) {
+  fs.readFile(dbPath, 'utf8', function (err, data) {
+    if (err) {
+      return callback(err)
+    }
+    callback(null, JSON.parse(data).students)
+  })
+}
+
+/**
+ * 根据 id 获取学生信息对象
+ * @param  {Number}   id       学生 id
+ * @param  {Function} callback 回调函数
+ */
+exports.findById = function (id, callback) {
+  fs.readFile(dbPath, 'utf8', function (err, data) {
+    if (err) {
+      return callback(err)
+    }
+    var students = JSON.parse(data).students
+    var ret = students.find(function (item) {
+      return item.id === parseInt(id)
+    })
+    callback(null, ret)
+  })
+}
+
+/**
+ * 添加保存学生
+ * @param  {Object}   student  学生对象
+ * @param  {Function} callback 回调函数
+ */
+exports.save = function (student, callback) {
+  fs.readFile(dbPath, 'utf8', function (err, data) {
+    if (err) {
+      return callback(err)
+    }
+    var students = JSON.parse(data).students
+
+    // 添加 id ，唯一不重复
+    student.id = students[students.length - 1].id + 1
+
+    // 把用户传递的对象保存到数组中
+    students.push(student)
+
+    // 把对象数据转换为字符串
+    var fileData = JSON.stringify({
+      students: students
+    })
+
+    // 把字符串保存到文件中
+    fs.writeFile(dbPath, fileData, function (err) {
+      if (err) {
+        // 错误就是把错误对象传递给它
+        return callback(err)
+      }
+      // 成功就没错，所以错误对象是 null
+      callback(null)
+    })
+  })
+}
+
+/**
+ * 更新学生
+ */
+exports.updateById = function (student, callback) {
+  fs.readFile(dbPath, 'utf8', function (err, data) {
+    if (err) {
+      return callback(err)
+    }
+    var students = JSON.parse(data).students
+
+    // 注意：这里记得把 id 统一转换为数字类型
+    student.id = parseInt(student.id)
+
+    // 你要修改谁，就需要把谁找出来
+    // EcmaScript 6 中的一个数组方法：find
+    // 需要接收一个函数作为参数
+    // 当某个遍历项符合 item.id === student.id 条件的时候，find 会终止遍历，同时返回遍历项
+    var stu = students.find(function (item) {
+      return item.id === student.id
+    })
+
+    // 这种方式你就写死了，有 100 个难道就写 100 次吗？
+    // stu.name = student.name
+    // stu.age = student.age
+
+    // 遍历拷贝对象
+    for (var key in student) {
+      stu[key] = student[key]
+    }
+
+    // 把对象数据转换为字符串
+    var fileData = JSON.stringify({
+      students: students
+    })
+
+    // 把字符串保存到文件中
+    fs.writeFile(dbPath, fileData, function (err) {
+      if (err) {
+        // 错误就是把错误对象传递给它
+        return callback(err)
+      }
+      // 成功就没错，所以错误对象是 null
+      callback(null)
+    })
+  })
+}
+
+/**
+ * 删除学生
+ */
+exports.deleteById = function (id, callback) {
+  fs.readFile(dbPath, 'utf8', function (err, data) {
+    if (err) {
+      return callback(err)
+    }
+    var students = JSON.parse(data).students
+
+    // findIndex 方法专门用来根据条件查找元素的下标
+    var deleteId = students.findIndex(function (item) {
+      return item.id === parseInt(id)
+    })
+
+    // 根据下标从数组中删除对应的学生对象
+    students.splice(deleteId, 1)
+
+    // 把对象数据转换为字符串
+    var fileData = JSON.stringify({
+      students: students
+    })
+
+    // 把字符串保存到文件中
+    fs.writeFile(dbPath, fileData, function (err) {
+      if (err) {
+        // 错误就是把错误对象传递给它
+        return callback(err)
+      }
+      // 成功就没错，所以错误对象是 null
+      callback(null)
+    })
+  })
+}
+
+```
+
+## EcmaScript 6 的 find 方法实现
+
+```js
+var users = [
+  {id: 1, name: '张三'},
+  {id: 2, name: '张三'},
+  {id: 3, name: '张三'},
+  {id: 4, name: '张三'}
+]
+
+Array.prototype.myFind = function (conditionFunc) {
+  // var conditionFunc = function (item, index) { return item.id === 4 }
+  for (var i = 0; i < this.length; i++) {
+    if (conditionFunc(this[i], i)) {
+      return this[i]
+    }
+  }
+}
+
+var ret = users.myFind(function (item, index) {
+  return item.id === 2
+})
+
+console.log(ret)
+```
+
+## package-lock.json 文件的作用
+
+- 下载速度快了
+- 锁定版本
+
+## JavaScript 模块化
+
+- Node 中的 CommonJS
+- 浏览器中的
+  - AMD require.js
+  - CMD sea.js
+- EcmaScript 官方在 EcmaScript 6 中增加了官方支持
+- EcmaScript 6
+
+## MongoDB 数据库
+
+运行 MongoDB 服务器
+
+```shell
+mongod
+```
+
+连接MongoDB
+
+```shell
+mongo
+```
+
+- MongoDB 的数据存储结构
+  - 数据库
+  - 集合（表）
+  - 文档（表记录）
+
+
+- MongoDB 官方有一个 mongodb 的包可以用来操作 MongoDB 数据库
+  - 这个确实和强大，但是比较原始，麻烦，所以咱们不使用它
+- mongoose
+  - 真正在公司进行开发，使用的是 mongoose 这个第三方包
+  - 它是基于 MongoDB 官方的 mongodb 包进一步做了封装
+  - 可以提高开发效率
+  - 让你操作 MongoDB 数据库更方便
+
+- 掌握使用 mongoose 对数据集合进行基本的 CRUD
+- 把之前的 crud 案例改为了 MongoDB 数据库版本
+- 使用 Node 操作 mysql 数据库
+
+
+
+
+
+
+
+- MongoDB 数据库
+  - 灵活
+  - 不用设计数据表
+  - 业务的改动不需要关心数据表结构
+  - DBA 架构师 级别的工程师都需要掌握这项技能
+    - 设计
+    - 维护
+    - 分布式计算
+- mongoose
+  - mongodb 官方包也可以操作 MongoDB 数据库
+  - 第三方包：WordPress 项目开发团队
+  - 设计 Schema
+  - 发布 Model（得到模型构造函数）
+    - 查询
+    - 增加
+    - 修改
+    - 删除
+- Promise
+  - http://es6.ruanyifeng.com/#docs/promise
+  - callback hell 回调地狱
+  - 回调函数中套了回调函数
+  - Promise(EcmaScript 6 中新增了一个语法 API)
+  - 容器
+    - 异步任务（pending）
+    - resolve
+    - reject
+  - then 方法获取容器的结果（成功的，失败的）
+  - then 方法支持链式调用
+  - 可以在 then 方法中返回一个 promise 对象，然后在后面的 then 方法中获取上一个 then 返回的 promise 对象的状态结果
+
+## 上午总结
+
+## 下午总结
+
+## 总结
+
+- path 模块
+- __dirname 和 __filename
+  - **动态的** 获取当前文件或者文件所处目录的绝对路径
+  - 用来解决文件操作路劲的相对路径问题
+  - 因为在文件操作中，相对路径相对于执行 `node` 命令所处的目录
+  - 所以为了尽量避免这个问题，都建议文件操作的相对路劲都转为：**动态的绝对路径**
+  - 方式：`path.join(__dirname, '文件名')`
+- art-template 模板引擎(include、block、extend)
+  - include
+  - extend
+  - block
+- 表单同步提交和异步提交区别
+  - 以前没有 ajax 都是这么干的，甚至有些直接就是渲染了提示信息出来了
+  - 异步提交页面不会刷新，交互方式更灵活
+- Express 中配置使用 express-session 插件
+- 概述案例中注册-登陆-退出的前后端交互实现流程
+
+
+
+# Node.js 第7天课堂笔记
+
+## 知识点
+
+- 上午
+  - 多人社区案例
+  - Express 中间件
+- 下午
+  - Vue
+
+------
+
+## 反馈
+
+```javascript
+funtion extend (source, target) {
+  for (var key in source) {
+    target[key] = source[key]
+  }
+}
+
+var obj1 = {
+  foo: 'bar'
+}
+
+var obj2 = {
+  name: 'Jack'
+}
+
+// obj2 就拥有了 obj1 的所有成员了
+extend(obj1, obj2)
+```
+
+- 唉............
+- 老师我想问下 那个操作文件路径不受打开命令执行node命令所属路径影响什么意思，是可以在任意窗口打开都可以访问到吗。。。。。
+- 慢点 心急吃不了热豆腐
+- 老师讲的很好 很清晰 希望老师下午第一节上课时间短点 第一节很困 上课时间太长听课效率有点低
+- 老师 写案例的时候 一个文件的代码量多了 可不可以把字体稍微调小点便于看全局结构 有时候感觉自己连不上
+- extend还不是很理解
+  - 模板继承
+  - extend 把复制过来
+  - layout
+  - index （extend layout）
+  - index 就具有了 layout 的内容
+  - index 还可以有自己的自定义内容
+- 能不能把命令系统地罗列一下,@ 0 @
+- 听得时候都差不多听懂了，可是自己做的时候发现不知道从何入手，即使是看着老师的需求与代码，也根本不懂怎么写了，感觉自己听完了就全都忘光了，很郁闷！
+- 我现在学习的感觉就像 你是个俄国人，教我了一句外语，你已经重复 了很多遍，我也努力再听，但是当你说完的那一刻，我就完全不知道你说了什么。就是仅仅过了一耳朵，再加上内容太多，我已经感觉完全跟不上了，怎么办，我有点崩溃。怎么破
+  - 上帝撒了一把智慧，可惜我打了一把伞
+  - 多花时间、废寝忘食
+- 老师你是不是喜欢Anglebaby?我同桌问的，她是个女的
+  - Angelababy
+- 如何在浏览器中模拟所谓的art-template高级技术？关于浏览器操作cookie的插件如何使用，需要注意些什么？还可以安装一些什么谷歌浏览器插件，有助于提高开发效率或模拟项目、测试的实用插件！
+  - 只是一个工具
+  - https://github.com/js-cookie/js-cookie
+  - EditThisCookie Chrome 浏览器插件
+- 文件引入有规则吗，像router.js中，需要重新引入第三方模块express，但是body-parser在routre页面也使用了呀，但是怎么不用引入
+  - 这主要是中间件的原因
+- req.session对象不清楚 希望老师再讲讲
+  - req.session.xxx = xxx
+  - req.session.xxx
+  - Session 是基于 Cookie 实现的
+- session 那块还是不怎么明白
+- 课间下课尽量要准时，特别是上午第一节课比较困，听课效率低，反正下课次数固定，也不会让上课时间减少。 下午5点半增加上课时间多多益善
+- 思路有点乱，有些小地方不明确，总的来说练得太少
+- mongoose中的Schema用的不熟练
+  - 多写写
+- 如果先启动node服务，再开启数据库，数据库服务开启了，但是数据库并没有连接，这样会出现所有的操作都会失效的情况，必须打开新的命令行使用mongo命令手动连接数据库 反过来，如果先开启数据库，再开启node服务，就不会出现这样的问题，因为user.js代码中mongoose.connect('mongodb://localhost/test', { useMongoClient: true })自动连接了数据库，刚开始以为数据库竟然和node产生了依赖，原来并不是！ 希望老师控制每节课的上课时间，一节课集中精力的时间最多20分钟，接下来的20分钟基本只有一半的效率，后面的时间效率只会指数减小，所以希望老师能在45分钟左右就休息一次，也能提高效率； 老师讲的很细，很认真，也很负责，希望能在最后一个月的时间学好最重要的内容，就像你说的，因为刚好遇见你！
+  - 你说的对，加油。
+- 一到数据库就蒙。数据库始终连接不上去。我觉得不知道我数据库都学了什么?_?
+- nice！
+
+------
+
+## 复习
+
+- path 模块
+- __dirname 和 __filename
+  - **动态的** 获取当前文件或者文件所处目录的绝对路径
+  - 用来解决文件操作路劲的相对路径问题
+  - 因为在文件操作中，相对路径相对于执行 `node` 命令所处的目录
+  - 所以为了尽量避免这个问题，都建议文件操作的相对路劲都转为：**动态的绝对路径**
+  - 方式：`path.join(__dirname, '文件名')`
+- art-template 模板引擎(include、block、extend)
+  - include
+  - extend
+  - block
+  - 动手写一写
+- 表单同步提交和异步提交区别
+  - 字符串交互
+  - 请求（报文、具有一定格式的字符串）
+  - HTTP 就是 Web 中的沟通语言
+  - 服务器响应（字符串）
+  - 01
+  - 服务器端重定向针对异步请求无效
+- Express 中配置使用 express-session 插件
+  - 插件也是工具
+  - 你只需要明确你的目标就可以了
+  - 我们最终的目标就是使用 Session 来帮我们管理一些敏感信息数据状态，例如保存登陆状态
+  - 写 Session
+    - req.session.xxx = xx
+  - 读 Session
+    - req.session.xxx
+  - 删除 Session
+    - req.session.xxx = null
+    - 更严谨的做法是 `delete` 语法
+    - delete req.session.xxx
+- 概述案例中注册-登陆-退出的前后端交互实现流程
