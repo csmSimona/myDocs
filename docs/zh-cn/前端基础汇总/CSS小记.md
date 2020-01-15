@@ -38,10 +38,12 @@ ul > li{
 - “&”表示嵌套的上一级，是sass语法，代表上一级选择器
 - “>”是特有的选择器，A>B 表示选择A元素的所有子B元素。
   与A B的区别在于，A B选择所有后代元素，而A>B只选择一代。
-  另外：
-  - 没有<的用法。
-  - A+B表示HTML中紧随A的B元素。
-  - nth-child是个伪类的用法，如p:nth-child(2)就表示在p的父元素中选择位居第二位的p
+
+另外：
+
+- 没有<的用法。
+- A+B表示HTML中紧随A的B元素。
+- nth-child是个伪类的用法，如p:nth-child(2)就表示在p的父元素中选择位居第二位的p
 
 ### 4、inline-block 详解
 
@@ -53,9 +55,13 @@ ul > li{
 
 ### 5、dispaly:inline inline-block block 三者区别
 
+（4、5有点重复）
+
 - inline：使用此属性后，元素会被显示为内联元素，元素则不会换行。
-- block：使用此属性后，元素会被现实为块级元素，元素会进行换行。
-- inline-block：是使元素以块级元素的形式呈现在行内。inline元素设置width，height属性无效。inline元素的padding和margin可以设置，但是水平方向的padding-right，padding-left，margin-right，margin-left都产生了效果，而垂直方向的padding-top，padding-bottom，margin-bottom，margin-top是没有效果的。
+  - inline元素设置width，height属性无效。
+  - inline元素的padding和margin可以设置，但是水平方向的padding-right，padding-left，margin-right，margin-left都产生了效果，而垂直方向的padding-top，padding-bottom，margin-bottom，margin-top是没有效果的。
+- block：使用此属性后，元素会被现实为块级元素，元素会进行换行。可以设置width,height属性。
+- inline-block：是使元素以块级元素的形式呈现在行内。**既具有宽度高度特性，又具有同行特性**
 
 ### 6、什么时候用margin？什么时候用padding？
 
@@ -85,9 +91,15 @@ ul > li{
 
 也就是说，如果你将一个元素的width设为100px,那么这100px会包含其它的border和padding，内容区的实际宽度会是width减去border + padding的计算值。大多数情况下这使得我们更容易的去设定一个元素的宽高。
 
-### 8、border-radius:50%  一个圆
+| 值          | 描述                                                         |
+| :---------- | :----------------------------------------------------------- |
+| content-box | 宽度就是实际内容的宽度                                       |
+| border-box  | 宽度包含border和padding，分别减去边框和内边距才能得到实际内容（content）的宽度和高度。 |
+| inherit     | 规定应从父元素继承 box-sizing 属性的值。                     |
 
-### 9、white-space 属性设置如何处理元素内的空白。
+### 8、border-radius: 50%  一个圆
+
+### 9、white-space 属性设置如何处理元素内的空白
 
 | 值       | 描述                                                         |
 | -------- | ------------------------------------------------------------ |
@@ -105,11 +117,17 @@ ul > li{
 ### 11、css优先级由高到低：
 
 1.在属性后面使用!important会覆盖页面内任何位置定义的元素样式。
+
 2.作为style属性写在元素内的样式
+
 3.id选择器
+
 4.类选择器=伪类选择器=属性选择器（后面的样式会覆盖前面的样式）
+
 5.标签选择器
+
 6.通配符选择器
+
 7.浏览器自定义的样式
 
 ### 12、link和@import的区别
@@ -124,15 +142,20 @@ ul > li{
 
 5.link方式样式的权重高于@import的
 
-### 13、当margin-top、padding-top的值是百分比时，是相对最近父级块级元素的width
+### 13、当margin、padding的值是百分比时，是相对最近父级块级元素的width
+
+[css height width padding margin 百分比取值的基准问题](https://blog.csdn.net/qq_35809245/article/details/54233662)
 
 ### 14、css可继承属性：
 
 所有元素可继承：visibility和cursor。
+
 内联元素可继承：letter-spacing、word-spacing、white-space、line-height、color、font、font-
 family、font-size、font-style、font-variant、font-weight、text-decoration、text-transform、
 direction。
+
 终端块状元素可继承：text-indent和text-align。
+
 列表元素可继承：list-style、list-style-type、list-style-position、list-style-image。
 
 ### 15、margin auto是自动根据剩余的长度居中对齐，并不是0
@@ -167,11 +190,11 @@ direction。
 
 ### 19、visibility=hidden, opacity=0，display:none的区别
 
-opacity=0，该元素隐藏起来了，但不会改变页面布局，并且，如果该元素已经绑定一些事件，如click事件，那么点击该区域，也能触发点击事件的
+`opacity = 0`：该元素隐藏起来了，但不会改变页面布局，并且，如果该元素已经绑定一些事件，如click事件，那么点击该区域，也能触发点击事件的
 
-visibility=hidden，该元素隐藏起来了，但不会改变页面布局，但是不会触发该元素已经绑定的事件
+`visibility = hidden`：该元素隐藏起来了，但不会改变页面布局，但是不会触发该元素已经绑定的事件
 
-display=none，把元素隐藏起来，并且会改变页面布局，可以理解成在页面中把该元素删除掉一样。
+`display: none`：把元素隐藏起来，并且会改变页面布局，可以理解成在页面中把该元素删除掉一样。
 
 ### 20、伪类选择器与伪元素
 
@@ -225,8 +248,9 @@ love and hate（爱与恨）
 .outer2{position: relative;height:150px; border: 1px solid red;}
 .sidebar2{position: absolute;left: 0;top:0;width:200px;height:100%;background: #BCE8F1;}
 .content2{margin-left:200px;height:100px;background: #F0AD4E;} 
-缺点:
 ```
+
+缺点:
 
 - 使用了绝对定位，若是用在某个div中，需要更改父容器的position。
 - 没有清除浮动的方法，若左侧盒子高于右侧盒子，就会超出父容器的高度。因此只能通过设置父容器的min-height来放置这种情况。
@@ -311,22 +335,39 @@ love and hate（爱与恨）
 ### 23、CSS3新增属性：
 
 1、box-shadow(阴影效果)
+
 2、border-color(为边框设置多种颜色）
+
 3、border-image(图片边框）
+
 4、text-shadow(文本阴影)
+
 5、text-overflow(文本截断)
+
 6、word-wrap(自动换行）
+
 7、border-radius(圆角边框）
+
 8、opacity(透明度）
+
 9、box-sizing(控制盒模型的组成模式)
+
 10、resize(元素缩放）
+
 11、outline(外边框）
+
 12、background-size(指定背景图片尺寸）
+
 13、background-origin(指定背景图片从哪里开始显示)
+
 14、background-clip(指定背景图片从什么位置开始裁剪）
+
 15、background(为一个元素指定多个背景)
+
 16、hsl(通过色调、饱和度、亮度来指定颜色颜色值)
+
 17、hsla(在hsl的基础上增加透明度设置）
+
 18、rgba(基于rgb设置颜色，a设置透明度）
 
 ### 24、a:link,a:visited,a:hover,a:active 顺序
