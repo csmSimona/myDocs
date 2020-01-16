@@ -326,6 +326,12 @@ love and hate（爱与恨）
 
 **Flex布局**是由CSS3提供的一种方便的布局方式。
 
+请看：
+
+[Flex 布局教程：语法篇](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html?utm_source=tuicool)
+
+[Flex 布局教程：实例篇](http://www.ruanyifeng.com/blog/2015/07/flex-examples.html)
+
 **绝对定位布局**是给container 设置position: relative和overflow: hidden，因为绝对定位的元素的参照物为第一个postion不为static的祖先元素。 left 向左浮动，right 向右浮动。center 使用绝对定位，通过设置left和right并把两边撑开。 center 设置top: 0和bottom: 0使其高度撑开。
 
 **表格布局**的好处是能使三栏的高度统一。
@@ -409,9 +415,9 @@ love and hate（爱与恨）
 
 #### 6、sticky
 
-css3新属性，可以说是position:relative和position:fixed的合体。主要用在对scroll事件的监听上。
+CSS3新属性，可以说是position: relative和position: fixed的合体。主要用在对scroll事件的监听上。
 
-1.在目标区域在屏幕中可见时，它的行为就像position:relative;
+1.在目标区域在屏幕中可见时，它的行为就像position: relative;
 
 2.页面滚动时
 
@@ -429,8 +435,11 @@ css3新属性，可以说是position:relative和position:fixed的合体。主要
 
 使用条件：
 1、父元素不能overflow:hidden或者overflow:auto属性。
+
 2、必须指定top、bottom、left、right4个值之一，否则其行为与相对定位相同。并且top和bottom同时设置时，top生效的优先级高，left和right同时设置时，left的优先级高。
+
 3、父元素的高度不能低于sticky元素的高度
+
 4、sticky元素仅在其父元素内生效
 
 例子：标题吸顶
