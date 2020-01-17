@@ -446,14 +446,14 @@ CSS3新属性，可以说是position: relative和position: fixed的合体。主�
 
 ```css
 <ul class="sticky-list">
-    <li class="sticky-item">
-        <div class="title">list1</div>
-		// n个list
-        <ul class="list">
-			// n个item
-        	<li class="item">1111</li>
-        </ul>
-    </li>
+    <!-- n个list -->
+        <li class="sticky-item">
+            <div class="title">list1</div>
+            <ul class="list">
+                <!-- n个item -->
+                <li class="item">1111</li>
+            </ul>
+        </li>
 </ul>
 
 <style>
@@ -474,6 +474,7 @@ CSS3新属性，可以说是position: relative和position: fixed的合体。主�
 三角形原理：边框的均分原理
 
 ```css
+// 这是一个倒三角
 div {
     width:0px;
     height:0px;
@@ -499,8 +500,6 @@ IE盒子模型的盒子总宽度：width（即IE的内容宽度还包含了paddi
 box-sizing:content-box;  表示标准的盒子模型
 
 box-sizing:border-box;  表示的是IE盒子模型
-
-box-sizing:padding-box;  这个属性值的宽度包含了左右padding+width
 
 ### 28、画一条0.5px的线
 
@@ -602,10 +601,13 @@ functions提供多种方法，如：skewX(angle)沿着 X 轴的 2D 倾斜转换�
 
 **1.简述重排的概念**
 重排是DOM元素的几何属性变化，**DOM树的结构变化**（元素大小、定位等），渲染树需要重新计算。
+
 **2.简述重绘的概念**
 重绘是一个元素外观的改变所触发的浏览器行为，例如改变visibility、outline、背景色等属性。**浏览器会根据元素的新属性重新绘制，使元素呈现新的外观**。
+
 **3.简述重绘和重排的关系**
 重绘不会引起重排，但重排一定会引起重绘，一个元素的重排通常会带来一系列的反应，甚至触发整个文档的重排和重绘，性能代价是高昂的。
+
 **4.什么情况下会触发重排？**
 (1)页面渲染初始化时；（这个无法避免）
 (2)浏览器窗口改变尺寸；
@@ -905,3 +907,24 @@ div
 CSS Sprites其实就是把网页中一些背景图片整合到一张图片文件中，再利用CSS的“background-image”，“background- repeat”，“background-position”的组合进行背景定位，background-position可以用数字能精确的定位出背景图片的位置。
 
 这样可以减少很多图片请求的开销，因为请求耗时比较长；请求虽然可以并发，但是也有限制，一般浏览器都是6个。对于未来而言，就不需要这样做了，因为有了`http2`。
+
+### 46、实现单行、多行文本溢出显示省略号(…) 
+
+单行文本
+
+```css
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+```
+
+多行文本
+
+```css
+-webkit-line-clamp: 2; （用来限制在一个块元素显示的文本的行数,2表示最多显示2行。 为了实现该效果，它需要组合其他的WebKit属性）
+-webkit-box-orient: vertical;（ 和1结合使用 ，设置或检索伸缩盒对象的子元素的排列方式 。）
+display: -webkit-box; （和1结合使用，将对象作为弹性伸缩盒子模型显示 ）
+overflow: hidden;
+text-overflow: ellipsis;
+```
+
