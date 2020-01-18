@@ -600,122 +600,139 @@ functions提供多种方法，如：skewX(angle)沿着 X 轴的 2D 倾斜转换�
 ### 32、重绘（repaint）和重排（reflow）
 
 **1.简述重排的概念**
+
 重排是DOM元素的几何属性变化，**DOM树的结构变化**（元素大小、定位等），渲染树需要重新计算。
 
 **2.简述重绘的概念**
+
 重绘是一个元素外观的改变所触发的浏览器行为，例如改变visibility、outline、背景色等属性。**浏览器会根据元素的新属性重新绘制，使元素呈现新的外观**。
 
 **3.简述重绘和重排的关系**
+
 重绘不会引起重排，但重排一定会引起重绘，一个元素的重排通常会带来一系列的反应，甚至触发整个文档的重排和重绘，性能代价是高昂的。
 
 **4.什么情况下会触发重排？**
-(1)页面渲染初始化时；（这个无法避免）
-(2)浏览器窗口改变尺寸；
-(3)元素尺寸改变时；
-(4)元素位置改变时；
-(5)元素内容改变时；
-(6)添加或删除可见的DOM 元素时。
 
-**5.性能优化**
+(1) 页面渲染初始化时；（这个无法避免）
+
+(2) 浏览器窗口改变尺寸；
+
+(3) 元素字体大小变化；
+
+(4) 元素位置改变时；
+
+(5) 元素内容改变时；
+
+(6) 添加或删除可见的DOM 元素时。
+
+**5.性能优化（减少重排）**
 
 1. 减少DOM访问，将多次改变样式属性操作合并成一次操作
+
 2. 如果需要批量操作DOM，可以先让元素脱离文档流，操作完后再带入文档流，这样只会触发一次重排（fragment元素的应用）
+
 3. 将需要多次重排的元素，position属性设为absolute或fixed，这样此元素就脱离了文档流，它的变化不会影响到其他元素。例如有动画效果的元素就最好设置为绝对定位。
-4. 由于display:none的元素不再渲染树中，对隐藏的元素操作不会引起其他元素的重排。如果要对一个元素进行复杂的操作时，可以先隐藏它，操作完成后再显示。这样只在隐藏和显示时触发两次重排。
-5. 在内存中多次操作节点完成之后添加到文档中
-6. 尽量不要在布局信息改变时做查询操作（会导致渲染队列强制刷新）
+
+4. 由于display: none的元素不再渲染树中，对隐藏的元素操作不会引起其他元素的重排。如果要对一个元素进行复杂的操作时，可以先隐藏它，操作完成后再显示。这样只在隐藏和显示时触发两次重排。
+
+5. 避免设置大量的style属性，因为通过设置style属性改变节点样式的话，每一次设置都会触发一次reflow，所以最好是使用class属性
+
+6. 不要使用table布局，因为table布局中某个元素出发了重排，那么整个table的元素都会触发重排。
 
 ### 33、水平垂直居中的方法
 
-(1)margin:auto法
+(1) margin: auto法
 
 父元素为relative，子元素定位为上下左右为0，margin：auto可以实现脱离文档流的居中.
 
 ```css
-css:
-div{
+div {
     width: 400px;
     height: 400px;
     position: relative;
     border: 1px solid #465468;
 }
-img{
+p {
     position: absolute;
     margin: auto;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
+    width: 100px;
+    height: 100px;
+    background: red;
 }
 html:
 <div>
-	<img src="mm.jpg">
+	<p></p>
 </div>
 ```
 
-(2)margin负值法
+(2) margin负值法
+
+先绝对定位到父元素距离顶部和左边50%的位置，然后再往左、上移动自身长宽的50%
 
 ```css
-.container{
+div {
     width: 500px;
     height: 400px;
     border: 2px solid #379;
     position: relative;
 }
-.inner{
-    width: 480px;
-    height: 380px;
-    background-color: #746;
+p {
+    width: 100px;
+    height: 100px;
+    background-color: red;
     position: absolute;
     top: 50%;
     left: 50%;
-    margin-top: -190px; /*height的一半*/
-    margin-left: -240px; /*width的一半*/
+    margin-top: -50px;    /* height的一半 */
+    margin-left: -50px;   /* width的一半 */
 }
+
+/* 补充：其实这里也可以将marin-top和margin-left负值替换成 */
+transform：translate(-50%, -50%)       /* 往左，上移动自身长宽的50% */
 ```
 
-补充：其实这里也可以将marin-top和margin-left负值替换成，
-**transform：translate(-50%, -50%)       //往左，上移动自身长宽的50%**
-
-(3)table-cell（未脱离文档流的）
+(3) table-cell（未脱离文档流的）
 
 设置父元素的display:table-cell,并且vertical-align:middle，这样子元素可以实现垂直居中。
 
 ```css
-css:
 div{
     width: 300px;
     height: 300px;
     border: 3px solid #555;
     display: table-cell;
-    vertical-align: middle;    //垂直居中
-    text-align: center;        //水平居中
+    vertical-align: middle;     /* 垂直居中 */
+    text-align: center;         /* 水平居中 */
 }
-img{
-    vertical-align: middle;
+p{
+    display: inline-block; 
+    width: 100px;
+    height: 100px;
+    background: red;
 }
 ```
 
 (4)利用flex
 
-将父元素设置为display:flex，并且设置align-items:center;justify-content:center;
+将父元素设置为`display: flex`，并且设置`align-items: center; justify-content: center;`
 
 ```css
-css:
-.container {
-    width: 300px;
-    height: 200px;
+div {
+    width: 500px;
+    height: 500px;
     border: 3px solid #546461;
-    display: -webkit-flex;
     display: flex;
-    -webkit-align-items: center;
-    align-items: center; //在侧轴（纵轴）方向上居中
-    -webkit-justify-content: center;
-    justify-content: center; //在主轴（横轴）方向上居中
+    align-items: center;              /* 在侧轴（纵轴）方向上居中 */
+    justify-content: center;          /* 在主轴（横轴）方向上居中 */
 }
-.inner {
-    border: 3px solid #458761;
-    padding: 20px;
+p {
+    width: 100px;
+    height: 100px;
+    background: red;
 }
 ```
 
@@ -737,7 +754,7 @@ css:
 
 **方法四：使用邻接元素处理**
 
-什么都不做，给浮动元素后面的元素添加clear属性。
+什么都不做，给浮动元素后面的元素添加`clear: both`属性。
 
 **方法五：使用CSS的:after伪元素**
 
@@ -805,53 +822,11 @@ em：em就是根据基准来缩放字体的大小。em实质是一个**相对值
 
 rem：rem也是一个**相对值**，不过rem是**相对html根元素的font-size而计算**的。
 
-### 40、文字内容超出隐藏
-
-```css
-.oneLine {
-    width: 200px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-```
-
-### 41、两个元素之间会有空隙，可在父元素设置font-size: 0;使两元素完全贴合
+### 40、两个元素之间会有空隙，可在父元素设置font-size: 0;使两元素完全贴合
 
 如果在父元素设置font-size: 0;的同时设置了文字内容超出隐藏，省略号会不见，这是不宜设font-size: 0;，可把两元素代码中间的换行删掉即可。
 
-### 42、CSS sticky footer 布局
-
-它可以概括为如果页面不够长的时候，页脚块粘贴在视窗底部；如果内容足够长，页脚块会被内容向下推送。
-
-```css
-<div v-show="detail-show" class="detail">
-    <div class="detail-wrapper clearfix">
-		<div class="detail-main"></div>
-	</div>
-	<div class="detail-close">
-		<i class="icon-close"></i>
-	</div>
-</div>
-
-.detail-wrapper 
-    min-height: 100%
-    .detail-main 
-        margin-top: 64px
-        padding-bottom: 64px
-    
-
-.detail-close 
-    position: relative
-    width: 32px
-    height: 32px
-    margin: -64px auto 0 auto
-    clear: both
-    font-size: 32px
-
-```
-
-### 43、CSS3 动画
+### 41、CSS3 动画
 
 如需在 CSS3 中创建动画，需要运用 @keyframes 规则。
 
@@ -892,7 +867,7 @@ div
 }
 ```
 
-### 44、`<ins>`：定义文档的其余部分之外的插入文本。
+### 42、`<ins>`：定义文档的其余部分之外的插入文本。
 
 可与 `<del>` 标签一起使用，来描述对文档的更新和修正。
 
@@ -902,13 +877,13 @@ div
 
 效果：![ins](..\picture\ins.png)
 
-### 45、CSS sprites
+### 43、CSS sprites
 
 CSS Sprites其实就是把网页中一些背景图片整合到一张图片文件中，再利用CSS的“background-image”，“background- repeat”，“background-position”的组合进行背景定位，background-position可以用数字能精确的定位出背景图片的位置。
 
 这样可以减少很多图片请求的开销，因为请求耗时比较长；请求虽然可以并发，但是也有限制，一般浏览器都是6个。对于未来而言，就不需要这样做了，因为有了`http2`。
 
-### 46、实现单行、多行文本溢出显示省略号(…) 
+### 44、实现单行、多行文本溢出显示省略号(…) 
 
 单行文本
 
@@ -921,9 +896,9 @@ white-space: nowrap;
 多行文本
 
 ```css
--webkit-line-clamp: 2; （用来限制在一个块元素显示的文本的行数,2表示最多显示2行。 为了实现该效果，它需要组合其他的WebKit属性）
--webkit-box-orient: vertical;（ 和1结合使用 ，设置或检索伸缩盒对象的子元素的排列方式 。）
-display: -webkit-box; （和1结合使用，将对象作为弹性伸缩盒子模型显示 ）
+-webkit-line-clamp: 2;          /* 用来限制在一个块元素显示的文本的行数,2表示最多显示2行。 为了实现该效果，它需要组合其他的WebKit属性 */
+-webkit-box-orient: vertical;   /* 和1结合使用 ，设置或检索伸缩盒对象的子元素的排列方式 */
+display: -webkit-box;           /* 和1结合使用，将对象作为弹性伸缩盒子模型显示 */
 overflow: hidden;
 text-overflow: ellipsis;
 ```
