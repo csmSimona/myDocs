@@ -151,7 +151,7 @@ attributes：g:全局匹配	i:大小写匹配	m:多行匹配
 
   只有引用数据类型（Array，Function，Object）被精准判断，其他（数值Number，布尔值Boolean，字符串String）字面值不能被instanceof精准判断。
 
-  instanceOf可以正确的判断对象的类型，因为**内部机制是通过判断对象的原型链中是不是能找得类型的prototype**。
+  instanceof可以正确的判断对象的类型，因为**内部机制是通过判断对象的原型链中是不是能找得类型的prototype**。
 
   ```js
   console.log(2 instanceof Number);                    // false
@@ -572,7 +572,7 @@ try {
 
 
 
-```jsx
+```js
 fetch(url).then(response => response.json())
   .then(data => console.log(data))
   .catch(e => console.log("Oops, error", e))
@@ -581,7 +581,7 @@ fetch(url).then(response => response.json())
 - 更酷的一点
   你可以通过Request构造器函数创建一个新的请求对象，你还可以基于原有的对象创建一个新的对象。 新的请求和旧的并没有什么不同，但你可以通过稍微调整配置对象，将其用于不同的场景。例如：
 
-```jsx
+```js
 var req = new Request(URL, {method: 'GET', cache: 'reload'});
 fetch(req).then(function(response) {
   return response.json();
@@ -593,6 +593,7 @@ fetch(req).then(function(response) {
 ##### fetch和ajax 的主要区别
 
 1、fetch()返回的promise将不会拒绝http的错误状态，即使响应是一个HTTP 404或者500
+
 2、在默认情况下 fetch不会接受或者发送cookies
 
 ##### fetch的配置

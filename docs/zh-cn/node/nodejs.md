@@ -1217,15 +1217,13 @@ console.log(ret)
 
  MySql和MongoDB都是功能强大的数据库方案。两者最明显的区别在于，MySql是关系型数据库，在存储数据前，必须设计好数据模型(即database schema)，而且任何对于数据模型的更改，都会波及到存储在数据库中的旧数据(此处请你设想一下在生产环境中更新数百万条旧数据的工作量和风险...)；而MongoDB是NoSql(非关系型)数据库，所以它的数据模型(即data model)比关系型数据库灵活得多。当你需要更改数据格式时，理论上你不需要在数据库层面做任何改动。 
 
-
-
-运行 MongoDB 服务器
+**运行 MongoDB 服务器**
 
 ```shell
 mongod
 ```
 
-连接MongoDB
+**连接MongoDB**
 
 ```shell
 mongo
@@ -1285,9 +1283,13 @@ mongo
   - then 方法支持链式调用
   - 可以在 then 方法中返回一个 promise 对象，然后在后面的 then 方法中获取上一个 then 返回的 promise 对象的状态结果
 
-## 上午总结
 
-## 下午总结
+
+
+
+
+
+
 
 ## 总结
 
