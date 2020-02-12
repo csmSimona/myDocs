@@ -1229,6 +1229,14 @@ mongod
 mongo
 ```
 
+- MongoDB 数据库
+  - 灵活
+  - 不用设计数据表
+  - 业务的改动不需要关心数据表结构
+  - DBA 架构师 级别的工程师都需要掌握这项技能
+    - 设计
+    - 维护
+    - 分布式计算
 - MongoDB 的数据存储结构
   - 数据库
   - 集合（表）
@@ -1243,45 +1251,39 @@ mongo
   - 可以提高开发效率
   - 让你操作 MongoDB 数据库更方便
 
-- 掌握使用 mongoose 对数据集合进行基本的 CRUD
-- 把之前的 crud 案例改为了 MongoDB 数据库版本
-- 使用 Node 操作 mysql 数据库
+- 掌握使用 mongoose 对数据集合进行基本的 CRUD(文件夹mongoose-demo)
+- 把之前的 crud 案例改为了 MongoDB 数据库版本(文件夹crud-express(mongodb))
+- 使用 Node 操作 mysql 数据库(文件夹mysql-demo)
+
+## promise 封装api
+
+```js
+var fs = require('fs')
+
+function pReadFile(filePath) {
+    return new Promise(function (resolve, reject) {
+        fs.readFile(filePath, 'utf8', function (err, data) {
+            if (err) {
+                reject(err)
+            } else {
+                resolve(data)
+            }
+        })
+    })
+}
 
 
-
-
-
-
-
-- MongoDB 数据库
-  - 灵活
-  - 不用设计数据表
-  - 业务的改动不需要关心数据表结构
-  - DBA 架构师 级别的工程师都需要掌握这项技能
-    - 设计
-    - 维护
-    - 分布式计算
-- mongoose
-  - mongodb 官方包也可以操作 MongoDB 数据库
-  - 第三方包：WordPress 项目开发团队
-  - 设计 Schema
-  - 发布 Model（得到模型构造函数）
-    - 查询
-    - 增加
-    - 修改
-    - 删除
-- Promise
-  - http://es6.ruanyifeng.com/#docs/promise
-  - callback hell 回调地狱
-  - 回调函数中套了回调函数
-  - Promise(EcmaScript 6 中新增了一个语法 API)
-  - 容器
-    - 异步任务（pending）
-    - resolve
-    - reject
-  - then 方法获取容器的结果（成功的，失败的）
-  - then 方法支持链式调用
-  - 可以在 then 方法中返回一个 promise 对象，然后在后面的 then 方法中获取上一个 then 返回的 promise 对象的状态结果
+pReadFile('./data/a.txt')
+    .then(function (data) {
+    	console.log(data)
+    	return pReadFile('./data/b.txt')
+    }).then(function (data) {
+        console.log(data)
+        return pReadFile('./data/c.txt')
+    }).then(function (data) {
+        console.log(data)
+    })
+```
 
 
 
