@@ -6,6 +6,8 @@ webpack配置学习可以看这篇文章 https://www.jianshu.com/p/42e11515c10f
 
 https://github.com/csmSimona/webpacktest
 
+[一个完整的webpack配置文件](https://github.com/csmSimona/webpacktest/blob/master/webpack.config.js)
+
 ### 概念
 
 #### 什么是webpack
@@ -145,9 +147,19 @@ modlue: {
 
 ### 插件(plugins)
 
-plugin 用于扩展webpack的功能。它直接作用于 webpack，扩展了它的功能。当然loader也是变相的扩展了 webpack ，但是它只专注于转化文件（transform）这一个领域。而plugin的功能更加的丰富，而不仅局限于资源的加载。比如代码分割、静态资源处理、环境变量的注入、将所有css的module抽取为单个文件等。webpack自身也是用插件系统构建起来的。**插件的目的是做任何loaders做不了的事情。**插件的范围包括，从打包优化和压缩，一直到重新定义环境中的变量。
+- plugin 用于扩展webpack的功能。它直接作用于 webpack，扩展了它的功能。
 
-想要使用一个插件，你只需要 `require()` 它，然后把它添加到 `plugins` 数组中。多数插件可以通过选项(option)自定义。你也可以在一个配置文件中因为不同目的而多次使用同一个插件，这时需要通过使用 `new` 操作符来创建它的一个实例。
+- 当然loader也是变相的扩展了 webpack ，但是它只专注于转化文件（transform）这一个领域。
+
+- 而plugin的功能更加的丰富，而不仅局限于资源的加载。比如代码分割、静态资源处理、环境变量的注入、将所有css的module抽取为单个文件等。
+
+- webpack自身也是用插件系统构建起来的。**插件的目的是做任何loaders做不了的事情。**
+
+- 插件的范围包括，从打包优化和压缩，一直到重新定义环境中的变量。
+
+想要使用一个插件，你只需要 `require()` 它，然后把它添加到 `plugins` 数组中。多数插件可以通过选项(option)自定义。
+
+你也可以在一个配置文件中因为不同目的而多次使用同一个插件，这时需要通过使用 `new` 操作符来创建它的一个实例。
 
 plugins配置：
 

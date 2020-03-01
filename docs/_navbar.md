@@ -7,12 +7,14 @@
   * [react基础](zh-cn/前端基础汇总/react基础)
   * [vue.js基础](zh-cn/前端基础汇总/vue.js基础)
   * [计算机网络](zh-cn/前端基础汇总/计算机网络)
-  
 * node
   * [nodejs](zh-cn/node/nodejs)
-
-- webpack
-  - [webpack概念与配置](zh-cn/webpack/webpack概念与配置)
-
-- 算法
+* 算法
   - [排序](zh-cn/算法/排序)
+  - [算法题](zh-cn/算法/算法题)
+
+- 其他
+  - [webpack概念与配置](zh-cn/其他/webpack概念与配置)
+  - [Linux基本命令](zh-cn/其他/Linux基本命令)
+- 慕课
+  - [前端框架及项目面试](zh-cn/慕课/前端框架及项目面试)

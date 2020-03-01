@@ -1687,6 +1687,101 @@ Vue.use(VueRouter)
 
 如果使用全局的 script 标签，则无须如此 (手动安装)。
 
+#### 单页面两种路由模式：hash与history
+
+本质就是监听URL的变化，然后匹配路由规则，显示相应的页面，并且无需刷新。
+
+##### hash模式
+
+hash ——即地址栏URL中的#符号（此hsah 不是密码学里的散列运算）。
+
+主要通过监听url中的hash变化来进行路由跳转。用 `window.location.hash` 读取。
+
+比如这个URL：http://www.abc.com/#/hello, hash 的值为#/hello。
+
+**它的特点在于：hash 虽然出现URL中，但不会被包含在HTTP请求中，对后端完全没有影响，因此改变hash不会重新加载页面。**
+
+hash模式背后的原理是**onhashchange**事件,可以在window对象上监听这个事件:
+
+```JavaScript
+window.onhashchange = function(event){
+     console.log(event.oldURL, event.newURL);
+     let hash = location.hash.slice(1); 
+     document.body.style.color = hash;
+}
+```
+
+上面的代码可以通过改变hash来改变页面字体颜色，虽然没什么用，但是一定程度上说明了原理。 更关键的一点是，因为hash发生变化的url都会被浏览器记录下来，从而你会发现浏览器的前进后退都可以用了，同时点击后退时，页面字体颜色也会发生变化。这样一来，尽管浏览器没有请求服务器，但是页面状态和url一一关联起来，后来人们给它起了一个霸气的名字叫前端路由，成为了单页应用标配。
+
+网易云音乐，百度网盘就采用了hash路由，看起来就是这个样子:
+
+http://music.163.com/#/friend
+
+https://pan.baidu.com/disk/home#list/vmode=list
+
+
+
+原文链接：https://blog.csdn.net/xieguojun2013/article/details/12220189
+
+1、hash值浏览器是不会随请求发送到服务器端的（即地址栏中#及以后的内容）。
+
+2、可以通过window.location.hash属性获取和设置hash值。
+
+3、如果注册onhashchange事件，设置hash值会触发事件。可以通过设置window.onhashchange注册事件监听器，也可以在body元素上设置onhashchange属性注册。
+
+4、window.location.hash值的变化会直接反应到浏览器地址栏（#后面的部分会发生变化）。
+
+5、同时浏览器地址栏hash值的变化也会触发window.location.hash值的变化，从而触发onhashchange事件。
+
+6、当浏览器地址栏中URL包含hash如http://www.baidu.com/#home ，这时按下enter，浏览器发送http://www.baidu.com/请求至服务器,请求完毕之后设置hash值为#home，进而触发onhashchange事件。
+
+7、当只改变浏览器地址栏URL的hash部分，这时按下enter,浏览器不会发送任何请求至服务器，这时发生的只是设置hash值新修改的hash值，并触发onhashchange事件。
+
+8、html` <a>` 标签属性href可以设置为页面的元素ID如#top,当点击该锚链接时页面跳转至该id元素所在区域，同时浏览器自动设置window.location.hash属性，同时地址栏hash值发生改变，并触发onhashchange事件。
+————————————————
+版权声明：本文为CSDN博主「峰际流云」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+
+##### history路由(放在服务器环境下测试)
+
+利用了HTML5 History Interface 中新增的pushState() 和replaceState() 方法。（需要特定浏览器支持）
+
+随着history api的到来，前端路由开始进化了,前面的hashchange，你只能改变#后面的url片段，而history api则给了前端完全的自由
+
+history api可以分为两大部分，切换和修改，参考MDN，切换历史状态包括`back`、`forward`、`go` 三个方法，对应浏览器的前进，后退，跳转操作：
+
+```javascript
+history.go(-2);//后退两次
+history.go(2);//前进两次
+history.back(); //后退
+hsitory.forward(); //前进
+```
+
+**修改历史状态包括了`pushState`,`replaceState` （需要特定浏览器支持）**
+
+两个方法,这两个方法接收三个参数:`stateObj`,`title`,`url`
+
+```javascript
+history.pushState({color:'red'}, 'red', 'red')
+history.back();
+setTimeout(function(){
+     history.forward();
+ },0)
+window.onpopstate = function(event){
+     console.log(event.state)
+     if(event.state && event.state.color === 'red'){
+           document.body.style.color = 'red';
+      }
+}
+```
+
+通过`pushstate`把页面的状态保存在state对象中，当页面的url再变回这个url时，可以通过`event.state`取到这个`state`对象，从而可以对页面状态进行还原，这里的页面状态就是页面字体颜色，其实滚动条的位置，阅读进度，组件的开关的这些页面状态都可以存储到state的里面。
+
+这两个方法应用于浏览器的历史记录站，在当前已有的back、forward、go 的基础之上，它们提供了对历史记录进行修改的功能。只是当它们执行修改是，虽然改变了当前的URL，但你浏览器不会立即向后端发送请求。
+
+##### history模式的问题
+
+通过history api，我们丢掉了丑陋的#，但是它也有个问题：不怕前进，不怕后退，就怕**刷新**，**f5**，（如果后端没有准备的话）,因为刷新是实实在在地去请求服务器的,不玩虚的。 在hash模式下，前端路由修改的是#中的信息，而浏览器请求时是不带它玩的，所以没有问题.但是在history下，你可以自由的修改path，当刷新时，如果服务器中没有相应的响应或者资源，会分分钟刷出一个404来。
+
 #### 用 Vue.js + Vue Router 创建单页应用
 
 ##### HTML

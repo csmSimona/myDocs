@@ -15,6 +15,8 @@ console.log(300)
 
 解决方案：js是单线程的，一次只能完成一个任务，如果有多个任务，就需要排队，如果有一个任务耗时很长，那么后边任务就需要等待。为了解决这个问题，js将任务的执行分成两种模式：同步和异步
 
+ps：Web Worker（HTML5）可以为 JavaScript 创造多线程环境，但是不能访问DOM。具体可以看 [Web Worker 使用教程 - 阮一峰](http://www.ruanyifeng.com/blog/2018/07/web-worker.html)
+
 ### 同步和异步
 
 区别：是否阻塞后面程序的进行
@@ -29,6 +31,12 @@ console.log(300)
 
 // 100 300 200
 ```
+
+异步的缺点：
+
+1、没按照书写方法执行，可读性较差
+
+2、callback中不容易模块化
 
 ```js
 // 同步
@@ -127,9 +135,7 @@ console.log('script end');
 
 - 微任务包括process.nextTick，promise，Object.observe，MutationObserver
 
-
 - 宏任务包括script，setTimeout，setInterval，setImmediate，requestAnimationFrame，I/O，UI rendering 
-
 
 很多人有个误区，认为微任务快于宏任务，其实是错误的。因为宏任务中包括了script，浏览器会先执行一个宏任务，接下来异步代码的话就先执行微任务。
 
@@ -236,6 +242,7 @@ $.ajax(url, () => {
 		})
 	})
 })
+
 ```
 
 **注意 区分 回调函数和异步，回调是实现异步的一种手段，并不一定就是异步。**
@@ -250,6 +257,7 @@ function B(){
    console.log("I am B");
 }
 A(B);
+
 ```
 
 #### 2、事件监听
@@ -269,6 +277,7 @@ A(B);
 </script>
 
 // id2 id2222 id1
+
 ```
 
 优点：与回调函数相比，可绑定多个事件，每一个事件可指定多个回调函数，事件监听实现了代码的解耦，有利于实现模块化
@@ -308,6 +317,7 @@ result.then(function(img) {
 }, function() {
     console.log('failed')
 })
+
 ```
 
 ##### 简单实现promise
@@ -362,6 +372,7 @@ var fsm = new StateMachine({
         
     }
 })
+
 ```
 
 下面转自http://www.alloyteam.com/2014/05/javascript-promise-mode/
@@ -416,6 +427,7 @@ Promise.prototype.then = function(resolve, reject) {
         return next;
     }
 };
+
 ```
 
 ##### Pomise.all的使用
@@ -446,6 +458,7 @@ Promise.all([p1,p2,p3]).then((result) => {
 }).catch((error) => {
   console.log(error)      // 失败了，打出 '失败'
 })
+
 ```
 
 例2：
@@ -467,6 +480,7 @@ Promise.all([p1, p2]).then((result) => {
 }).catch((error) => {
   console.log(error)
 })
+
 ```
 
 **需要特别注意的是，Promise.all获得的成功结果的数组里面的数据顺序和Promise.all接收到的数组顺序是一致的，即p1的结果在前，即便p1的结果获取的比p2要晚。这带来了一个绝大的好处：在前端开发请求数据的过程中，偶尔会遇到发送多个请求并根据请求顺序获取和使用数据的场景，使用Promise.all毫无疑问可以解决这个问题。**
@@ -508,6 +522,7 @@ function promiseAll(promises) {
   }).catch(error => {
     console.log(error)      // 'p3 error'
   })
+
 ```
 
 ##### Promise.race的使用
@@ -532,6 +547,7 @@ Promise.race([p1, p2]).then((result) => {
 }).catch((error) => {
   console.log(error)  // failed
 })
+
 ```
 
 ##### 异常捕获
@@ -548,6 +564,7 @@ result.then(function (img) {
 }).catch(function(err) {  // 最后统一catch，统一捕获异常
     console.log(err)
 })
+
 ```
 
 优点：将回调函数嵌套调用变成了链式调用，逻辑更强，执行顺序更清楚，很好地体现了开放封闭原则
@@ -575,6 +592,7 @@ async function test() {
     return "1";
 }
 console.log(test());  // Promise {<resolved>: "1"}
+
 ```
 
 - await不处理异步error
@@ -599,6 +617,7 @@ async function test() {
 test();
 // finish
 // sleep
+
 ```
 
 因为await会等待sleep函数resolve，所以即使后面是同步代码，也不会先去执行同步代码再来执行异步代码。它等待后面的promise对象执行完毕，然后拿到promise resolve 的值并进行返回，返回值拿到之后，它继续向下执行。
@@ -638,8 +657,8 @@ function* helloWorldGenerator() {
   return 'ending';
 }
 var hw = helloWorldGenerator();
-```
 
+```
 
 以上代码定义了一个generator函数helloWorldGenerator，内部有两个yield表达式（“hello” “world”）,和一个return语句（结束执行）。
 
@@ -661,6 +680,7 @@ hw.next()
  
 hw.next()
 // { value: undefined, done: true }
+
 ```
 
 第一次调用，Generator 函数开始执行，直到遇到第一个yield表达式为止。next方法返回一个对象，它的value属性就是当前yield表达式的值hello，done属性的值false，表示遍历还没有结束。
@@ -699,6 +719,7 @@ generator.next().value.then(data=>{
     }
   );
 });
+
 ```
 
 **generator函数和async函数的区别**
