@@ -3248,7 +3248,7 @@ A(B);
 
 缺点：使用不方便，整个程序都要变成事件驱动型，每次都要手动地绑定和触发事件
 
-####  3、Promise
+#### 3、Promise
 
 ##### promise标准
 
@@ -4169,8 +4169,6 @@ PWA全称Progressive Web App，即渐进式WEB应用。
 
 # （乱的还没搞好）总结一下ES(6-10)常用功能（大致按《深入理解ES6》来排序）
 
-
-
 ## 块级作用域绑定
 
 ### 1、let&const及块级作用域
@@ -4741,7 +4739,7 @@ ajax.then(function() {
 
 3、它是一种语法糖，但是解耦了代码
 
-4、很好的体现了开放封闭原则（对扩展开放，对修改封闭）
+4、很好的体现了开放封闭原则
 
 > **开放封闭原则**
 >
@@ -4823,7 +4821,7 @@ w.then(function() {
 
 ##### 使用dtd.promise()方法
 
-promise没有参数时，返回一个新的defer对象，该对象的运行状态无法被改变，接收参数是，作用为在参数对象删部署deferred接口
+promise没有参数时，返回一个新的defer对象，该对象的运行状态无法被改变，接收参数时，作用为在参数对象上部署deferred接口
 
 ```js
 function waitHandle() {
@@ -4841,7 +4839,7 @@ function waitHandle() {
 
 // 经过上面的改动，w接收的是一个promise对象
 var w = waitHandle()
-$.when(w)
+$.when(w)					// api不同
 .then(function() {
     console.log('ok1')
 }, function() {
@@ -4898,15 +4896,13 @@ p.a = 2; // bind `value` to `2`
 p.a; // Get 'a' = 2
 ```
 
-
-
-
-
 ## 模块化
 
  [看上面~](#_1、模块化) 
 
+## 字符串、数组、对象的扩展
 
+也在上面啦~
 
 # 框架（还没整理细看，先放一放）
 
