@@ -12,6 +12,8 @@
 
 2020.02.24     重新整理，更新小记顺序（大致按《JavaScript高级程序设计》顺序来）
 
+2020.03.07     完成对异步的整理
+
 ------
 
 ## JavaScript概述
@@ -3404,6 +3406,8 @@ Promise.prototype.then = function(resolve, reject) {
 
 ```
 
+在 then 的基础上，应该还需要至少两个方法，分别是完成 promise 的状态从 pending 到 resolved 或 rejected 的转换，同时执行相应的回调队列，即 `resolve()`和 `reject()`方法。 
+
 ##### Pomise.all的使用
 
 待**全部完成**之后统一执行
@@ -3524,6 +3528,40 @@ Promise.race([p1, p2]).then((result) => {
 
 ```
 
+##### Promise.race的简单实现
+
+```js
+function PromiseRace(promises) {
+    return new Promise((resolve, reject) => {
+        for (let i = 0; i < promises.length; i++) {
+            promises[i].then(value => {
+                return resolve(value)
+            }, error => {
+                reject(error)
+            })
+        }
+    })
+}
+
+  let p1 = new Promise(resolve => resolve('p1'))
+  let p2 = new Promise(resolve => resolve('p2'))
+  let p3 = Promise.reject('p3 error')
+
+  promiseAll([p1, p2]).then(results => {
+    console.log(results)    
+  }).catch(error => {
+    console.log(error)
+  })
+// p1
+
+  promiseAll([p1, p2, p3]).then(results => {
+    console.log(results)
+  }).catch(error => {
+    console.log(error)      
+  })
+// p1
+```
+
 ##### 异常捕获
 
 包括语法错误，逻辑错误（如图片加载错误）
@@ -3547,15 +3585,19 @@ result.then(function (img) {
 
 #### 4、async/await
 
-**概念**
+##### 概念
 
 - async/await是写异步代码的新方式
 - async/await是基于Promise实现的，它不能用于普通的回调函数及节点回调
 - async/await和Promise一样，是非阻塞的
 - async/await使得异步代码看起来像同步代码
-- async函数是generrator函数的语法糖，它相当于一个自带执行器的generator函数
+- async函数是generator函数的语法糖，它相当于一个自带执行器的generator函数
 
-**用法**
+**优点：**从上到下，顺序执行，就像写同步代码一样，更符合代码编写习惯，最适合处理多个Promise异步操作。
+
+**缺点：**滥用await可能会导致性能问题，因为await会阻塞代码，也许之后的异步代码并不依赖于前者，但仍然需要等待前者完成，导致失去了并发性。
+
+##### 用法
 
 - 使用await函数必须用async标识
 - await后面跟的是一个Promise实例
@@ -3566,14 +3608,13 @@ async function test() {
     return "1";
 }
 console.log(test());  // Promise {<resolved>: "1"}
-
 ```
 
 - await不处理异步error
 
   await是不管异步过程的reject(error)消息的，async函数返回的这个Promise对象的catch函数负责统一抓取内部所有异步过程的错误；async函数内部只要有一个异步过程发生错误，整个执行过程就中断，这个返回的Promise对象的catch就能抓取到这个错误
 
-**使用例子**
+##### 使用例子
 
 **JavaScript 利用 async await 实现 sleep 效果**
 
@@ -3589,20 +3630,51 @@ function sleep() {
 async function test() {
     let value = await sleep();
     console.log(value);
+    console.log('test');
 }
 test();
 // finish
 // sleep
-
+// test
 ```
 
 因为await会等待sleep函数resolve，所以即使后面是同步代码，也不会先去执行同步代码再来执行异步代码。它等待后面的promise对象执行完毕，然后拿到promise resolve 的值并进行返回，返回值拿到之后，它继续向下执行。
 
+##### 实际应用场景
 
+```js
+/**
+ * 项目中有一个地方需要获取到接口返回值之后根据返回值确定之后执行的步骤，使用async搭配await实现，await函数不能单独使用。
+ */
 
-优点：从上到下，顺序执行，就像写同步代码一样，更符合代码编写习惯，最适合处理多个Promise异步操作
+async function methodName(params) {
+    let isSuccess = false;
+    await this.$http({
+        url: URL,
+        method: "get",
+        params: params
+    }).then(res => {
+        if (res.code == 200) {
+            isSuccess = true
+        }
+    }).catch(err => {
+        console.log(err);
+        this.$message({
+            type: "error",
+            message: "系统异常"
+        });
+    });
+    return isSuccess
+};
 
-缺点：滥用await可能会导致性能问题，因为await会阻塞代码，也许之后的异步代码并不依赖于前者，但仍然需要等待前者完成，导致失去了并发性
+methodName(this.params).then(function (result) { 
+    if (result) {
+        console.log('success');
+    } else {
+        console.log('fail');
+    }
+})
+```
 
 #### 5、generator（不是异步的直接替代方案）
 
@@ -3612,13 +3684,13 @@ generator因其中断/恢复执行和传值等优秀功能被人们用于异步�
 
 协程：多个线程相互协作，完成异步任务
 
-定义：generator函数是协程在ES6的实现，最大特点就是可以交出函数的执行权（即暂停执行）。整个generator函数就是一个封装的异步任务，或者说是异步任务的容器。异步操作需要暂停的地方，都用yield语句注明。
+定义：generator函数是协程在ES6的实现，最大特点就是可以交出函数的执行权（即**暂停执行**）。整个generator函数就是一个封装的异步任务，或者说是异步任务的容器。异步操作需要暂停的地方，都用yield语句注明。
 
 执行：返回一个内部指针，不会返回结果，返回的是指针对象{value:**,done:'true/false'}
 
 
 
-`Generator`函数之所以可以用于异步操作是因为`yield`关键字，`Generator`函数在执行过程中遇到`yield`语句时就会暂停执行，并返回`yield`语句后面的内容，要想继续执行后续的代码就需要手动调用`next`方法。这样就找到了顺序执行异步操作的方法了，也就是将所有异步操作都放在`yield`关键字后面，同时在异步操作内配置相应的`next`方法，以便在异步操作结束后返回出操作的结果并交出执行权
+`Generator`函数之所以可以用于异步操作是因为`yield`关键字，`Generator`函数在执行过程中遇到`yield`语句时就会暂停执行，并返回`yield`语句后面的内容，要想继续执行后续的代码就需要手动调用`next`方法。这样就找到了顺序执行异步操作的方法了，也就是**将所有异步操作都放在`yield`关键字后面，同时在异步操作内配置相应的`next`方法**，以便在异步操作结束后返回出操作的结果并交出执行权
 
 
 
@@ -3667,7 +3739,7 @@ hw.next()
 
 第四次调用，此时 Generator 函数已经运行完毕，next方法返回对象的value属性为undefined，done属性为true。以后再调用next方法，返回的都是这个值。
 
-总结一下，调用 Generator 函数，返回一个遍历器对象，代表 Generator 函数的内部指针。以后，每次调用遍历器对象的next方法，就会返回一个有着value和done两个属性的对象。value属性表示当前的内部状态的值，是yield表达式后面那个表达式的值；done属性是一个布尔值，表示是否遍历结束。
+总结一下，**调用 Generator 函数，返回一个遍历器对象，代表 Generator 函数的内部指针**。以后，每次调用遍历器对象的next方法，就会**返回**一个有着**value和done**两个属性的对象。value属性表示当前的内部状态的值，是yield表达式后面那个表达式的值；**done属性是一个布尔值，表示是否遍历结束**。
 
 **generator异步读取文件**
 
@@ -3699,8 +3771,11 @@ generator.next().value.then(data=>{
 ```
 
 **generator函数和async函数的区别**
+
 1、generator函数被调用后返回一个遍历器对象（lterator），async函数返回一个promise对象
+
 2、async函数内置执行器，可以像普通函数那样调用，generator函数需要使用co模块来实现流程控制或者自定义流程控制。
+
 3、async是generator的语法糖
 
 ## 模块化
@@ -4043,7 +4118,7 @@ function preLoadImg(pars){
 
 防抖动和节流本质是不一样的。防抖动是将多次执行变为最后一次执行，节流是将多次执行变成每隔一段时间执行。比如搜索框就会用到节流。
 
-## 不知道怎么分类其他
+## 其他
 
 ### 1、获得一段范围内的随机数
 
