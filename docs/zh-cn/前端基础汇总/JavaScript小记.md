@@ -14,6 +14,8 @@
 
 2020.03.07     完成对异步的整理
 
+2020.03.08     更新Generator和Class
+
 ------
 
 ## JavaScript概述
@@ -3686,7 +3688,7 @@ generator因其中断/恢复执行和传值等优秀功能被人们用于异步�
 
 定义：generator函数是协程在ES6的实现，最大特点就是可以交出函数的执行权（即**暂停执行**）。整个generator函数就是一个封装的异步任务，或者说是异步任务的容器。异步操作需要暂停的地方，都用yield语句注明。
 
-执行：返回一个内部指针，不会返回结果，返回的是指针对象{value:**,done:'true/false'}
+执行：返回一个内部指针，**不会返回结果**，**返回的是指针对象**`{value:**,done:'true/false'}`
 
 
 
@@ -4240,17 +4242,101 @@ PWA全称Progressive Web App，即渐进式WEB应用。
 
  随后添加上 App Manifest 和 Service Worker 来实现 PWA 的安装和离线等功能。
 
+### 6、**
 
+ES7中新语法，相当于乘方
+
+```js
+console.log(Math.pow(2, 5))		// 32
+console.log(2 ** 5) 			// 32
+```
+
+### 7、MVC和MVVM的区别
+
+#### MVC
+
+优点:
+
+- 易懂: 简单易懂
+- 层次分明: 共三个部分，各自完成各自的内容，在有Controller将大家协调在一起。
+
+弊端:
+
+- 量级重 : `ViewController`处理过多的业务逻辑如协调模型和视图之间的所有交互，导致量级重，维护成本很高。
+- 过轻的`Model`对象:在实践中往往大家都把Model的量级设计的非常轻，总容易当做数据模型来对待。
+
+#### MVVM
+
+优点:
+
+- 低耦合: `View`可以独立于Model变化和修改，一个`ViewModel`可以绑定到不同的View 上。
+- 可重用性: 可以把一些视图逻辑放在一个`ViewModel`里面，让很多`View`重用这段视图逻辑。
+
+弊端:
+
+- 数据绑定后使得`Bug`很难被调试。
+- 数据绑定和数据转化需要`花费更多`的内存成本。
+
+#### 二者之间的关系图
+
+MVVM实质上是把 MVC 中的C的功能给拆分了。
+
+![MVC和MVVM](..\picture\MVC和MVVM.png)
+
+
+
+### 8、vue react jquery的区别
+
+#### jquery和框架的区别
+
+ 框架：数据和视图分离，以数据驱动视图，只关心数据变化，dom操作被封装。数据驱动
+
+ jquery： 依靠dom操作去组合业务逻辑。事件驱动
+
+#### React和Vue对比
+
+这篇文章挺好的：https://www.jianshu.com/p/b7cd52868e95?from=groupmessage
+
+**两者本质区别**
+
+- Vue—本质是MVVM框架，由MVC发展而来
+- React—本质是前端组件化框架，由后端组件化发展而来
+
+**模板的区别**
+
+- Vue—使用模板（最初由Angular提出）
+- React—使用JSX
+- 模板语法上，更倾向于JSX
+- 模板分离上，更倾向于Vue（React模板与JS混在一起，未分离）
+
+**组件化的区别**
+
+- React本身就是组件化，没有组件化就不是React
+- Vue也支持组件化，不过是在MVVM上的扩展
+- 对于组件化，更倾向于React，做得彻底而清新
+
+**两者共同点**
+
+- 都支持组件化
+- 都是数据驱动视图
+
+#### 什么时候用react，什么时候用vue
+
+react灵活性比较大，处理复杂业务时有更多技术方案的选择 。
+
+vue提供了更丰富的api，实现功能简单，但也因api多会对灵活性有一定的限制。
+
+做复杂度比较高的项目时使用react，面向用户端复杂度不高的使用vue 。
 
 # （乱的还没搞好）总结一下ES(6-10)常用功能（大致按《深入理解ES6》来排序）
 
-## 块级作用域绑定
-
 ### 1、let&const及块级作用域
 
-**let**
+#### let
 
-1.let声明的全局变量不是全局对象的属性
+1) let定义变量，可重新赋值。但是不能重复定义，不会进行变量提升
+
+2) let声明的全局变量不是全局对象的属性
 
 而var声明的全局变量是window的属性，是可以通过window变量名的方式访问的
 
@@ -4262,15 +4348,13 @@ let b = 1
 console.log(window.b) // undefined
 ```
 
-2.let定义变量，可重新赋值。但是不能重复定义，不会进行变量提升
-
-**const**
+#### const
 
 const和let一样，有块级作用域，不会变量提升
 
 不同的是其定义的变量不能被修改且定义时必须初始化，用于定义常量
 
-**块级作用域**
+#### 块级作用域
 
 ```JavaScript
 //JS
@@ -4380,7 +4464,7 @@ arr.map((item, index) => {
 1、将一个数组变为参数序列
 
 ```js
-function add(a,b){
+function add(a, b){
     return a+b;
 }
 let num = [22,33];
@@ -4651,99 +4735,290 @@ for (let [key, value] of map) {
 }
 ```
 
-
-
-
-
-
-
 ## 迭代器（Iterator）和生成器（Generator）
+
+### 1、Iterator
+
+### 2、Generator
+
+ [有部分内容在上面](#_5、generator（不是异步的直接替代方案）) 
+
+#### 语法
+
+```js
+function * gen () {
+    yield 1
+    yield 2
+    yield 3
+}
+let g = gen()
+```
+
+1、Generator函数比普通函数多一个*
+
+2、函数内部用yield来控制程序的执行和”暂停“
+
+3、函数的返回值通过next来“恢复”程序执行，**不会返回结果，返回一个遍历器对象**，代表 Generator 函数的内部指针`{value:,done:'true/false'}`。**value属性表示当前的内部状态的值**，是yield表达式后面那个表达式的值；**done属性是一个布尔值，表示是否遍历结束**。
+
+注意：Generator函数的定义不能使用箭头函数，否则会触发SyntaxError
+
+#### yield表达式
+
+yield * 是委托给另一个遍历器对象或者可遍历对象，即generator可以嵌套
+
+```js
+function * gen () {
+    let val 
+    val = yield * [1, 2, 3]
+    console.log(val)
+}
+const l = gen()
+console.log(l.next())
+console.log(l.next())
+// {value: 1, done: false}
+// {value: 2, done: false}
+```
+
+#### next([value])
+
+可以接受参数，这个参数可以让你在Generator外部给内部传递数据，而这个参数就是yield的返回值
+
+```js
+//通过改变yield返回值的数据来改变内部的数据
+function * gen () {
+    let val 
+    val = (yield [1, 2, 3]) + 7
+    console.log(val)
+}
+const l = gen()
+console.log(l.next(10))
+console.log(l.next(20))
+// {value: Array(3), done: false}
+// 27
+// {value: undefined, done: true}
+```
+
+#### return
+
+return方法可以让Generator函数遍历终止，有点类似for循环的break
+
+```js
+function * gen () {
+    yield 1
+    yield 2
+    yield 3
+}
+
+var g = gen()
+console.log(g.next())  		// {value: 1, done: false}
+console.log(g.return())		// {value: undefined, done: true}
+console.log(g.next())		// {value: undefined, done: true}
+```
+
+return还可以传入参数，作为返回值的value
+
+```js
+function * gen () {
+    yield 1
+    yield 2
+    yield 3
+}
+
+var g = gen()
+console.log(g.next())  		// {value: 1, done: false}
+console.log(g.return(100))		// {value: 100, done: true}
+console.log(g.next())		// {value: undefined, done: true}
+```
+
+#### throw
+
+可以通过throw方法在Generator外部控制内部执行的“终断”
+
+```js
+// 在内部捕获异常
+function * gen () {
+    while (true) {
+        try {
+            yield 1
+        } catch (e) {
+            console.log(e.message)
+        }
+    }
+}
+let g = gen()
+console.log(g.next())					// {value: 1, done: false}
+console.log(g.next())					// {value: 1, done: false}
+g.throw(new Error('message wrong'))     //  message wrong
+console.log(g.next())					// {value: 1, done: false}
+```
+
+#### 应用实例
+
+抽奖
+
+```js
+function * draw (first = 1, second = 3, third = 5) {
+    let price = [1, 2, 3, 4, 5, 6, 7, 11, 12, 13, 14, 16, 17, 21, 22, 23, 24, 25, 26, 27]
+    let count = 0
+    let random
+    while (1) {
+        if (count < first + second + third) {
+            random = Math.floor(Math.random() * price.length)
+            yield price[random]
+            count++
+            price.splice(random, 1)
+        } else {
+            return false
+        }
+    }
+}
+let d = draw()
+console.log(d.next().value) // 来9次
+```
+
+普通函数的话一下子就知道了所有的中奖人，二使用Generator函数则是一个一个抽出来，比较刺激
 
 ## Class
 
-2、`Class`和普通构造函数有何区别
+### 1、class
+
+#### JS构造函数
+
+```js
+function MathHandle(x,y){
+    this.x = x
+    this.y = y
+}
+MathHandle.prototype.add = function(){
+    return this.x + this.y
+}
+var m = new MathHandle(1,2)
+console.log(m.add())
+```
+
+#### class语法
+
+```js
+class MathHandle{
+    constructor(x,y){
+        this.x = x
+        this.y = y
+    }
+    add(){
+        return this.x + this.y
+    }
+}
+var m = new MathHandle(1,2)
+console.log(m.add())
+m.__proto === MathHandle.prototype  //true
+```
+
+#### 继承—JS
+
+```js
+//动物
+function Animal(){
+    this.eat = function() {
+        console.log('animal eat')
+    }
+}
+//狗
+function Dog(){
+    this.bark = function() {
+        console.log('dog bark')
+    }
+}
+Dog.prototype = new Animal()
+var hashiqi = new Dog()
+```
+
+#### 继承—class
+
+```js
+class Animal{
+    constructor(name){
+        this.name = name
+    }
+    eat() {
+        console.log(this.name + ' eat')
+    }
+}
+class Dog extends Animal{
+    constructor(name){
+        super(name)
+        this.name = name
+    }
+    say() {
+        console.log(this.name + ' say')
+    }
+}
+const dog = new Dog('哈士奇')
+dog.eat()
+dog.say()
+```
+
+#### `Class`和普通构造函数有何区别
 
 - class在语法上更加贴近面向对象的写法
 - class实现继承更加易读，易理解
 - 更易于写java等后端语言使用
 - 本质是语法糖，使用prototype
 
-##### 二、class
+#### Setters & Getters
 
-- JS构造函数
+对于类中的属性，可以直接在constructor中通过this直接定义，还可以直接在类的顶层来定义
 
-  ```js
-  function MathHandle(x,y){
-      this.x = x
-      this.y = y
-  }
-  MathHandle.prototype.add = function(){
-      return this.x + this.y
-  }
-  var m = new MathHandle(1,2)
-  console.log(m.add())
-  ```
+```js
+class Animal {
+    constructor (type, age) {
+        this.type = type
+        this._age = age
+    }
+    get age () {
+        return this._age
+    }
+    set age (val) {
+        this._age = val
+    }
+}
+```
 
-- class语法
+#### Static Methods
 
-  ```js
-  class MathHandle{
-      constructor(x,y){
-          this.x = x
-          this.y = y
-      }
-      add(){
-          return this.x + this.y
-      }
-  }
-  var m = new MathHandle(1,2)
-  console.log(m.add())
-  m.__proto===MathHandle.prototype  //true
-  ```
+静态方法：不属于对象实例，而属于这个类，需要从类来访问才能获取。
 
-- 继承—JS
+```js
+// ES5
+let Animal = function(type) {
+    this.type = type
+    this.walk = function() {
+        console.log('I`m walking')
+    }
+}
+Animal.eat = function() {
+    console.log('I`m eating')
+}
+Animal.eat()
+// ES6
+class Animal {
+    constructor(type) {
+        this.type = type
+    }
+    walk() {
+        console.log('I`m walking')
+    }
+    static eat () {
+        console.log('I`m eating')
+    }
+}
+Animal.eat()
+```
 
-  ```js
-  //动物
-  function Animal(){
-      this.eat = function() {
-          console.log('animal eat')
-      }
-  }
-  //狗
-  function Dog(){
-      this.bark = function() {
-          console.log('dog bark')
-      }
-  }
-  Dog.prototype = new Animal()
-  var hashiqi = new Dog()
-  ```
+**什么时候用实例对象方法，什么时候用静态方法？**
 
-- 继承—class
+如果这个方法里面还会涉及到其他的实例对象属性或方法（即另外还要依赖于其他方法），则用实例对象方法。
 
-  ```js
-  class Animal{
-      constructor(name){
-          this.name = name
-      }
-      eat() {
-          console.log(this.name + ' eat')
-      }
-  }
-  class Dog extends Animal{
-      constructor(name){
-          super(name)
-          this.name = name
-      }
-      say() {
-          console.log(this.name + ' say')
-      }
-  }
-  const dog = new Dog('哈士奇')
-  dog.eat()
-  dog.say()
-  ```
+如果没有依赖关系，则用静态方法。（因为静态方法拿不到实例对象）
 
 ## Promise
 
@@ -4931,44 +5206,206 @@ $.when(w)					// api不同
 
  [看上面~](#_3、promise) 
 
-## 代理（Proxy）和反射（Reflection）
+## 代理（Proxy）和反射（Reflect）
 
-### 79、Proxy
+### 1、Proxy
 
-Proxy是ES6中新增的功能，可以用来自定义对象中的操作。
+Proxy是ES6中新增的功能，可以用来自定义对象中的操作，如查找、赋值、枚举、函数调用等。
+
+`let p = new Proxy(target, handler);`
+
+- target：代表需要代理的对象
+- handler：用来自定义对象中的操作
 
 ```js
-let p = new Proxy(target, handler);
-// 'target'代表需要添加代理的对象
-// 'handler'用来自定义对象中的操作
+let obj = {
+    name: 'xiaoming',
+    price: 100
+}
+let d = new Proxy(obj, {
+    get (target, key) {
+        if (key === 'price') {
+            return target[key] + 20
+        } else {
+            return target[key]
+        }
+    }
+})
+console.log(d.price, d.name); // 120 "xiaoming"
 ```
 
-可以很方便的使用Proxy来实现一个数据绑定和监听
+#### 对赋值进行拦截
 
 ```js
-let onWatch = (obj, setBind, getLogger) => {
-    let handler = {
-        get(target, property, receiver) {
-            getLogger(target, property);
-            return Reflect.get(target, property, receiver);
-        },
-        set(target, property, value, receiver) {
-            setBind(value);
-            return Reflect.set(target, property, value);
-        }
-    };
-    return new Proxy(obj, handler);
-};
+let obj = {
+    name: 'xiaoming',
+    price: 100
+}
+let d = new Proxy(obj, {
+    get (target, key) {
+        return target[key]
+    },
+    set (target, key) {
+    	return false
+	}
+})
+d.price = 120
+console.log(d.price, d.name); // 100 "xiaoming"
+```
 
-let obj = {a: 1};
-let value;
-let p = onWatch(obj, (v) => {
-    value = v;
-}, (target, property) => {
-    console.log(`Get '${property}' = ${target[property]}`);
-});
-p.a = 2; // bind `value` to `2`
-p.a; // Get 'a' = 2
+#### 校验
+
+对于数据交互而言，校验是不可或缺的一个环节。传统的校验是将校验写在了业务逻辑里，导致代码耦合度较高。使用Proxy就可以将代码设计的非常灵活。
+
+```js
+// validator.js
+export default (obj, key, value) {
+    if (Reflect.has(key) && value > 20) {
+        obj[key] = value
+    }
+}
+
+import validator from './validator'
+let data = new Proxy(response.data, {
+    set: validator
+})
+```
+
+#### 对读写进行监控
+
+```js
+// 监听错误
+window.addEvenetListener('error', (e) => {
+    console.log(e.message)
+}, true)
+// 校验规则
+let validator = {
+    set(target, key, value) {
+        if (key === 'age') {
+            if (typeof value !== 'number' || Number.isNaN(value)) {
+                // 不满足规则就要触发错误
+                throw new TypeError('Age must be a number')
+            }
+            if (value <= 0) {
+                throw new TypeError('Age must bu a positive number')
+            }
+        }
+        return true
+    }
+}
+const person = {age: 27}
+const proxy = new Proxy(person, validator)
+proxy.age = NaN // Uncaught TypeError: Age must be a number
+proxy.age = 28
+proxy.age = 0 // Uncaught TypeError: Age must be a positive number
+```
+
+设置对象的id只可读不可被修改
+
+```js
+class Component {
+    constructor() {
+        this.proxy = new Proxy({
+            id: Math.random().toString(36).slice(-8) // 随机生成一个id
+        }, {}) 
+    }
+    get id () {
+        return this.proxy.id
+    }
+}
+let com = new Component()
+com.id = 'abc'
+console.log(com.id) // dp9hrcw7
+```
+
+#### Revocable Proxy
+
+除了使用常规的代理，还可以创建临时的代理，这个临时代理就可以被取消
+
+```js
+let obj = {
+    name: 'xiaoming',
+    price: 100
+}
+let d = Proxy.revocable(obj, {
+    get (target, key) {
+        if (key === 'price') {
+            return target[key] + 20
+        } else {
+            return target[key]
+        }
+    }
+})
+console.log(d.proxy.price, d); // 120  {proxy: Proxy, revoke: ƒ}
+setTimeout(function () {
+    // 销毁代理  一旦revoke被调用，proxy就失效了，这就起到了临时代理的作用
+    d.revoke()
+    setTimeout(() => {
+        console.log(d.proxy.price)
+    })
+})
+// Uncaught TypeError: Cannot perform 'get' on a proxy that has been revoked
+```
+
+
+
+### 2、Reflect
+
+Reflect是一个内置对象，它提供拦截JavaScript操作的方法，这些方法与处理器对象的方法相同，Reflect不是一个函数对象，因此它是不可构造的。
+
+注意：与大多数全局对象不同，Reflect没有构造函数，你不能将其与一个new运算符一起使用，或者将Reflect对象作为一个函数来调用。Reflect的所有属性和方法都是静态的（就像Math对象）
+
+**反射，什么是反射机制？**
+
+Java的反射机制是在编译阶段不知道是哪个类被加载，而是在运行的时候才加载、执行。
+
+#### Reflect.apply
+
+`Reflect.apply(target, thisArgument, argumentsList)`
+
+- target：目标函数
+- thisArgument：target函数调用时绑定的this对象
+- argumentsList：target函数调用时传入的实参列表，该参数应该是一个类数组的对象
+
+```js
+Math.floor.apply(null, [3.72]);  // 3
+Reflect.apply(Math.floor, null, [3.72]);  // 3
+
+let price = 91.5;
+price = price > 100 ?  Math.floor.apply(null, [price]) : Math.ceil.apply(null, [price]);
+price = Reflect.apply(price > 100 ?  Math.floor : Math.ceil, null, [price]);
+```
+
+#### Reflect.construct
+
+Reflect.construct()方法的行为有点像new操作符构造函数，相当于运行new target(...arg)
+
+`Reflect.construct(target, argumentsList[, newTarget])`
+
+- target：被运行的目标函数
+- argumentsList：调用构造函数的数组或伪数组
+- newTarget：该参数为构造函数，参考new.target操作符，如果没有newTarget参数，默认和target一样
+
+```js
+var date = new Date();
+var date1 = Reflect.construct(Date, []);
+```
+
+#### Reflect.defineProperty 和 Reflect.deleteProperty
+
+```js
+// 新增对象属性
+const student = {};
+const r = Reflect.defineProperty(student, 'name', { value: 'Mike'});
+// student {name: "Mike"}   r true
+const r = Object.defineProperty(student, 'name', { value: 'Mike'});
+// student {name: "Mike"}   r {name: "Mike"}
+
+// 删除对象属性
+const obj = {x: 100, y: 200};
+const r = Reflect.deleteProperty(obj, 'x');
+// obj { y: 200}   r true
+delete obj.x
 ```
 
 ## 模块化
@@ -4977,94 +5414,5 @@ p.a; // Get 'a' = 2
 
 ## 字符串、数组、对象的扩展
 
-也在上面啦~
-
-# 框架（还没整理细看，先放一放）
-
-### 67、MVC和MVVM的区别
-
-#### MVC
-
-优点:
-
-- 易懂: 简单易懂
-- 层次分明: 共三个部分，各自完成各自的内容，在有Controller将大家协调在一起。
-
-弊端:
-
-- 量级重 : `ViewController`处理过多的业务逻辑如协调模型和视图之间的所有交互，导致量级重，维护成本很高。
-- 过轻的`Model`对象:在实践中往往大家都把Model的量级设计的非常轻，总容易当做数据模型来对待。
-
-#### MVVM
-
-优点:
-
-- 低耦合: `View`可以独立于Model变化和修改，一个`ViewModel`可以绑定到不同的View 上。
-- 可重用性: 可以把一些视图逻辑放在一个`ViewModel`里面，让很多`View`重用这段视图逻辑。
-
-弊端:
-
-- 数据绑定后使得`Bug`很难被调试。
-- 数据绑定和数据转化需要`花费更多`的内存成本。
-
-#### 二者之间的关系图
-
-MVVM实质上是把 MVC 中的C的功能给拆分了。
-
-![MVC和MVVM](..\picture\MVC和MVVM.png)
-
-
-
-### 53、vue react jquery的区别
-
-#### jquery和框架的区别
-
- 框架：数据和视图分离，以数据驱动视图，只关心数据变化，dom操作被封装。数据驱动
-
- jquery： 依靠dom操作去组合业务逻辑。事件驱动
-
-#### React和Vue对比
-
-这篇文章挺好的：https://www.jianshu.com/p/b7cd52868e95?from=groupmessage
-
-**两者本质区别**
-
-- Vue—本质是MVVM框架，由MVC发展而来
-- React—本质是前端组件化框架，由后端组件化发展而来
-
-**模板的区别**
-
-- Vue—使用模板（最初由Angular提出）
-- React—使用JSX
-- 模板语法上，更倾向于JSX
-- 模板分离上，更倾向于Vue（React模板与JS混在一起，未分离）
-
-**组件化的区别**
-
-- React本身就是组件化，没有组件化就不是React
-- Vue也支持组件化，不过是在MVVM上的扩展
-- 对于组件化，更倾向于React，做得彻底而清新
-
-**两者共同点**
-
-- 都支持组件化
-- 都是数据驱动视图
-
-#### 什么时候用react，什么时候用vue
-
-react灵活性比较大，处理复杂业务时有更多技术方案的选择 。
-
-vue提供了更丰富的api，实现功能简单，但也因api多会对灵活性有一定的限制。
-
-做复杂度比较高的项目时使用react，面向用户端复杂度不高的使用vue 。
-
-
-
-## 虚拟DOM
-
-## MVVM和vue
-
-## 组件化和React
-
-## hybird
+也在上面啦~直接整合在了字符串、数组、对象内容里面
 
