@@ -8,14 +8,14 @@ React发明了JSX，利用HTML语法来创建虚拟DOM。React的核心机制之
 
 - JSX执行更快，因为它在编译为JS代码进行了优化
 - 它是类型安全的，在编译过程中就能发现错误
-  - React DOM 在渲染所有输入内容之前，默认会进行转义。它可以确保在你的应用中，永远不会注入那些并非自己明确编写的内容。所有的内容在渲染之前都被转换成了字符串。这样可以有效地防止 XSS（cross-site-scripting, 跨站脚本）攻击。
+  - React DOM 在渲染所有输入内容之前，默认会进行转义。它可以确保在你的应用中，永远不会注入那些并非自己明确编写的内容。所有的内容在渲染之前都被转换成了字符串。这样可以有效地防止XSS（cross-site-scripting, 跨站脚本）攻击。
 - 使用JSX编写模板更加简单快速
 
 **JSX语法**
 
 1、我们可以在代码中嵌套多个HTML标签，需要使用一个div元素包裹它。也可以用`<Fragment></Fragment>`（相当于占位符，但不会增加元素）来包裹
 
-2、实例中的p元素添加了自定义属性data-myattribute，添加自定义属性需要使用“data-”前缀
+2、添加自定义属性需要使用“data-”前缀。实例中的p元素添加了自定义属性data-myattribute
 
 3、我们可以在JSX中使用JS表达式（不能适用于语句），表达式写在大括号“{}”中
 
@@ -268,7 +268,7 @@ var item = `<h1>hello</h1>`
 ### 10、扩大点击区域
 
 ```js
-<label htmlFor="insertArea">输入内容</label>
+<label htmlFor="insertArea">输入内容</label>  // 不用for，与循环for有歧义
 <input id="insertArea"/>
 ```
 
