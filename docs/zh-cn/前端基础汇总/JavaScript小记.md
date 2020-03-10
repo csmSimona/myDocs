@@ -4120,6 +4120,1091 @@ function preLoadImg(pars){
 
 防抖动和节流本质是不一样的。防抖动是将多次执行变为最后一次执行，节流是将多次执行变成每隔一段时间执行。比如搜索框就会用到节流。
 
+## 总结一下ES(6-10)常用功能
+
+### 1、let&const及块级作用域
+
+#### let
+
+1) let定义变量，可重新赋值。但是不能重复定义，不会进行变量提升
+
+2) let声明的全局变量不是全局对象的属性
+
+而var声明的全局变量是window的属性，是可以通过window变量名的方式访问的
+
+```js
+var a = 1
+console.log(window.a) // 1
+
+let b = 1
+console.log(window.b) // undefined
+```
+
+#### const
+
+const和let一样，有块级作用域，不会变量提升
+
+不同的是其定义的变量不能被修改且定义时必须初始化，用于定义常量
+
+但是const定义的对象属性是可以被修改的。因为const 指针指向的地址不可以变化，但指向地址的内容可以变化。 
+
+#### 块级作用域
+
+```JavaScript
+//JS
+var obj = {
+    a: 100,
+    b: 200
+}
+for(var item in obj){
+    console.log(item)
+}
+console.log(item) //'b'
+```
+
+```javascript
+//ES6
+const obj = {
+    a: 100,
+    b: 200
+}
+for(var item in obj){
+    console.log(item)
+}
+console.log(item) //undefined
+```
+
+## 字符串和正则表达式
+
+### 1、多行字符串/模板变量
+
+```JavaScript
+//JS
+var name = 'zhangsan', age = 20, html = '';
+html += '<div>';
+html += '     <p>' + name + '</p>';
+html += '     <p>' + age + '</p>';
+html += '</div>';
+```
+
+```javascript
+//ES6
+const name = 'zhangsan', age = 20;
+const html = '<div>
+                   <p>${name}</p>
+                   <p>${age}</p>
+              </div>';
+console.log(html);
+```
+
+- 反引号定义多行字符串
+- ${name}将变量引入
+
+## 函数
+
+### 1、函数默认参数
+
+```javascript
+//JS
+function(a, b){
+    if(b == null){
+        b = 0
+    }
+}
+```
+
+```javascript
+//ES6
+function(a, b = 0){
+    ...
+}
+```
+
+### 1、箭头函数
+
+```javascript
+//JS
+var arr = [1,2,3]
+arr.map(function(item){
+    return item + 1
+})
+
+//ES6
+const arr = [1,2,3]
+arr.map(item => item + 1)
+arr.map((item, index) => {
+    console.log(index)
+    return item + 1
+})
+```
+
+**箭头函数和普通函数的区别：**
+
+- 箭头函数是匿名函数，不能作为构造函数，不能使用new
+- 箭头函数不绑定arguments，取而代之用rest参数...解决
+- 箭头函数不绑定this，会捕获其所在的上下文的this值作为自己的this值
+- 箭头函数通过call()或apply()方法调用一个函数时，只传入了一个参数，对this并没有影响
+- 箭头函数没有原型属性
+- 箭头函数不能当做Generator函数，不能使用yield关键词
+
+## 扩展对象功能
+
+### 1、扩展运算符的应用
+
+转自[ES6核心，教你 玩转 ES6新特性](http://www.imooc.com/article/67156)
+
+1、将一个数组变为参数序列
+
+```js
+function add(a, b){
+    return a + b;
+}
+let num = [22, 33];
+add(...num) // 55
+```
+
+2、可以替代函数中的apply
+
+由于扩展运算符可以展开数组，所以不需要apply方法，将数组转化为函数的参数了。
+
+```js
+//ES5中
+Math.max.apply(null, [3,2,5])
+//在es6中的写法
+Math.max(...[3, 2, 5])
+// 等同于Math.max(3, 2, 5);
+```
+
+由于 JavaScript 不提供求数组最大元素的函数，所以只能套用Math.max函数，将数组转为一个参数序列，然后求最大值。有了扩展运算符以后，就可以直接用Math.max了。
+
+3、扩展运算符也可以复制对象
+
+作用是用于取出对象中所有可以遍历的属性，拷贝到当前对象中，是浅拷贝
+
+```js
+var obj = {name: "feng", color: ["yellow", "blue"]};
+var obj1 ={...obj}
+obj1.color.push("red")
+console.log(obj)    // { name: 'feng', color: [ 'yellow', 'blue', 'red' ] }
+```
+
+4、将某些数据类型转化为数组
+
+```js
+// arguments对象
+!function(){
+    const arr = [...arguments];
+    console.log(arr)
+}(2,3)    // [2,3]
+// Dom返回的对象
+console.log(Array.isArray([...document.getElementsByTagName("li")])) // true
+```
+
+扩展运算符所使用的是遍历器接口（Iterator），如果一个对象没有这个接口，就无法转化。
+
+## 解构
+
+### 1、变量的解构赋值
+
+转自[ES6核心，教你 玩转 ES6新特性](http://www.imooc.com/article/67156)
+
+#### (1)数组的解构赋值
+
+**基本用法**
+
+在没有ES6之前给变量赋值经常是指定赋值
+
+```javascript
+var obj = {
+    a: 100,
+    b: 200
+}
+var a = obj.a
+var b = obj.b
+var arr = ['xxx','yyy','zzz']
+var x = arr[0]
+```
+
+
+在ES6中允许使用以下方式赋值
+
+
+```javascript
+//ES6
+const obj = {
+    a: 10,
+    b: 20,
+    c: 30
+}
+const {a,c} = obj
+console.log(a)
+console.log(c)
+
+const arr = ['xxx','yyy','zzz']
+const [x,y,z] = arr
+console.log(x)
+console.log(y)
+console.log(z)
+```
+
+
+如果解构不成功，变量的值就是undefined，如下：
+
+```js
+var [a] = []     // a就是undefined;
+var [a, b] = [1]  // 同样a的值是1，b 的值就是undefiend;
+```
+
+以上的两个例子都是属于不完全解构，但可以成功。
+
+**如果等号右边的不是数组，严格的来说就是不可以遍历的结构，解构赋值的过程中都会报错。**
+
+```js
+//以下都是会报错的Example
+var [a] = 1;
+let [a] = false;
+let [a] = NaN;
+let [a] = undefined;
+let [a] = null;
+let [a] = {};
+```
+
+上面的赋值会报错的主要原因是，前五个表达式在转化为对象后不具备（Iterator）接口，（最后一个表达式）要么本身就不具备（Iterator）接口。
+
+遍历器（Iterator）是一种接口，为各种不同的数据结构提供统一的访问机制。任何数据结构只要部署Iterator接口，就可以完成遍历操作（即依次处理该数据结构的所有成员）。
+
+#### (2) 对象的解构赋值
+
+```js
+let {name, age} = {name: "aaa", age: 12}
+name	// "aaa"
+age		// 12
+```
+
+对象与数组的解构赋值有个本质的不同，数组的元素是按照次序排列的，**对象中的属性排列是没有次序的，要想赋上值就必须保证，属性名必须保持一致才能获取的到值。**
+
+```js
+let {age, name} = {name: "aaa", age: 12}
+name	// "aaa"
+age		// 12
+let {foo} = {name: "aaa", age: 12}
+foo		// undefined 
+```
+
+上面的这个例子表示等号左边的两个变量的次序，与等号右边两个同名属性的次序不一致，但是对取值完全没有影响。第二个例子的变量没有对应的同名属性，导致取不到值，最后等于undefined。
+
+#### (3)字符串的解构赋值
+
+字符串也是可以解构赋值的这是因为，字符串在被解构赋值的时候就形成了一个类似数组的对象。
+
+```js
+let [a,b,c,d,e,f]="goudan"
+a	// g
+b	// o
+...
+f	// n
+```
+
+类似数组的对象都有 一个length属性，也可以给length赋值
+
+```js
+let {length: len}="goudan"
+len // 6
+```
+
+## Symbol
+
+### 1、Symbol：表示独一无二的值
+
+- Symbol函数前不能使用new命令，否则会报错。这是因为生成的Symbol是一个原始类型的值，不是对象。
+- Symbol函数可以接受一个字符串作为参数，表示对Symbol事例的描述，主要是为了在控制台显示，或者转为字符串时，比较容易区分。
+- Symbol值不能与其他类型的值进行运算。Symbol值作为对象属性名时，不能用点运算。
+
+## Set和Map
+
+### 1、Set的基本用法
+
+转自[ES6核心，教你 玩转 ES6新特性](http://www.imooc.com/article/67156)
+
+**Set和数据相似，也是一种 集合，主要的区别是，Set里面的值是唯一的，没有重复的**。
+
+Set中**可以放数组，不可以放对象**，使用**add**向里面**填充数据**，可以使用**delete删除**其中的一个元素。
+
+创建Set如下：
+
+```js
+let coll = new Set([3,5,"feng","true"]);//放数组
+console.log(coll) // Set(4) {3, 5, "feng", "true"}
+coll.add(22)
+console.log(coll) // Set(5) {3, 5, "feng", "true", 22}
+coll.delete(3)
+console.log(coll) // Set(4) {5, "feng", "true", 22}
+```
+
+Set不是数组，是一个像对象的数组，就是一个伪数组。Set中的数据可以用for of 以及 forEach来进行遍历。
+
+```js
+coll.forEach(item => console.log(item));	  // 3 5 feng true
+for (let item of coll) {console.log(item);}   // 3 5 feng true
+```
+
+可以使用Set来实现数组去重
+
+```js
+let coll = [1,1,12,3,3,true,true,NaN,NaN]
+let coll1 = [...(new Set(coll))]
+console.log(coll1)//[ 1, 12, 3, true, NaN ]
+```
+
+### 1、Map的基本用法
+
+转自[ES6核心，教你 玩转 ES6新特性](http://www.imooc.com/article/67156)
+
+它类似于对象，里面存放也是键值对，区别在于：**对象中的键名只能是字符串，如果使用Map，它里面的键可以是任意值。**
+
+Map的创建和用法如下：
+
+```js
+var m = new Map();
+o = {p: "Hello World"};
+m.set(o, "content");	//使用set进行添加元素 这里的键值是一个对象
+console.log(m.get(o))
+// "content"
+```
+
+Map中的实例属性主要有
+
+- **size**：返回成员总数。
+
+- **set(key, value)**：设置key所对应的键值，然后返回整个Map结构。如果key已经有值，则键值会被更新，否则就新生成该键。
+
+- **get(key)**：读取key对应的键值，如果找不到key，返回undefined。
+
+- **has(key)**：返回一个布尔值，表示某个键是否在Map数据结构中。
+
+- **delete(key)**：删除某个键，返回true。如果删除失败，返回false。
+
+- **clear()**：清除所有成员，没有返回值。
+
+- **set()**：方法返回的是Map本身，因此可以采用链式写法。
+
+**主要看下Map的遍历方法**
+
+- keys()：返回键名的遍历器。
+
+
+- values()：返回键值的遍历器。
+
+
+- entries()：返回所有成员的遍历器。
+
+
+```js
+let map = new Map([
+  ['F', 'no'],
+  ['T',  'yes'],
+]);
+
+for (let key of map.keys()) {
+  document.write(key);
+}
+// "F"
+// "T"
+for (let value of map.values()) {
+  document.write(value);
+}
+// "no"
+// "yes"
+for (let item of map.entries()) {
+  document.write(item[0], item[1]);
+}
+// "F" "no"
+// "T" "yes"
+// 或者
+for (let [key, value] of map.entries()) {
+  document.write(key, value);
+}
+// 等同于使用map.entries()
+for (let [key, value] of map) {
+  document.write(key, value);
+}
+```
+
+## 迭代器（Iterator）和生成器（Generator）
+
+### 1、Iterator
+
+### 1、Generator
+
+ [有部分内容在上面](#_5、generator（不是异步的直接替代方案）) 
+
+#### 语法
+
+```js
+function * gen () {
+    yield 1
+    yield 2
+    yield 3
+}
+let g = gen()
+```
+
+1、Generator函数比普通函数多一个*
+
+2、函数内部用yield来控制程序的执行和”暂停“
+
+3、函数的返回值通过next来“恢复”程序执行，**不会返回结果，返回一个遍历器对象**，代表 Generator 函数的内部指针`{value:,done:'true/false'}`。**value属性表示当前的内部状态的值**，是yield表达式后面那个表达式的值；**done属性是一个布尔值，表示是否遍历结束**。
+
+注意：Generator函数的定义不能使用箭头函数，否则会触发SyntaxError
+
+#### yield表达式
+
+yield * 是委托给另一个遍历器对象或者可遍历对象，即generator可以嵌套
+
+```js
+function * gen () {
+    let val 
+    val = yield * [1, 2, 3]
+    console.log(val)
+}
+const l = gen()
+console.log(l.next())
+console.log(l.next())
+// {value: 1, done: false}
+// {value: 2, done: false}
+```
+
+#### next([value])
+
+可以接受参数，这个参数可以让你在Generator外部给内部传递数据，而这个参数就是yield的返回值
+
+```js
+//通过改变yield返回值的数据来改变内部的数据
+function * gen () {
+    let val 
+    val = (yield [1, 2, 3]) + 7
+    console.log(val)
+}
+const l = gen()
+console.log(l.next(10))
+console.log(l.next(20))
+// {value: Array(3), done: false}
+// 27
+// {value: undefined, done: true}
+```
+
+#### return
+
+return方法可以让Generator函数遍历终止，有点类似for循环的break
+
+```js
+function * gen () {
+    yield 1
+    yield 2
+    yield 3
+}
+
+var g = gen()
+console.log(g.next())  		// {value: 1, done: false}
+console.log(g.return())		// {value: undefined, done: true}
+console.log(g.next())		// {value: undefined, done: true}
+```
+
+return还可以传入参数，作为返回值的value
+
+```js
+function * gen () {
+    yield 1
+    yield 2
+    yield 3
+}
+
+var g = gen()
+console.log(g.next())  		// {value: 1, done: false}
+console.log(g.return(100))		// {value: 100, done: true}
+console.log(g.next())		// {value: undefined, done: true}
+```
+
+#### throw
+
+可以通过throw方法在Generator外部控制内部执行的“终断”
+
+```js
+// 在内部捕获异常
+function * gen () {
+    while (true) {
+        try {
+            yield 1
+        } catch (e) {
+            console.log(e.message)
+        }
+    }
+}
+let g = gen()
+console.log(g.next())					// {value: 1, done: false}
+console.log(g.next())					// {value: 1, done: false}
+g.throw(new Error('message wrong'))     //  message wrong
+console.log(g.next())					// {value: 1, done: false}
+```
+
+#### 应用实例
+
+抽奖
+
+```js
+function * draw (first = 1, second = 3, third = 5) {
+    let price = [1, 2, 3, 4, 5, 6, 7, 11, 12, 13, 14, 16, 17, 21, 22, 23, 24, 25, 26, 27]
+    let count = 0
+    let random
+    while (1) {
+        if (count < first + second + third) {
+            random = Math.floor(Math.random() * price.length)
+            yield price[random]
+            count++
+            price.splice(random, 1)
+        } else {
+            return false
+        }
+    }
+}
+let d = draw()
+console.log(d.next().value) // 来9次
+```
+
+普通函数的话一下子就知道了所有的中奖人，二使用Generator函数则是一个一个抽出来，比较刺激
+
+### 1、class
+
+#### JS构造函数
+
+```js
+function MathHandle(x,y){
+    this.x = x
+    this.y = y
+}
+MathHandle.prototype.add = function(){
+    return this.x + this.y
+}
+var m = new MathHandle(1,2)
+console.log(m.add())
+```
+
+#### class语法
+
+```js
+class MathHandle{
+    constructor(x,y){
+        this.x = x
+        this.y = y
+    }
+    add(){
+        return this.x + this.y
+    }
+}
+var m = new MathHandle(1,2)
+console.log(m.add())
+m.__proto === MathHandle.prototype  //true
+```
+
+#### 继承—JS
+
+```js
+//动物
+function Animal(){
+    this.eat = function() {
+        console.log('animal eat')
+    }
+}
+//狗
+function Dog(){
+    this.bark = function() {
+        console.log('dog bark')
+    }
+}
+Dog.prototype = new Animal()
+var hashiqi = new Dog()
+```
+
+#### 继承—class
+
+```js
+class Animal{
+    constructor(name){
+        this.name = name
+    }
+    eat() {
+        console.log(this.name + ' eat')
+    }
+}
+class Dog extends Animal{
+    constructor(name){
+        super(name)
+        this.name = name
+    }
+    say() {
+        console.log(this.name + ' say')
+    }
+}
+const dog = new Dog('哈士奇')
+dog.eat()
+dog.say()
+```
+
+#### `Class`和普通构造函数有何区别
+
+- class在语法上更加贴近面向对象的写法
+- class实现继承更加易读，易理解
+- 更易于写java等后端语言使用
+- 本质是语法糖，使用prototype
+
+#### Setters & Getters
+
+对于类中的属性，可以直接在constructor中通过this直接定义，还可以直接在类的顶层来定义
+
+```js
+class Animal {
+    constructor (type, age) {
+        this.type = type
+        this._age = age
+    }
+    get age () {
+        return this._age
+    }
+    set age (val) {
+        this._age = val
+    }
+}
+```
+
+#### Static Methods
+
+静态方法：不属于对象实例，而属于这个类，需要从类来访问才能获取。
+
+```js
+// ES5
+let Animal = function(type) {
+    this.type = type
+    this.walk = function() {
+        console.log('I`m walking')
+    }
+}
+Animal.eat = function() {
+    console.log('I`m eating')
+}
+Animal.eat()
+// ES6
+class Animal {
+    constructor(type) {
+        this.type = type
+    }
+    walk() {
+        console.log('I`m walking')
+    }
+    static eat () {
+        console.log('I`m eating')
+    }
+}
+Animal.eat()
+```
+
+**什么时候用实例对象方法，什么时候用静态方法？**
+
+如果这个方法里面还会涉及到其他的实例对象属性或方法（即另外还要依赖于其他方法），则用实例对象方法。
+
+如果没有依赖关系，则用静态方法。（因为静态方法拿不到实例对象）
+
+### 1、jquery-deferred（Promise中的`.then`语法）
+
+ES6中的Promise中的`.then`语法最早在jquery1.5中就有提出使用
+
+#### 介绍
+
+deferred对象就是jquery的回调函数解决方案。在英语中，defer的意思就是延迟，所以deferred对象的含义就是“延迟”到未来某个点再执行。它解决了如何处理耗时操作的问题，对那些操作提供了更好地控制，以及统一的编程接口。
+
+#### jquery1.5的变化
+
+##### 1.5之前
+
+```js
+var ajax = $.ajax({
+    url: 'data.json',
+    success: function() {
+        console.log('success')
+    },
+    error: function() {
+        console.log('error')
+    }
+})
+console.log(ajax)
+```
+
+##### 1.5之后
+
+例一：
+
+```js
+var ajax = $ajax('data.json')
+ajax.done(function() {
+    console.log('success1')
+})
+.fail(function() {
+    console.log('error')
+})
+.done(function() {
+    console.log('success2')
+})
+```
+
+例二：
+
+```js
+// 很像promise的写法
+var ajax = $ajax('data.json')
+ajax.then(function() {
+    console.log('success1')
+}, function() {
+    console.log('error1')
+})
+.then(function() {
+    console.log('success2')
+}, function() {
+    console.log('error2')
+})
+```
+
+**变化总结**
+
+1、无法改变JS异步和单线程的本质
+
+2、只能从写法上杜绝callback这种形式
+
+3、它是一种语法糖，但是解耦了代码
+
+4、很好的体现了开放封闭原则
+
+> **开放封闭原则**
+>
+> 其核心思想是软件实体应该是可扩展的，而不可修改的，即对扩展开放，对修改封闭。
+>
+> 开放封闭主要体现在两个方面:
+>
+> **对扩展开放**，意味着新的需求或变化时，可以对现有代码进行扩展，以适应新的情况。
+> **对修改封闭**，意味着类一旦设计完成时，就可以独立完成其工作，而不要对类进行任何修改。 
+
+#### 使用jQuery Deferred
+
+```js
+var wait = function () {
+    var task = function() {
+        console.log('执行完成')
+    }
+    setTimeout(task, 2000)
+}
+wait()
+```
+
+新增需求：要在执行完成之后进行某些特别复杂的操作，代码可能会很多，而且分好几个步骤
+
+```js
+function waitHandle() {
+    var dtd = $.Deferred()        // 创建一个deferred对象
+    var wait = function(dtd) {
+        var task = function() {
+            console.log('执行完成')
+            dtd.resolve()       // 表示异步任务已经完成
+            // dtd.reject()     // 表示异步任务失效或出错
+        }
+        setTimeout(task, 2000)
+        return dtd              // 要求返回deferred对象
+    }
+    return wait(dtd)            // 注意，这里一定要有返回值
+}
+
+var w = waitHandle()
+w.then(function() {
+    console.log('ok1')
+}, function() {
+    console.log('err1')
+})
+.then(function() {
+    console.log('ok2')
+}, function() {
+    console.log('err2')
+})
+// 还有w.done w.fail
+```
+
+##### 总结：dtd的api可分成两类，用意不同，并且需要分开用
+
+**第一类（主动触发）**
+
+- dtd.resolve()
+
+  手动改变deferred对象的运行状态为“已完成”，从而立即触发done()方法
+
+- dtd.reject()
+
+  这个方法与resolve()相反，调用后将deferred对象的运行状态变为“已失效”，从而立即出发fail()方法
+
+**第二类（被动监听）**
+
+- dtd.done()
+
+  指定函数成功时的回调函数
+
+- dtd.fail()
+
+  指定函数失败时的回调函数
+
+- dtd.then()
+
+  把done()和fail()合在一起写，如果then()有两个参数，那么第一个参数是done方法的回调函数，第二个参数是fail()方法的回调函数、如果只有一个参数，等同于done()
+
+##### 使用dtd.promise()方法
+
+promise没有参数时，返回一个新的defer对象，该对象的运行状态无法被改变，接收参数时，作用为在参数对象上部署deferred接口
+
+```js
+function waitHandle() {
+    var dtd = $.Deferred()        
+    var wait = function(dtd) {
+        var task = function() {
+            console.log('执行完成')
+            dtd.resolve()       
+        }
+        setTimeout(task, 2000)
+        return dtd.promise()          // 注意这里返回的是promise，不是直接返回deferred
+    }
+    return wait(dtd)            
+}
+
+// 经过上面的改动，w接收的是一个promise对象
+var w = waitHandle()
+$.when(w)					// api不同
+.then(function() {
+    console.log('ok1')
+}, function() {
+    console.log('err1')
+})
+.then(function() {
+    console.log('ok2')
+}, function() {
+    console.log('err2')
+})
+```
+
+### 1、promise
+
+ [看上面~](#_3、promise) 
+
+### 1、代理（Proxy）
+
+Proxy是ES6中新增的功能，可以用来自定义对象中的操作，如查找、赋值、枚举、函数调用等。
+
+`let p = new Proxy(target, handler);`
+
+- target：代表需要代理的对象
+- handler：用来自定义对象中的操作
+
+```js
+let obj = {
+    name: 'xiaoming',
+    price: 100
+}
+let d = new Proxy(obj, {
+    get (target, key) {
+        if (key === 'price') {
+            return target[key] + 20
+        } else {
+            return target[key]
+        }
+    }
+})
+console.log(d.price, d.name); // 120 "xiaoming"
+```
+
+#### 对赋值进行拦截
+
+```js
+let obj = {
+    name: 'xiaoming',
+    price: 100
+}
+let d = new Proxy(obj, {
+    get (target, key) {
+        return target[key]
+    },
+    set (target, key) {
+    	return false
+	}
+})
+d.price = 120
+console.log(d.price, d.name); // 100 "xiaoming"
+```
+
+#### 校验
+
+对于数据交互而言，校验是不可或缺的一个环节。传统的校验是将校验写在了业务逻辑里，导致代码耦合度较高。使用Proxy就可以将代码设计的非常灵活。
+
+```js
+// validator.js
+export default (obj, key, value) {
+    if (Reflect.has(key) && value > 20) {
+        obj[key] = value
+    }
+}
+
+import validator from './validator'
+let data = new Proxy(response.data, {
+    set: validator
+})
+```
+
+#### 对读写进行监控
+
+```js
+// 监听错误
+window.addEvenetListener('error', (e) => {
+    console.log(e.message)
+}, true)
+// 校验规则
+let validator = {
+    set(target, key, value) {
+        if (key === 'age') {
+            if (typeof value !== 'number' || Number.isNaN(value)) {
+                // 不满足规则就要触发错误
+                throw new TypeError('Age must be a number')
+            }
+            if (value <= 0) {
+                throw new TypeError('Age must bu a positive number')
+            }
+        }
+        return true
+    }
+}
+const person = {age: 27}
+const proxy = new Proxy(person, validator)
+proxy.age = NaN // Uncaught TypeError: Age must be a number
+proxy.age = 28
+proxy.age = 0 // Uncaught TypeError: Age must be a positive number
+```
+
+设置对象的id只可读不可被修改
+
+```js
+class Component {
+    constructor() {
+        this.proxy = new Proxy({
+            id: Math.random().toString(36).slice(-8) // 随机生成一个id
+        }, {}) 
+    }
+    get id () {
+        return this.proxy.id
+    }
+}
+let com = new Component()
+com.id = 'abc'
+console.log(com.id) // dp9hrcw7
+```
+
+#### Revocable Proxy
+
+除了使用常规的代理，还可以创建临时的代理，这个临时代理就可以被取消
+
+```js
+let obj = {
+    name: 'xiaoming',
+    price: 100
+}
+let d = Proxy.revocable(obj, {
+    get (target, key) {
+        if (key === 'price') {
+            return target[key] + 20
+        } else {
+            return target[key]
+        }
+    }
+})
+console.log(d.proxy.price, d); // 120  {proxy: Proxy, revoke: ƒ}
+setTimeout(function () {
+    // 销毁代理  一旦revoke被调用，proxy就失效了，这就起到了临时代理的作用
+    d.revoke()
+    setTimeout(() => {
+        console.log(d.proxy.price)
+    })
+})
+// Uncaught TypeError: Cannot perform 'get' on a proxy that has been revoked
+```
+
+
+
+### 1、反射（Reflect）
+
+Reflect是一个内置对象，它提供拦截JavaScript操作的方法，这些方法与处理器对象的方法相同，Reflect不是一个函数对象，因此它是不可构造的。
+
+注意：与大多数全局对象不同，Reflect没有构造函数，你不能将其与一个new运算符一起使用，或者将Reflect对象作为一个函数来调用。Reflect的所有属性和方法都是静态的（就像Math对象）
+
+**反射，什么是反射机制？**
+
+Java的反射机制是在编译阶段不知道是哪个类被加载，而是在运行的时候才加载、执行。
+
+#### Reflect.apply
+
+`Reflect.apply(target, thisArgument, argumentsList)`
+
+- target：目标函数
+- thisArgument：target函数调用时绑定的this对象
+- argumentsList：target函数调用时传入的实参列表，该参数应该是一个类数组的对象
+
+```js
+Math.floor.apply(null, [3.72]);  // 3
+Reflect.apply(Math.floor, null, [3.72]);  // 3
+
+let price = 91.5;
+price = price > 100 ?  Math.floor.apply(null, [price]) : Math.ceil.apply(null, [price]);
+price = Reflect.apply(price > 100 ?  Math.floor : Math.ceil, null, [price]);
+```
+
+#### Reflect.construct
+
+Reflect.construct()方法的行为有点像new操作符构造函数，相当于运行new target(...arg)
+
+`Reflect.construct(target, argumentsList[, newTarget])`
+
+- target：被运行的目标函数
+- argumentsList：调用构造函数的数组或伪数组
+- newTarget：该参数为构造函数，参考new.target操作符，如果没有newTarget参数，默认和target一样
+
+```js
+var date = new Date();
+var date1 = Reflect.construct(Date, []);
+```
+
+#### Reflect.defineProperty 和 Reflect.deleteProperty
+
+```js
+// 新增对象属性
+const student = {};
+const r = Reflect.defineProperty(student, 'name', { value: 'Mike'});
+// student {name: "Mike"}   r true
+const r = Object.defineProperty(student, 'name', { value: 'Mike'});
+// student {name: "Mike"}   r {name: "Mike"}
+
+// 删除对象属性
+const obj = {x: 100, y: 200};
+const r = Reflect.deleteProperty(obj, 'x');
+// obj { y: 200}   r true
+delete obj.x
+```
+
+### 1、模块化
+
+ [看上面~](#_1、模块化) 
+
+### 1、字符串、数组、对象的扩展
+
+也在上面啦~直接整合在了字符串、数组、对象内容里面
+
 ## 其他
 
 ### 1、获得一段范围内的随机数
@@ -4327,1092 +5412,3 @@ react灵活性比较大，处理复杂业务时有更多技术方案的选择 �
 vue提供了更丰富的api，实现功能简单，但也因api多会对灵活性有一定的限制。
 
 做复杂度比较高的项目时使用react，面向用户端复杂度不高的使用vue 。
-
-# （乱的还没搞好）总结一下ES(6-10)常用功能（大致按《深入理解ES6》来排序）
-
-### 1、let&const及块级作用域
-
-#### let
-
-1) let定义变量，可重新赋值。但是不能重复定义，不会进行变量提升
-
-2) let声明的全局变量不是全局对象的属性
-
-而var声明的全局变量是window的属性，是可以通过window变量名的方式访问的
-
-```js
-var a = 1
-console.log(window.a) // 1
-
-let b = 1
-console.log(window.b) // undefined
-```
-
-#### const
-
-const和let一样，有块级作用域，不会变量提升
-
-不同的是其定义的变量不能被修改且定义时必须初始化，用于定义常量
-
-#### 块级作用域
-
-```JavaScript
-//JS
-var obj = {
-    a: 100,
-    b: 200
-}
-for(var item in obj){
-    console.log(item)
-}
-console.log(item) //'b'
-```
-
-```javascript
-//ES6
-const obj = {
-    a: 100,
-    b: 200
-}
-for(var item in obj){
-    console.log(item)
-}
-console.log(item) //undefined
-```
-
-
-
-## 字符串和正则表达式
-
-### 1、多行字符串/模板变量
-
-```JavaScript
-//JS
-var name = 'zhangsan', age = 20, html = '';
-html += '<div>';
-html += '     <p>' + name + '</p>';
-html += '     <p>' + age + '</p>';
-html += '</div>';
-```
-
-```javascript
-//ES6
-const name = 'zhangsan', age = 20;
-const html = '<div>
-                   <p>${name}</p>
-                   <p>${age}</p>
-              </div>';
-console.log(html);
-```
-
-- 反引号定义多行字符串
-- ${name}将变量引入
-
-## 函数
-
-### 1、函数默认参数
-
-```javascript
-//JS
-function(a,b){
-    if(b == null){
-        b = 0
-    }
-}
-```
-
-```javascript
-//ES6
-function(a, b = 0){
-    ...
-}
-```
-
-### 1、箭头函数
-
-```javascript
-//JS
-var arr = [1,2,3]
-arr.map(function(item){
-    return item + 1
-})
-
-//ES6
-const arr = [1,2,3]
-arr.map(item => item + 1)
-arr.map((item, index) => {
-    console.log(index)
-    return item + 1
-})
-```
-
-箭头函数和普通函数的区别：
-
-- 箭头函数是匿名函数，不能作为构造函数，不能使用new
-- 箭头函数不绑定arguments，取而代之用rest参数...解决
-- 箭头函数不绑定this，会捕获其所在的上下文的this值作为自己的this值
-- 箭头函数通过call()或apply()方法调用一个函数时，只传入了一个参数，对this并没有影响
-- 箭头函数没有原型属性
-- 箭头函数不能当做Generator函数，不能使用yield关键词
-
-## 扩展对象功能
-
-### 87、扩展运算符的应用
-
-转自[ES6核心，教你 玩转 ES6新特性](http://www.imooc.com/article/67156)
-
-1、将一个数组变为参数序列
-
-```js
-function add(a, b){
-    return a+b;
-}
-let num = [22,33];
-add(...num)//55
-```
-
-2、可以替代函数中的apply
-
-由于扩展运算符可以展开数组，所以不需要apply方法，将数组转化为函数的参数了。
-
-```js
-//ES5中
-Math.max.apply(null,[3,2,5])
-//在es6中的写法
-Math.max(...[3,2,5])
-等同于Math.max(3,2,5);
-```
-
-由于 JavaScript 不提供求数组最大元素的函数，所以只能套用Math.max函数，将数组转为一个参数序列，然后求最大值。有了扩展运算符以后，就可以直接用Math.max了。
-
-3、扩展运算符也可以复制对象
-
-作用是用于取出对象中所有可以遍历的属性，拷贝到当前对象中，是浅拷贝
-
-```js
-var obj = {name:"feng",color:["yellow","blue"]};
-var obj1 ={...obj}
-obj1.color.push("red")
-console.log(obj)//{ name: 'feng', color: [ 'yellow', 'blue', 'red' ] }
-```
-
-4、将某些数据类型转化为数组
-
-```js
-//arguments对象
-!function(){
-    const arr = [...arguments];
-    console.log(arr)
-}(2,3)//[2,3]
-//Dom返回的对象
-console.log(Array.isArray([...document.getElementsByTagName("li")]))//true
-```
-
-扩展运算符所使用的是遍历器接口（Iterator），如果一个对象没有这个接口，就无法转化。
-
-
-
-## 解构
-
-### 1、变量的解构赋值
-
-转自[ES6核心，教你 玩转 ES6新特性](http://www.imooc.com/article/67156)
-
-#### (1)数组的解构赋值
-
-**基本用法**
-
-在没有ES6之前给变量赋值经常是指定赋值
-
-```javascript
-var obj = {
-    a: 100,
-    b: 200
-}
-var a = obj.a
-var b = obj.b
-var arr = ['xxx','yyy','zzz']
-var x = arr[0]
-```
-
-
-在ES6中允许使用以下方式赋值
-
-
-```javascript
-//ES6
-const obj = {
-    a: 10,
-    b: 20,
-    c: 30
-}
-const {a,c} = obj
-console.log(a)
-console.log(c)
-
-const arr = ['xxx','yyy','zzz']
-const [x,y,z] = arr
-console.log(x)
-console.log(y)
-console.log(z)
-```
-
-
-如果解构不成功，变量的值就是undefined，如下：
-
-```js
-var [a] = [];//a就是undefined;
-var [a ,b] =[1]//同样a的值是1，b 的值就是undefiend;
-```
-
-以上的两个例子都是属于不完全解构，但可以成功。
-
-<strong> 如果等号右边的不是数组，严格的来说就是不可以遍历的结构，解构赋值的过程中都会报错。</strong>
-
-```js
-//以下都是会报错的Example
-var [a] = 1;
-let [a] = false;
-let [a] = NaN;
-let [a] = undefined;
-let [a] = null;
-let [a] = {};
-```
-
-上面的赋值会报错的主要原因是，前五个表达式在转化为对象后不具备(Iterator)接口，（最后一个表达式）要么本身就不具备(Iterator)接口。
-
-遍历器（Iterator）是一种接口，为各种不同的数据结构提供统一的访问机制。任何数据结构只要部署Iterator接口，就可以完成遍历操作（即依次处理该数据结构的所有成员）。
-
-#### (2) 对象的解构赋值
-
-```js
-let {name,age} = {name:"aaa",age:12}
-name//"aaa"
-age//12;
-```
-
-对象与数组的解构赋值有个本质的不同，数组的元素是按照次序排列的，对象中的属性排列是没有次序的，要想赋上值就必须保证，属性名必须保持一致才能获取的到值。
-
-```js
-let {age,name} = {name:"aaa",age:12}
-name//"aaa"
-age//12;
-let{foo} ={name:"aaa",age:12}
-foo//undefined 
-```
-
-上面的这个例子表示等号左边的两个变量的次序，与等号右边两个同名属性的次序不一致，但是对取值完全没有影响。第二个例子的变量没有对应的同名属性，导致取不到值，最后等于undefined。
-
-#### (3)字符串的解构赋值
-
-字符串也是可以解构赋值的这是因为，字符串在被解构赋值的时候就形成了一个类似数组的对象。
-
-```js
-let [a,b,c,d,e,f]="goudan"
-a//g
-b//o
-...
-f//n
-```
-
-类似数组的对象都有 一个length属性，也可以给length赋值
-
-```js
-let {length:len}="goudan"
-len//6
-```
-
-
-
-## Symbol
-
-### 74、Symbol：表示独一无二的值
-
-- Symbol函数前不能使用new命令，否则会报错。这是因为生成的Symbol是一个原始类型的值，不是对象。
-- Symbol函数可以接受一个字符串作为参数，表示对Symbol事例的描述，主要是为了在控制台显示，或者转为字符串时，比较容易区分。
-- Symbol值不能与其他类型的值进行运算。Symbol值作为对象属性名时，不能用点运算。
-
-
-
-## Set和Map
-
-### 90、ES6中set 和 map两种数据结构（集合）
-
-转自[ES6核心，教你 玩转 ES6新特性](http://www.imooc.com/article/67156)
-
-#### 1.set的基本用法
-
-set和数据相似，也是一种 集合，主要的区别是，set里面的值是唯一的，没有重复的。set中可以放数组，不可以放对象，使用add向里面填充数据,可以使用delete删除其中的一个元素 ，创建set如下：
-
-```js
-let coll = new Set([3,5,"feng","true"]);//放数组
-console.log(coll) // Set(4) {3, 5, "feng", "true"}
-coll.add(22)
-console.log(coll) // Set(5) {3, 5, "feng", "true", 22}
-coll.delete(3)
-console.log(coll) // Set(4) {5, "feng", "true", 22}
-```
-
-set不是数组，是一个像对象的数组，就是一个伪数组。Set中的数据可以用for of 以及 foreach来进行遍历。
-
-```js
-coll.forEach(item =>console.log(item));//3 5 feng true
-for(let item of coll){console.log(item);}//3 5 feng true
-```
-
-可以使用set来实现数组去重
-
-```js
-let coll = [1,1,12,3,3,true,true,NaN,NaN]
-let coll1 = [...(new Set(coll))]
-console.log(coll1)//[ 1, 12, 3, true, NaN ]
-```
-
-#### 2.map的基本用法
-
-它类似于对象，里面存放也是键值对，区别在于：对象中的键名只能是字符串，如果使用map，它里面的键可以是任意值。
-Map的创建和用法如下
-
-```js
-var m = new Map();
-o = {p: "Hello World"};
-console.log(m.get(o))
-// "content"
-```
-
-Map中的实例属性主要有
-
-**size**：返回成员总数。
-
-**set(key, value)**：设置key所对应的键值，然后返回整个Map结构。如果key已经有值，则键值会被更新，否则就新生成该键。
-
-**get(key)**：读取key对应的键值，如果找不到key，返回undefined。
-
-**has(key)**：返回一个布尔值，表示某个键是否在Map数据结构中。
-
-**delete(key)**：删除某个键，返回true。如果删除失败，返回false。
-
-**clear()**：清除所有成员，没有返回值。
-
-**set()**：方法返回的是Map本身，因此可以采用链式写法。
-
-<strong>主要看下Map的遍历方法</strong>
-
-keys()：返回键名的遍历器。
-
-values()：返回键值的遍历器。
-
-entries()：返回所有成员的遍历器。
-
-```js
-let map = new Map([
-  ['F', 'no'],
-  ['T',  'yes'],
-]);
-
-for (let key of map.keys()) {
-  document.write(key);
-}
-// "F"
-// "T"
-for (let value of map.values()) {
-  document.write(value);
-}
-// "no"
-// "yes"
-for (let item of map.entries()) {
-  document.write(item[0], item[1]);
-}
-// "F" "no"
-// "T" "yes"
-// 或者
-for (let [key, value] of map.entries()) {
-  document.write(key, value);
-}
-// 等同于使用map.entries()
-for (let [key, value] of map) {
-  document.write(key, value);
-}
-```
-
-## 迭代器（Iterator）和生成器（Generator）
-
-### 1、Iterator
-
-### 2、Generator
-
- [有部分内容在上面](#_5、generator（不是异步的直接替代方案）) 
-
-#### 语法
-
-```js
-function * gen () {
-    yield 1
-    yield 2
-    yield 3
-}
-let g = gen()
-```
-
-1、Generator函数比普通函数多一个*
-
-2、函数内部用yield来控制程序的执行和”暂停“
-
-3、函数的返回值通过next来“恢复”程序执行，**不会返回结果，返回一个遍历器对象**，代表 Generator 函数的内部指针`{value:,done:'true/false'}`。**value属性表示当前的内部状态的值**，是yield表达式后面那个表达式的值；**done属性是一个布尔值，表示是否遍历结束**。
-
-注意：Generator函数的定义不能使用箭头函数，否则会触发SyntaxError
-
-#### yield表达式
-
-yield * 是委托给另一个遍历器对象或者可遍历对象，即generator可以嵌套
-
-```js
-function * gen () {
-    let val 
-    val = yield * [1, 2, 3]
-    console.log(val)
-}
-const l = gen()
-console.log(l.next())
-console.log(l.next())
-// {value: 1, done: false}
-// {value: 2, done: false}
-```
-
-#### next([value])
-
-可以接受参数，这个参数可以让你在Generator外部给内部传递数据，而这个参数就是yield的返回值
-
-```js
-//通过改变yield返回值的数据来改变内部的数据
-function * gen () {
-    let val 
-    val = (yield [1, 2, 3]) + 7
-    console.log(val)
-}
-const l = gen()
-console.log(l.next(10))
-console.log(l.next(20))
-// {value: Array(3), done: false}
-// 27
-// {value: undefined, done: true}
-```
-
-#### return
-
-return方法可以让Generator函数遍历终止，有点类似for循环的break
-
-```js
-function * gen () {
-    yield 1
-    yield 2
-    yield 3
-}
-
-var g = gen()
-console.log(g.next())  		// {value: 1, done: false}
-console.log(g.return())		// {value: undefined, done: true}
-console.log(g.next())		// {value: undefined, done: true}
-```
-
-return还可以传入参数，作为返回值的value
-
-```js
-function * gen () {
-    yield 1
-    yield 2
-    yield 3
-}
-
-var g = gen()
-console.log(g.next())  		// {value: 1, done: false}
-console.log(g.return(100))		// {value: 100, done: true}
-console.log(g.next())		// {value: undefined, done: true}
-```
-
-#### throw
-
-可以通过throw方法在Generator外部控制内部执行的“终断”
-
-```js
-// 在内部捕获异常
-function * gen () {
-    while (true) {
-        try {
-            yield 1
-        } catch (e) {
-            console.log(e.message)
-        }
-    }
-}
-let g = gen()
-console.log(g.next())					// {value: 1, done: false}
-console.log(g.next())					// {value: 1, done: false}
-g.throw(new Error('message wrong'))     //  message wrong
-console.log(g.next())					// {value: 1, done: false}
-```
-
-#### 应用实例
-
-抽奖
-
-```js
-function * draw (first = 1, second = 3, third = 5) {
-    let price = [1, 2, 3, 4, 5, 6, 7, 11, 12, 13, 14, 16, 17, 21, 22, 23, 24, 25, 26, 27]
-    let count = 0
-    let random
-    while (1) {
-        if (count < first + second + third) {
-            random = Math.floor(Math.random() * price.length)
-            yield price[random]
-            count++
-            price.splice(random, 1)
-        } else {
-            return false
-        }
-    }
-}
-let d = draw()
-console.log(d.next().value) // 来9次
-```
-
-普通函数的话一下子就知道了所有的中奖人，二使用Generator函数则是一个一个抽出来，比较刺激
-
-## Class
-
-### 1、class
-
-#### JS构造函数
-
-```js
-function MathHandle(x,y){
-    this.x = x
-    this.y = y
-}
-MathHandle.prototype.add = function(){
-    return this.x + this.y
-}
-var m = new MathHandle(1,2)
-console.log(m.add())
-```
-
-#### class语法
-
-```js
-class MathHandle{
-    constructor(x,y){
-        this.x = x
-        this.y = y
-    }
-    add(){
-        return this.x + this.y
-    }
-}
-var m = new MathHandle(1,2)
-console.log(m.add())
-m.__proto === MathHandle.prototype  //true
-```
-
-#### 继承—JS
-
-```js
-//动物
-function Animal(){
-    this.eat = function() {
-        console.log('animal eat')
-    }
-}
-//狗
-function Dog(){
-    this.bark = function() {
-        console.log('dog bark')
-    }
-}
-Dog.prototype = new Animal()
-var hashiqi = new Dog()
-```
-
-#### 继承—class
-
-```js
-class Animal{
-    constructor(name){
-        this.name = name
-    }
-    eat() {
-        console.log(this.name + ' eat')
-    }
-}
-class Dog extends Animal{
-    constructor(name){
-        super(name)
-        this.name = name
-    }
-    say() {
-        console.log(this.name + ' say')
-    }
-}
-const dog = new Dog('哈士奇')
-dog.eat()
-dog.say()
-```
-
-#### `Class`和普通构造函数有何区别
-
-- class在语法上更加贴近面向对象的写法
-- class实现继承更加易读，易理解
-- 更易于写java等后端语言使用
-- 本质是语法糖，使用prototype
-
-#### Setters & Getters
-
-对于类中的属性，可以直接在constructor中通过this直接定义，还可以直接在类的顶层来定义
-
-```js
-class Animal {
-    constructor (type, age) {
-        this.type = type
-        this._age = age
-    }
-    get age () {
-        return this._age
-    }
-    set age (val) {
-        this._age = val
-    }
-}
-```
-
-#### Static Methods
-
-静态方法：不属于对象实例，而属于这个类，需要从类来访问才能获取。
-
-```js
-// ES5
-let Animal = function(type) {
-    this.type = type
-    this.walk = function() {
-        console.log('I`m walking')
-    }
-}
-Animal.eat = function() {
-    console.log('I`m eating')
-}
-Animal.eat()
-// ES6
-class Animal {
-    constructor(type) {
-        this.type = type
-    }
-    walk() {
-        console.log('I`m walking')
-    }
-    static eat () {
-        console.log('I`m eating')
-    }
-}
-Animal.eat()
-```
-
-**什么时候用实例对象方法，什么时候用静态方法？**
-
-如果这个方法里面还会涉及到其他的实例对象属性或方法（即另外还要依赖于其他方法），则用实例对象方法。
-
-如果没有依赖关系，则用静态方法。（因为静态方法拿不到实例对象）
-
-## Promise
-
-### 1、jquery-deferred
-
-ES6中的Promise中的`.then`语法最早在jquery1.5中就有提出使用
-
-#### 介绍
-
-deferred对象就是jquery的回调函数解决方案。在英语中，defer的意思就是延迟，所以deferred对象的含义就是“延迟”到未来某个点再执行。它解决了如何处理耗时操作的问题，对那些操作提供了更好地控制，以及统一的编程接口。
-
-#### jquery1.5的变化
-
-##### 1.5之前
-
-```js
-var ajax = $.ajax({
-    url: 'data.json',
-    success: function() {
-        console.log('success')
-    },
-    error: function() {
-        console.log('error')
-    }
-})
-console.log(ajax)
-```
-
-##### 1.5之后
-
-例一：
-
-```js
-var ajax = $ajax('data.json')
-ajax.done(function() {
-    console.log('success1')
-})
-.fail(function() {
-    console.log('error')
-})
-.done(function() {
-    console.log('success2')
-})
-```
-
-例二：
-
-```js
-// 很像promise的写法
-var ajax = $ajax('data.json')
-ajax.then(function() {
-    console.log('success1')
-}, function() {
-    console.log('error1')
-})
-.then(function() {
-    console.log('success2')
-}, function() {
-    console.log('error2')
-})
-```
-
-**变化总结**
-
-1、无法改变JS异步和单线程的本质
-
-2、只能从写法上杜绝callback这种形式
-
-3、它是一种语法糖，但是解耦了代码
-
-4、很好的体现了开放封闭原则
-
-> **开放封闭原则**
->
-> 其核心思想是软件实体应该是可扩展的，而不可修改的，即对扩展开放，对修改封闭。
->
-> 开放封闭主要体现在两个方面:
->
-> **对扩展开放**，意味着新的需求或变化时，可以对现有代码进行扩展，以适应新的情况。
-> **对修改封闭**，意味着类一旦设计完成时，就可以独立完成其工作，而不要对类进行任何修改。 
-
-#### 使用jQuery Deferred
-
-```js
-var wait = function () {
-    var task = function() {
-        console.log('执行完成')
-    }
-    setTimeout(task, 2000)
-}
-wait()
-```
-
-新增需求：要在执行完成之后进行某些特别复杂的操作，代码可能会很多，而且分好几个步骤
-
-```js
-function waitHandle() {
-    var dtd = $.Deferred()        // 创建一个deferred对象
-    var wait = function(dtd) {
-        var task = function() {
-            console.log('执行完成')
-            dtd.resolve()       // 表示异步任务已经完成
-            // dtd.reject()     // 表示异步任务失效或出错
-        }
-        setTimeout(task, 2000)
-        return dtd              // 要求返回deferred对象
-    }
-    return wait(dtd)            // 注意，这里一定要有返回值
-}
-
-var w = waitHandle()
-w.then(function() {
-    console.log('ok1')
-}, function() {
-    console.log('err1')
-})
-.then(function() {
-    console.log('ok2')
-}, function() {
-    console.log('err2')
-})
-// 还有w.done w.fail
-```
-
-##### 总结：dtd的api可分成两类，用意不同，并且需要分开用
-
-**第一类（主动触发）**
-
-- dtd.resolve()
-
-  手动改变deferred对象的运行状态为“已完成”，从而立即触发done()方法
-
-- dtd.reject()
-
-  这个方法与resolve()相反，调用后将deferred对象的运行状态变为“已失效”，从而立即出发fail()方法
-
-**第二类（被动监听）**
-
-- dtd.done()
-
-  指定函数成功时的回调函数
-
-- dtd.fail()
-
-  指定函数失败时的回调函数
-
-- dtd.then()
-
-  把done()和fail()合在一起写，如果then()有两个参数，那么第一个参数是done方法的回调函数，第二个参数是fail()方法的回调函数、如果只有一个参数，等同于done()
-
-##### 使用dtd.promise()方法
-
-promise没有参数时，返回一个新的defer对象，该对象的运行状态无法被改变，接收参数时，作用为在参数对象上部署deferred接口
-
-```js
-function waitHandle() {
-    var dtd = $.Deferred()        
-    var wait = function(dtd) {
-        var task = function() {
-            console.log('执行完成')
-            dtd.resolve()       
-        }
-        setTimeout(task, 2000)
-        return dtd.promise()          // 注意这里返回的是promise，不是直接返回deferred
-    }
-    return wait(dtd)            
-}
-
-// 经过上面的改动，w接收的是一个promise对象
-var w = waitHandle()
-$.when(w)					// api不同
-.then(function() {
-    console.log('ok1')
-}, function() {
-    console.log('err1')
-})
-.then(function() {
-    console.log('ok2')
-}, function() {
-    console.log('err2')
-})
-```
-
-### 2、promise
-
- [看上面~](#_3、promise) 
-
-## 代理（Proxy）和反射（Reflect）
-
-### 1、Proxy
-
-Proxy是ES6中新增的功能，可以用来自定义对象中的操作，如查找、赋值、枚举、函数调用等。
-
-`let p = new Proxy(target, handler);`
-
-- target：代表需要代理的对象
-- handler：用来自定义对象中的操作
-
-```js
-let obj = {
-    name: 'xiaoming',
-    price: 100
-}
-let d = new Proxy(obj, {
-    get (target, key) {
-        if (key === 'price') {
-            return target[key] + 20
-        } else {
-            return target[key]
-        }
-    }
-})
-console.log(d.price, d.name); // 120 "xiaoming"
-```
-
-#### 对赋值进行拦截
-
-```js
-let obj = {
-    name: 'xiaoming',
-    price: 100
-}
-let d = new Proxy(obj, {
-    get (target, key) {
-        return target[key]
-    },
-    set (target, key) {
-    	return false
-	}
-})
-d.price = 120
-console.log(d.price, d.name); // 100 "xiaoming"
-```
-
-#### 校验
-
-对于数据交互而言，校验是不可或缺的一个环节。传统的校验是将校验写在了业务逻辑里，导致代码耦合度较高。使用Proxy就可以将代码设计的非常灵活。
-
-```js
-// validator.js
-export default (obj, key, value) {
-    if (Reflect.has(key) && value > 20) {
-        obj[key] = value
-    }
-}
-
-import validator from './validator'
-let data = new Proxy(response.data, {
-    set: validator
-})
-```
-
-#### 对读写进行监控
-
-```js
-// 监听错误
-window.addEvenetListener('error', (e) => {
-    console.log(e.message)
-}, true)
-// 校验规则
-let validator = {
-    set(target, key, value) {
-        if (key === 'age') {
-            if (typeof value !== 'number' || Number.isNaN(value)) {
-                // 不满足规则就要触发错误
-                throw new TypeError('Age must be a number')
-            }
-            if (value <= 0) {
-                throw new TypeError('Age must bu a positive number')
-            }
-        }
-        return true
-    }
-}
-const person = {age: 27}
-const proxy = new Proxy(person, validator)
-proxy.age = NaN // Uncaught TypeError: Age must be a number
-proxy.age = 28
-proxy.age = 0 // Uncaught TypeError: Age must be a positive number
-```
-
-设置对象的id只可读不可被修改
-
-```js
-class Component {
-    constructor() {
-        this.proxy = new Proxy({
-            id: Math.random().toString(36).slice(-8) // 随机生成一个id
-        }, {}) 
-    }
-    get id () {
-        return this.proxy.id
-    }
-}
-let com = new Component()
-com.id = 'abc'
-console.log(com.id) // dp9hrcw7
-```
-
-#### Revocable Proxy
-
-除了使用常规的代理，还可以创建临时的代理，这个临时代理就可以被取消
-
-```js
-let obj = {
-    name: 'xiaoming',
-    price: 100
-}
-let d = Proxy.revocable(obj, {
-    get (target, key) {
-        if (key === 'price') {
-            return target[key] + 20
-        } else {
-            return target[key]
-        }
-    }
-})
-console.log(d.proxy.price, d); // 120  {proxy: Proxy, revoke: ƒ}
-setTimeout(function () {
-    // 销毁代理  一旦revoke被调用，proxy就失效了，这就起到了临时代理的作用
-    d.revoke()
-    setTimeout(() => {
-        console.log(d.proxy.price)
-    })
-})
-// Uncaught TypeError: Cannot perform 'get' on a proxy that has been revoked
-```
-
-
-
-### 2、Reflect
-
-Reflect是一个内置对象，它提供拦截JavaScript操作的方法，这些方法与处理器对象的方法相同，Reflect不是一个函数对象，因此它是不可构造的。
-
-注意：与大多数全局对象不同，Reflect没有构造函数，你不能将其与一个new运算符一起使用，或者将Reflect对象作为一个函数来调用。Reflect的所有属性和方法都是静态的（就像Math对象）
-
-**反射，什么是反射机制？**
-
-Java的反射机制是在编译阶段不知道是哪个类被加载，而是在运行的时候才加载、执行。
-
-#### Reflect.apply
-
-`Reflect.apply(target, thisArgument, argumentsList)`
-
-- target：目标函数
-- thisArgument：target函数调用时绑定的this对象
-- argumentsList：target函数调用时传入的实参列表，该参数应该是一个类数组的对象
-
-```js
-Math.floor.apply(null, [3.72]);  // 3
-Reflect.apply(Math.floor, null, [3.72]);  // 3
-
-let price = 91.5;
-price = price > 100 ?  Math.floor.apply(null, [price]) : Math.ceil.apply(null, [price]);
-price = Reflect.apply(price > 100 ?  Math.floor : Math.ceil, null, [price]);
-```
-
-#### Reflect.construct
-
-Reflect.construct()方法的行为有点像new操作符构造函数，相当于运行new target(...arg)
-
-`Reflect.construct(target, argumentsList[, newTarget])`
-
-- target：被运行的目标函数
-- argumentsList：调用构造函数的数组或伪数组
-- newTarget：该参数为构造函数，参考new.target操作符，如果没有newTarget参数，默认和target一样
-
-```js
-var date = new Date();
-var date1 = Reflect.construct(Date, []);
-```
-
-#### Reflect.defineProperty 和 Reflect.deleteProperty
-
-```js
-// 新增对象属性
-const student = {};
-const r = Reflect.defineProperty(student, 'name', { value: 'Mike'});
-// student {name: "Mike"}   r true
-const r = Object.defineProperty(student, 'name', { value: 'Mike'});
-// student {name: "Mike"}   r {name: "Mike"}
-
-// 删除对象属性
-const obj = {x: 100, y: 200};
-const r = Reflect.deleteProperty(obj, 'x');
-// obj { y: 200}   r true
-delete obj.x
-```
-
-## 模块化
-
- [看上面~](#_1、模块化) 
-
-## 字符串、数组、对象的扩展
-
-也在上面啦~直接整合在了字符串、数组、对象内容里面
-

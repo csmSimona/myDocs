@@ -159,7 +159,7 @@ function ActionLink() {
 
 ### 5、阻止组件渲染
 
-在极少数情况下，你可能希望能隐藏组件，即使它已经被其他组件渲染。若要完成此操作，你可以让 render 方法直接返回 null，而不进行任何渲染。
+在极少数情况下，你可能希望能隐藏组件，即使它已经被其他组件渲染。若要完成此操作，你**可以让 render 方法直接返回 null**，而不进行任何渲染。
 下面的示例中，`<WarningBanner /> `会根据 prop 中 warn 的值来进行条件渲染。如果 warn 的值是 false，那么组件则不会渲染:
 
 ```js
@@ -258,10 +258,11 @@ registerServiceWorker
 
 ```js
 var item = `<h1>hello</h1>`
-<li>
+<li
 	key={index}
 	onClick={this.handleItemDelete.bind(this, index)}
     dangerouslySetInnerHTML={__html: item}
+>
 </li>
 ```
 
@@ -348,7 +349,7 @@ TodoItem.defaultProps = {
 
 4）然后用新的树和旧的树进行比较，记录两棵树差异
 
-5）把 2所记录的差异应用到步骤 2)所构建的真正的 DOM 树上，视图就更新了
+5）把所记录的差异应用到步骤 2) 所构建的真正的 DOM 树上，视图就更新了
 
 使用diff算法比较新旧虚拟DOM----即比较两个js对象不怎么耗性能，而比较两个真实的DOM比较耗性能，从而虚拟DOM极大的提升了性能
 
@@ -368,7 +369,7 @@ TodoItem.defaultProps = {
 
 diff算法指的就是**两个虚拟DOM作比对**，在diff算法中有个概念就是**同级比对**，首先比对顶层虚拟DOM节点是否一致，如果一样就接着比对下一层，如果不一样，就停止向下比对，将原始页面中这个DOM及 下面的DOM全部删除掉，重新生成新的虚拟DOM，然后替换掉原始页面的DOM
 
-**存在问题**：如果第一层虚拟DOM节点不同，下面的都同，使用虚拟DOM的diff算法，则这些节点都不能使用了，会造成重新渲染的浪费。
+**存在问题**：如果第一层虚拟DOM节点不同，下面的都相同，使用虚拟DOM的diff算法，则这些节点都不能使用了，会造成重新渲染的浪费。
 
 **优点**：同层虚拟DOM比对，只需要一层层的比较，算法简单，比对的速度快
 
@@ -551,7 +552,7 @@ componentDidMount() {
 import {CSSTransition} from 'react-transition-group';
 <CSSTransition 
 	onEntered={(el) => {el.style.color = 'blue';}}  // 结束时为蓝色
-    in={this.state,show}
+    in={this.state.show}
     className='fade'
 	timeout={1000}  // 动画执行时间
 	appear={true}  // 第一次展现也有动画效果
@@ -674,13 +675,13 @@ class TodoList extends Component {
 **纯函数**：给定固定的输入，就一定会有固定的输出，而且不会有任何的副作用
 
 ```js
+// 这样的函数被称为纯函数，因为该函数不会尝试更改入参，且多次调用下相同的入参始终返回相同的参数。
 funcition sum(a, b) {
     return a + b;
 }
-// 这样的函数被称为纯函数，因为该函数不会尝试更改入参，且多次调用下相同的入参始终返回相同的参数。
 // 下面不是，自己更改了入参
 function withdraw(account, amount) {
-    account,total -= amount;
+    account.total -= amount;
 }
 ```
 
