@@ -4174,9 +4174,7 @@ for(var item in obj){
 console.log(item) //undefined
 ```
 
-## 字符串和正则表达式
-
-### 1、多行字符串/模板变量
+### 2、多行字符串/模板变量
 
 ```JavaScript
 //JS
@@ -4200,12 +4198,35 @@ console.log(html);
 - 反引号定义多行字符串
 - ${name}将变量引入
 
-## 函数
+### 3、正则表达式
 
-### 1、函数默认参数
+#### y修饰符
+
+sticky粘连，连续匹配
+
+```js
+const s = 'aaa_aa_a'
+const r1 = /a+/g
+console.log(r1.exec(s))  // ["aaa", index: 0, input: "aaa_aa_a"]
+
+const r2 = /a+/y
+console.log(r2.exec(s))  // ["aaa", index: 0, input: "aaa_aa_a"]
+
+// 再执行一次
+console.log(r1.exec(s))  // ["aa", index: 4, input: "aaa_aa_a"]
+console.log(r2.exec(s))  // null
+```
+
+y修饰符规定正则表达式必须从lastIndex规定的位置开始进行匹配，也就是说，如果开始匹配的位置不是从lastIndex规定位置开始，匹配失败，不再继续尝试。
+
+#### u修饰符
+
+u修饰符表示按unicode（utf-8）匹配（主要正对多字节比如汉字）
+
+### 4、函数默认参数
 
 ```javascript
-//JS
+// ES5
 function(a, b){
     if(b == null){
         b = 0
@@ -4214,13 +4235,31 @@ function(a, b){
 ```
 
 ```javascript
-//ES6
+// ES6
 function(a, b = 0){
     ...
 }
 ```
 
-### 1、箭头函数
+拓展：在函数体内，判断函数有几个参数
+
+```js
+// ES5 用arguments
+function test (a, b = 1, c) {
+    console.log(arguments.length)
+}
+test('a', 'b') // 2
+
+// ES6
+function test (a, b = 1, c) {
+    console.log(test.length)
+}
+test('a', 'b') // 1
+
+// 注意：Function.length统计的是 没有默认值的参数的个数
+```
+
+### 5、箭头函数
 
 ```javascript
 //JS
@@ -4238,6 +4277,23 @@ arr.map((item, index) => {
 })
 ```
 
+如果返回值是表达式，可以省略return和{}
+
+```js
+let pow = x => x*x
+```
+
+如果返回值是字面量对象，一定要用小括号包起来
+
+```js
+let person = (name) => ({
+    age: 20,
+    addr: 'beijing'
+})
+```
+
+
+
 **箭头函数和普通函数的区别：**
 
 - 箭头函数是匿名函数，不能作为构造函数，不能使用new
@@ -4247,9 +4303,7 @@ arr.map((item, index) => {
 - 箭头函数没有原型属性
 - 箭头函数不能当做Generator函数，不能使用yield关键词
 
-## 扩展对象功能
-
-### 1、扩展运算符的应用
+### 6、扩展运算符的应用
 
 转自[ES6核心，教你 玩转 ES6新特性](http://www.imooc.com/article/67156)
 
@@ -4302,9 +4356,7 @@ console.log(Array.isArray([...document.getElementsByTagName("li")])) // true
 
 扩展运算符所使用的是遍历器接口（Iterator），如果一个对象没有这个接口，就无法转化。
 
-## 解构
-
-### 1、变量的解构赋值
+### 7、变量的解构赋值
 
 转自[ES6核心，教你 玩转 ES6新特性](http://www.imooc.com/article/67156)
 
@@ -4412,17 +4464,13 @@ let {length: len}="goudan"
 len // 6
 ```
 
-## Symbol
-
-### 1、Symbol：表示独一无二的值
+### 8、Symbol：表示独一无二的值
 
 - Symbol函数前不能使用new命令，否则会报错。这是因为生成的Symbol是一个原始类型的值，不是对象。
 - Symbol函数可以接受一个字符串作为参数，表示对Symbol事例的描述，主要是为了在控制台显示，或者转为字符串时，比较容易区分。
 - Symbol值不能与其他类型的值进行运算。Symbol值作为对象属性名时，不能用点运算。
 
-## Set和Map
-
-### 1、Set的基本用法
+### 9、Set的基本用法
 
 转自[ES6核心，教你 玩转 ES6新特性](http://www.imooc.com/article/67156)
 
@@ -4433,12 +4481,16 @@ Set中**可以放数组，不可以放对象**，使用**add**向里面**填充�
 创建Set如下：
 
 ```js
-let coll = new Set([3,5,"feng","true"]);//放数组
+let coll = new Set([3,5,"feng","true"]); // 放数组
 console.log(coll) // Set(4) {3, 5, "feng", "true"}
-coll.add(22)
-console.log(coll) // Set(5) {3, 5, "feng", "true", 22}
+// ps: 初始化的参数必须是可遍历的，可以是数组或自定义遍历的数据结构
+
+coll.add(22).add('hello')
+console.log(coll) // Set(5) {3, 5, "feng", "true", 22, "hello"}
 coll.delete(3)
 console.log(coll) // Set(4) {5, "feng", "true", 22}
+coll.clear()
+console.log(coll) // Set(0) {}
 ```
 
 Set不是数组，是一个像对象的数组，就是一个伪数组。Set中的数据可以用for of 以及 forEach来进行遍历。
@@ -4456,11 +4508,23 @@ let coll1 = [...(new Set(coll))]
 console.log(coll1)//[ 1, 12, 3, true, NaN ]
 ```
 
-### 1、Map的基本用法
+### 10、Map的基本用法
 
 转自[ES6核心，教你 玩转 ES6新特性](http://www.imooc.com/article/67156)
 
-它类似于对象，里面存放也是键值对，区别在于：**对象中的键名只能是字符串，如果使用Map，它里面的键可以是任意值。**
+**Object和Map的区别**
+
+- 键的类型：
+
+  对象中的键名只能是字符串或Symbols，如果使用Map，它里面的键可以是任意值，包括函数，对象，基本类型等。
+
+- 键的顺序：
+
+  Map中的键是有序的，而Object需要先获取它的键数组
+
+- 性能：
+
+  在频繁增删键值对的场景下会有性能优势
 
 Map的创建和用法如下：
 
@@ -4488,7 +4552,7 @@ Map中的实例属性主要有
 
 - **set()**：方法返回的是Map本身，因此可以采用链式写法。
 
-**主要看下Map的遍历方法**
+**主要看下Map的遍历方法（Set一样）**
 
 - keys()：返回键名的遍历器。
 
@@ -4530,11 +4594,11 @@ for (let [key, value] of map) {
 }
 ```
 
-## 迭代器（Iterator）和生成器（Generator）
+### 11、Iterator
 
-### 1、Iterator
 
-### 1、Generator
+
+### 12、Generator
 
  [有部分内容在上面](#_5、generator（不是异步的直接替代方案）) 
 
@@ -4673,7 +4737,7 @@ console.log(d.next().value) // 来9次
 
 普通函数的话一下子就知道了所有的中奖人，二使用Generator函数则是一个一个抽出来，比较刺激
 
-### 1、class
+### 13、class
 
 #### JS构造函数
 
@@ -4813,7 +4877,7 @@ Animal.eat()
 
 如果没有依赖关系，则用静态方法。（因为静态方法拿不到实例对象）
 
-### 1、jquery-deferred（Promise中的`.then`语法）
+### 14、jquery-deferred（Promise中的`.then`语法）
 
 ES6中的Promise中的`.then`语法最早在jquery1.5中就有提出使用
 
@@ -4993,11 +5057,11 @@ $.when(w)					// api不同
 })
 ```
 
-### 1、promise
+### 15、promise
 
  [看上面~](#_3、promise) 
 
-### 1、代理（Proxy）
+### 16、代理（Proxy）
 
 Proxy是ES6中新增的功能，可以用来自定义对象中的操作，如查找、赋值、枚举、函数调用等。
 
@@ -5138,7 +5202,7 @@ setTimeout(function () {
 
 
 
-### 1、反射（Reflect）
+### 17、反射（Reflect）
 
 Reflect是一个内置对象，它提供拦截JavaScript操作的方法，这些方法与处理器对象的方法相同，Reflect不是一个函数对象，因此它是不可构造的。
 
@@ -5197,11 +5261,11 @@ const r = Reflect.deleteProperty(obj, 'x');
 delete obj.x
 ```
 
-### 1、模块化
+### 18、模块化
 
  [看上面~](#_1、模块化) 
 
-### 1、字符串、数组、对象的扩展
+### 19、字符串、数组、对象的扩展
 
 也在上面啦~直接整合在了字符串、数组、对象内容里面
 
