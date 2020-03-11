@@ -16,6 +16,40 @@
 
 2020.03.08     更新Generator和Class
 
+2020.03.11     更新Iterator，添加大标题目录
+
+------
+
+## 大标题目录
+
+- [JavaScript概述](#JavaScript概述)
+
+- [DOM](#DOM)
+
+- [BOM](#BOM)
+- [数据类型](#数据类型)
+- [操作符](#操作符)
+- [String](#String)
+- [Array](#Array)
+- [Object](#Object)
+- [RexgExp等](#RexgExp等)
+- [Function](#Function)
+- [作用域](#作用域)
+- [闭包](#闭包)
+- [内存泄漏](#内存泄漏)
+- [对象](#对象)
+- [原型](#原型)
+- [继承](#继承)
+- [事件](#事件)
+- [JSON](#JSON)
+- [Ajax](#Ajax)
+- [跨域](#跨域)
+- [异步](#异步)
+- [模块化](#模块化)
+- [性能优化](#性能优化)
+- [总结一下ES6常用功能](#总结一下ES6常用功能)
+- [其他](#其他)
+
 ------
 
 ## JavaScript概述
@@ -1296,7 +1330,7 @@ attributes：g:全局匹配	i:大小写匹配	m:多行匹配
 
 [看这里~](zh-cn/JavaScript/正则表达式的先行断言(lookahead)和后行断言(lookbehind))
 
-## Function 函数
+## Function
 
 ### 1、形参和arguments
 
@@ -3853,7 +3887,7 @@ js可以方便知道依赖模块是谁，立即加载；
 
 需要使用把模块变为字符串解析一遍才知道依赖了那些模块，牺牲性能来带来开发的便利性，实际上解析模块用的时间短到可以忽略。
 
-#### ES6
+#### ES6（export和import）
 
 ES6模块的主要有两个功能：export和import。
 
@@ -4120,7 +4154,7 @@ function preLoadImg(pars){
 
 防抖动和节流本质是不一样的。防抖动是将多次执行变为最后一次执行，节流是将多次执行变成每隔一段时间执行。比如搜索框就会用到节流。
 
-## 总结一下ES(6-10)常用功能
+## 总结一下ES6常用功能
 
 ### 1、let&const及块级作用域
 
@@ -4594,11 +4628,7 @@ for (let [key, value] of map) {
 }
 ```
 
-### 11、Iterator
-
-
-
-### 12、Generator
+### 11、Generator（生成器）
 
  [有部分内容在上面](#_5、generator（不是异步的直接替代方案）) 
 
@@ -4736,6 +4766,156 @@ console.log(d.next().value) // 来9次
 ```
 
 普通函数的话一下子就知道了所有的中奖人，二使用Generator函数则是一个一个抽出来，比较刺激
+
+### 12、Iterator（迭代器）
+
+遍历器（Iterator）是一种接口，为各种不同的数据结构提供统一的访问机制。任何数据结构只要部署Iterator接口，就可以完成遍历操作（即依次处理该数据结构的所有成员）。
+
+在ES6中，有些数据结构原生具备Iterator接口（比如数组），即不用任何处理，就可以被`for...of`循环遍历，有些就不行（比如对象）。原因在于，这些数据结构原生部署了`Symbol.iterator`属性，另外一些数据结构没有。凡是部署了`Symbol.iterator`属性的数据结构，就称为部署了遍历器接口。调用这个接口，就会返回一个遍历器对象。
+
+在ES6中，有三类数据结构原生具备Iterator接口(可用for of遍历)：数组、某些类似数组的对象、Set和Map结构。
+
+#### 迭代器协议
+
+迭代器协议要求符合以下条件：
+
+1. 是个对象
+2. 这个对象包含一个无参函数next
+3. next返回一个对象，对象包含done和value属性。其中done表示遍历是否结束，value返回当前遍历的值
+
+注意：如果next函数返回一个非对象值（比如false和undefined）会展示一个TypeError的错误。
+
+#### 可迭代协议
+
+如果让一个对象是可遍历的，就要遵守可迭代协议，该协议要求对象要部署一个以Symbol.iterator为key的键值对，而value就是一个无参函数，这个函数返回的对象要遵守迭代器协议。
+
+#### 作用
+
+- 为各种数据结构，提供一个统一的、简便的访问接口；
+
+- 使得数据结构的成员能够按某种次序排列；
+
+- ES6创造了一种新的遍历命令`for...of`循环，Iterator接口主要供`for...of`消费。
+
+#### 工作原理
+
+- 创建一个指针对象，指向数据结构的起始位置。
+
+- 第一次调用next方法，指针自动指向数据结构的第一个成员
+
+- 接下来不断调用next方法，指针会一直往后移动，直到指向最后一个成员
+
+- 每调用next方法返回的是一个包含value和done的对象，`{value: 当前成员的值, done: 布尔值}`
+  
+  value表示当前成员的值，done对应的布尔值表示当前的数据的结构是否遍历结束。
+  
+  当遍历结束的时候返回的value值是undefined，done值为false
+
+#### 一个为对象添加Iterator接口的例子
+
+```js
+let authors = {
+    allAuthors: {
+        fiction: [
+            'Agatha Christie',
+            'J.K.Rowing',
+            'Dr.Seuss'
+        ],
+        fantasy: [
+            'xxx',
+            'xxxx',
+            'xx'
+        ]
+    }
+}
+
+// 部署Iterator接口
+authors[Symbol.iterator] = function() {
+    // 根据对象数据结构的特点自己实现业务逻辑
+    let allAuthors = this.allAuthors
+    let keys = Reflect.ownKeys(allAuthors)
+    let values = []
+    return {
+        next () {
+            if (!values.length) {
+                if (keys.length) {
+                    values = allAuthors[keys[0]]
+                    keys.shift()
+                }
+            }
+            return {
+                done: !values.length,
+                value: values.shift()
+            }
+        }
+    }
+}
+
+// 遍历获取所有作者
+let r = []
+for (let value of authors) {
+    console.log(`${value}`)
+    r.push(value)
+}
+console.log(r) // ["Agatha Christie", "J.K.Rowing", "Dr.Seuss", "xxx", "xxxx", "xx"]
+```
+
+还可以用Genrator来实现
+
+```js
+authors[Symbols.iterator] = function * () {
+    let allAuthors = this.allAuthors
+    let keys = Reflect.ownKeys(allAuthors)
+    let values = []
+    return {
+        while(1) {
+            if (!values.length) {
+                if (keys.length) {
+                    values = allAuthors[keys[0]]
+                    keys.shift()
+                    yield values.shift()
+                } else {
+                    return false
+                }
+            } else {
+                yield values.shift()
+            }
+        }
+    }
+}
+```
+
+#### 一个类似数组的对象调用数组的`Symbol.iterator`方法的例子
+
+```js
+let iterable = {
+  0: 'a',
+  1: 'b',
+  2: 'c',
+  length: 3,
+  [Symbol.iterator]: Array.prototype[Symbol.iterator]
+};
+for (let item of iterable) {
+  console.log(item); // 'a', 'b', 'c'
+}
+```
+
+注意，普通对象部署数组的`Symbol.iterator`方法，并无效果。
+
+默认调用Iterator接口（即`Symbol.iterator`方法）的场合。
+
+- **解构赋值**
+- **for...of**
+- **扩展运算符(...)**
+- **yield后面跟的是一个可遍历的结构，它会调用该结构的遍历器接口。**
+- **由于数组的遍历会调用遍历器接口，所以任何接受数组作为参数的场合，其实都调用**
+
+**注意**：
+
+- 字符串是一个类似数组的对象，也原生具有Iterator接口。
+
+- 遍历器对象除了具有`next`方法，还可以具有`return`方法和`throw`方法。如果你自己写遍历器对象生成函数，那么`next`方法是必须部署的，`return`方法和`throw`方法是否部署是可选的。
+
 
 ### 13、class
 
@@ -5200,8 +5380,6 @@ setTimeout(function () {
 // Uncaught TypeError: Cannot perform 'get' on a proxy that has been revoked
 ```
 
-
-
 ### 17、反射（Reflect）
 
 Reflect是一个内置对象，它提供拦截JavaScript操作的方法，这些方法与处理器对象的方法相同，Reflect不是一个函数对象，因此它是不可构造的。
@@ -5260,6 +5438,53 @@ const r = Reflect.deleteProperty(obj, 'x');
 // obj { y: 200}   r true
 delete obj.x
 ```
+
+#### Reflect.ownKeys()
+
+返回目标对象自身的属性key组成的数组， 相当于
+Object.getOwnPropertyNames(target) concat(Object.getOwnPropertySymbols(target) 
+
+[对象中属性的遍历](#_6、对象中属性的遍历) 
+
+#### 支持的方法集合
+
+- Reflect.apply()
+
+- Reflect.construct()
+
+
+- Reflect.defineProperty()
+
+
+- Reflect.deleteProperty()
+
+
+- Reflect.get()
+
+
+- Reflect.getOwnPropertyDescriptor()
+
+
+- Reflect.getPrototypeOf()
+
+
+- Reflect.has()
+
+
+- Reflect.isExtensible()
+
+
+- Reflect.ownKeys()
+
+
+- Reflect.preventExtensions()
+
+
+- Reflect.set()
+
+
+- Reflect.setPrototypeOf()
+
 
 ### 18、模块化
 
