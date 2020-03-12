@@ -284,6 +284,8 @@ var item = `<h1>hello</h1>`
 
 ### 12、父子组件的通信
 
+#### 父传子
+
 - 父组件通过属性形式向子组件传递参数，子组件通过props接收父组件传递过来的参数
 
   无论是使用函数声明还是class声明，都绝不能改变自身的props，所有React组件都必须像纯函数一样保护它们的props不被改变
@@ -305,6 +307,49 @@ var item = `<h1>hello</h1>`
 - 子组件如果想与父组件通信，子组件要调用父组件传过来的方法
 
 - 子组件只能使用父组件传递过来的值，但不能改变值（单向数据流）
+
+#### 子传父
+
+1、通过refs传递
+
+```js
+// 父组件
+<QueryBox ref="queryBox" app={this.app} onSearch={this.onSearch} onCount={this.onCount} />
+
+let QueryBoxInstance = this.refs.queryBox as QueryBox;
+
+QueryBoxInstance.onChange();
+```
+
+2、通过回调函数传递
+
+父：`<Child onHandleChild="函数"/>`     父组件 => 函数(参数){ }
+
+子：this.props.onHandleChild(传值)         在子组件中执行这个函数,会传值到父组件
+
+```js
+// 父组件
+ <AddModal
+    onOk={(score: any, review: any) => this.handleOk(score, review) as any}
+    onCancel={this.hideModal as any}
+    loading={this.state.loading}
+    studentInfo={this.state.studentInfo}
+ /> 
+
+// 子组件
+ <Modal
+    visible={true}
+    title="评分"
+    onOk={()=>{
+        this.props.onOk(this.state.score, this.state.review)
+    }}
+    onCancel={this.props.onCancel}
+    confirmLoading={this.props.loading}
+    okText="确认"
+    className="review"
+    cancelText="取消"
+  \>
+```
 
 ### 13、子组件PropTypes和DefaultProps
 

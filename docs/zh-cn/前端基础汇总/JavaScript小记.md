@@ -125,7 +125,9 @@ var box1 = $box[0];       // 方法一
 var box2 = $box.get(0);   // 方法二
 ```
 
-### 2、[原生javascript和jQuery操作DOM的对比总结](https://www.cnblogs.com/jiangyuzhen/p/10978611.html)
+### 2、原生javascript和jQuery操作DOM的对比总结
+
+[看这一篇文章](https://www.cnblogs.com/jiangyuzhen/p/10978611.html)
 
 ### 3、Node节点
 
@@ -136,7 +138,9 @@ var box2 = $box.get(0);   // 方法二
 1、nodeType：节点类型
 
 - **Node.ELEMENT_NODE(1)；（元素节点）**
+
 - **Node.ATTRIBUTE_NODE(2)；（属性节点）**
+
 - **Node.TEXT_NODE(3)；（文本节点）**
 - Node.CDATA_SECTION_NODE(4)；
 - Node.ENTITY_REFERENCE_NODE(5)；
@@ -4394,7 +4398,7 @@ console.log(Array.isArray([...document.getElementsByTagName("li")])) // true
 
 转自[ES6核心，教你 玩转 ES6新特性](http://www.imooc.com/article/67156)
 
-#### (1)数组的解构赋值
+#### （1）数组的解构赋值
 
 **基本用法**
 
@@ -4459,7 +4463,7 @@ let [a] = {};
 
 遍历器（Iterator）是一种接口，为各种不同的数据结构提供统一的访问机制。任何数据结构只要部署Iterator接口，就可以完成遍历操作（即依次处理该数据结构的所有成员）。
 
-#### (2) 对象的解构赋值
+#### （2） 对象的解构赋值
 
 ```js
 let {name, age} = {name: "aaa", age: 12}
@@ -4479,7 +4483,7 @@ foo		// undefined
 
 上面的这个例子表示等号左边的两个变量的次序，与等号右边两个同名属性的次序不一致，但是对取值完全没有影响。第二个例子的变量没有对应的同名属性，导致取不到值，最后等于undefined。
 
-#### (3)字符串的解构赋值
+#### （3）字符串的解构赋值
 
 字符串也是可以解构赋值的这是因为，字符串在被解构赋值的时候就形成了一个类似数组的对象。
 
@@ -5488,7 +5492,7 @@ Object.getOwnPropertyNames(target) concat(Object.getOwnPropertySymbols(target)
 
 ### 18、模块化
 
- [看上面~](#_1、模块化) 
+ [看上面~](# 1、模块化) 
 
 ### 19、字符串、数组、对象的扩展
 

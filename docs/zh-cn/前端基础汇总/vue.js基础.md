@@ -30,9 +30,9 @@ vue三要素：
 
 2.Model数据变化，不需要查找DOM，直接更新View。
 
-![MVVM框架](C:\Users\csm\Desktop\慕课\Vue2.5开发去哪儿网APP\截图\MVVM框架.png)
+![MVVM框架](..\picture\MVVM框架.png)
 
-![mvvm](C:\Users\csm\Desktop\慕课\Vue2.5开发去哪儿网APP\截图\mvvm.png)
+![mvvm](..\picture\mvvm.png)
 
 ​        在MVVM架构下，View 和 Model 之间并没有直接的联系，而是通过ViewModel进行交互，Model 和 ViewModel 之间的交互是双向的， 因此View 数据的变化会同步到Model中，而Model 数据的变化也会立即反应到View 上。
 
@@ -51,17 +51,23 @@ vue三要素：
 实现mvvm的双向绑定，是采用数据劫持结合**发布者-订阅者模式**的方式，通过Object.defineProperty()来劫持各个属性的setter，getter，在数据变动时发布消息给订阅者，触发相应的监听回调。
 
 就必须要实现以下几点：
+
 1、实现一个数据监听器Observer，能够对数据对象的所有属性进行监听，如有变动可拿到最新值并通知订阅者
+
 2、实现一个指令解析器Compile，对每个元素节点的指令进行扫描和解析，根据指令模板替换数据，以及绑定相应的更新函数
+
 3、实现一个Watcher，作为连接Observer和Compile的桥梁，能够订阅并收到每个属性变动的通知，执行指令绑定的相应回调函数，从而更新视图
+
 4、mvvm入口函数，整合以上三者
 
-![img](https://upload-images.jianshu.io/upload_images/8560482-d18d5fe20c1ade5c.png?imageMogr2/auto-orient/strip|imageView2/2/format/webp)
+![defineProperty](..\picture\defineProperty.png)
 
 Object.defineProperty() 的**缺点**：
 
 - 不能监听数组的变化
+
 - 必须遍历对象的每个属性
+
 - 必须深层遍历嵌套的对象
 
 ###  三、vue基础
