@@ -5514,6 +5514,8 @@ Object.getOwnPropertyNames(target) concat(Object.getOwnPropertySymbols(target)
 function formatDate(dt) {
     if (!dt) {
         dt = new Date()
+    } else {
+        dt = new Date(dt);
     }
     var year = dt.getFullYear();
     var month = dt.getMonth() + 1;
