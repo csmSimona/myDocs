@@ -745,19 +745,32 @@ exports.foo = 'bar'
 
 - 文件操作中的相对路径可以省略 ./
 
-     ./data/a.txt 相对于当前目录
-
- 	  data/a.txt   相对于当前目录
-
-​	   /data/a.txt  绝对路径，当前文件模块所处磁盘根目录
-
-​	   c:/xx/xx...  绝对路径
+     ```js
+     // 在文件操作的相对路径中
+     //    ./data/a.txt 相对于当前目录
+     //    data/a.txt   相对于当前目录
+     //    /data/a.txt  绝对路径，当前文件模块所处磁盘根目录
+     //    c:/xx/xx...  绝对路径
+     fs.readFile('./data/a.txt', function (err, data) {
+       if (err) {
+         console.log(err)
+         return console.log('读取失败')
+       }
+       console.log(data.toString())
+     })
+     ```
 
 - 在模块加载中，相对路径中的 ./ 不能省略
 
-  // 这里如果忽略了 . 则也是磁盘根目录
-
-  require('/data/foo.js')
+  ```js
+//相对于当前目录
+  require('./data/foo.js')
+  // 如果这里忽略了 . 则也是磁盘根目录
+  require('./data/foo.js')
+  // 在模块加载中，相对路径中的 ./ 不能省略
+  require('data/foo.js')
+  // ==> Error: Cannot find module 'data/foo.js'
+  ```
 
 ## 修改完代码自动重启工具
 
