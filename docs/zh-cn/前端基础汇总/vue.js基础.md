@@ -48,7 +48,7 @@ vue三要素：
 
 以下部分转载自[浅谈Vue双向数据绑定的原理](https://www.jianshu.com/p/23180880d3aa)
 
-实现mvvm的双向绑定，是采用数据劫持结合**发布者-订阅者模式**的方式，通过Object.defineProperty()来劫持各个属性的setter，getter，在数据变动时发布消息给订阅者，触发相应的监听回调。
+实现mvvm的双向绑定，是采用数据劫持结合**发布者-订阅者模式**的方式，**通过Object.defineProperty()来劫持各个属性的setter，getter，在数据变动时发布消息给订阅者，触发相应的监听回调**。
 
 就必须要实现以下几点：
 
@@ -64,11 +64,24 @@ vue三要素：
 
 Object.defineProperty() 的**缺点**：
 
-- 不能监听数组的变化
-
+- 不能监听数组的变化：当你利用索引设置一个元素，或者修改数组长度这些操作并不是响应式的 
 - 必须遍历对象的每个属性
-
 - 必须深层遍历嵌套的对象
+
+**展望ES6的新特性Proxy**
+
+ vue3.0开始使用Proxy来实现数据的响应式
+
+```js
+let p = new Proxy(target, handler)
+```
+
+通俗的理解，在对象之前设一层拦截，要对目标对象做的相应的处理，必须通过这层拦截，他可以对外部的处理做一些过滤和操作；
+
+proxy的优点有多达13种数据劫持的方法，缺点就是兼容性问题。 
+
+可以看看 [vue3.0 尝鲜 -- 摒弃 Object.defineProperty，基于 Proxy 的观察者机制探索](https://juejin.im/post/5bf3e632e51d452baa5f7375)
+[实现双向绑定Proxy比defineproperty优劣如何](https://github.com/xiaomuzhu/ElemeFE-node-interview/blob/master/JavaScript基础/Proxy.md) 
 
 ###  三、vue基础
 
@@ -127,7 +140,7 @@ PS：其中created和mounted比较重要，一个是data数据和事件的初始
 
 - created：在模板渲染成html前调用，即通常初始化某些属性值，然后再渲染成视图。
 - mounted：在模板渲染成html后调用，通常是初始化页面完成后，再对html的dom节点进行一些需要的操作。
-- 数据初始化一般放到created里面，这样可以及早发请求获取数据，如果有依赖dom必须存在的情况，就放到mounted(){this.$nextTick(() => { /* code */ })}里面
+- **数据初始化一般放到created里面，这样可以及早发请求获取数据，如果有依赖dom必须存在的情况，就放到mounted(){this.$nextTick(() => { /* code */ })}里面**
 
 生命周期图示：下图展示了实例的生命周期。
 
@@ -228,6 +241,8 @@ PS：其中created和mounted比较重要，一个是data数据和事件的初始
 - **插值**
 
 区别：v-text不会转译，v-html会转译
+
+v-html：会有XSS风险，会覆盖子组件
 
 ```html
 	<div id="app">
@@ -562,9 +577,9 @@ PS：其中created和mounted比较重要，一个是data数据和事件的初始
 
   虽然计算属性在大多数情况下更合适，但有时也需要一个自定义的侦听器。
 
-  当需要在数据变化时执行异步或开销较大的操作时，这个方式是最有用的。
+  **当需要在数据变化时执行异步或开销较大的操作时，这个方式是最有用的。**
 
-  [watch监听初始化数据](https://www.cnblogs.com/ilovexiaoming/p/11352768.html)  当值第一次绑定时，不会执行监听函数，只有值发生改变时才会执行。如果我们需要在最初绑定值的时候也执行函数，则就需要用到immediate属性。
+  [watch监听初始化数据](https://www.cnblogs.com/ilovexiaoming/p/11352768.html)  **当值第一次绑定时，不会执行监听函数，只有值发生改变时才会执行。如果我们需要在最初绑定值的时候也执行函数，则就需要用到immediate属性。**
 
 ```html
 <body> 
@@ -604,7 +619,7 @@ PS：其中created和mounted比较重要，一个是data数据和事件的初始
 
 1. computed 属性的结果会被缓存，除非依赖的响应式属性变化才会重新计算。主要当作属性来使用；
 2. methods 方法表示一个具体的操作，主要书写业务逻辑；
-3. watch 一个对象，键是需要观察的表达式，值是对应回调函数。主要用来监听某些特定数据的变化，从而进行某些具体的业务逻辑操作；可以看作是 computed 和 methods 的结合体；**(与computed的区别是，watch更加适用于监听某一个值的变化并做对应的操作，比如请求后台接口等，而computed适用于计算已有的值并返回结果)**
+3. watch 一个对象，键是需要观察的表达式，值是对应回调函数。主要**用来监听某些特定数据的变化，从而进行某些具体的业务逻辑操作**；可以看作是 computed 和 methods 的结合体；**(与computed的区别是，watch更加适用于监听某一个值的变化并做对应的操作，比如请求后台接口等，而computed适用于计算已有的值并返回结果)**
 
 #### 5、class与style绑定
 
