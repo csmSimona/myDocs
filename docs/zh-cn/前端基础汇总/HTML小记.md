@@ -264,15 +264,15 @@ filter: progid:DXImageTransform.Microsoft.Alpha(style = 0, opacity = 50);（ie�
 
 ### 16、浏览器渲染页面的过程
 
-1、根据HTML结构生成DOM树
+- 根据 HTML 结构生成 DOM 树
 
-2、根据CSS生成CSSOM树
+- 根据 CSS 生成 CSSOM
 
-3、将DOM和CSSOM整合形成RenderTree（渲染树）
+- 将 DOM 和 CSSOM 整合形成 RenderTree
 
-4、根据渲染树来布局，计算每个节点的位置
+- 根据 RenderTree 开始渲染和展示
 
-5、调用GPU绘制，合成图层，显示在屏幕上
+- 遇到`<script>`时，会执行并阻塞渲染
 
 在构建CSSOM树时，会阻塞渲染，直至CSSOM树构建完成。并且构建CSSOM树是一个十分消耗性能的过程，所以应该尽量保证层级扁平，减少过度层叠，越是具体的CSS选择器，执行速度越慢。
 
