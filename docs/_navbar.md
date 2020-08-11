@@ -16,5 +16,7 @@
 - 其他
   - [webpack概念与配置](zh-cn/其他/webpack概念与配置)
   - [Linux基本命令](zh-cn/其他/Linux基本命令)
+  - [Echarts基本使用](zh-cn/其他/Echarts基本使用)
+  - [Three.js学习笔记](zh-cn/其他/Three.js学习笔记)
 - 慕课
   - [前端框架及项目面试](zh-cn/慕课/前端框架及项目面试)
