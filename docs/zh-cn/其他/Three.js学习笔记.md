@@ -528,6 +528,47 @@ THREE.DirectionalLight平行光是一组没有衰减的平行的光线，类似�
 
 
 
+### 纹理
+
+ 3D世界的纹理由图片组成
+
+纹理实现： 首先应该有一个纹理类，其次是有一个加载图片的方法，将这张图片和这个纹理类捆绑起来。 
+
+ 纹理类由**THREE.Texture**表示，其构造函数如下所示： 
+
+THREE.Texture( image, mapping, wrapS, wrapT, magFilter, minFilter, format, type, anisotropy )
+
+1、 Image：这是一个图片类型，基本上它由ImageUtils来加载 
+
+```js
+var image = THREE.ImageUtils.loadTexture(url);   
+```
+
+2、Mapping：是一个THREE.UVMapping()类型，它表示的是纹理坐标。
+
+3、wrapS：表示x轴的纹理的回环方式，就是当纹理的宽度小于需要贴图的平面的宽度的时候，平面剩下的部分应该p以何种方式贴图的问题。
+
+4、wrapT：表示y轴的纹理回环方式。 
+
+5、magFilter和minFilter表示过滤的方式，这是OpenGL的基本概念，我将在下面讲一下，目前你不用担心它的使用。当您不设置的时候，它会取默认值，所以，我们这里暂时不理睬他。
+
+6、format：表示加载的图片的格式，这个参数可以取值THREE.RGBAFormat，RGBFormat等。THREE.RGBAFormat表示每个像素点要使用四个分量表示，分别是红、绿、蓝、透明来表示。RGBFormat则不使用透明，也就是说纹理不会有透明的效果。
+
+7、type：表示存储纹理的内存的每一个字节的格式，是有符号，还是没有符号，是整形，还是浮点型。不过这里默认是无符号型（THREE.UnsignedByteType）。
+
+8、anisotropy：各向异性过滤。使用各向异性过滤能够使纹理的效果更好，但是会消耗更多的内存、CPU、GPU时间。
+
+
+
+#### 添加纹理步骤
+
+a：画一个平面
+
+b：为平面赋予纹理坐标
+
+c：加载纹理
+
+d：将纹理应用于材质
 
 
 

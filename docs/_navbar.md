@@ -18,5 +18,9 @@
   - [Linux基本命令](zh-cn/其他/Linux基本命令)
   - [Echarts基本使用](zh-cn/其他/Echarts基本使用)
   - [Three.js学习笔记](zh-cn/其他/Three.js学习笔记)
+
 - 慕课
   - [前端框架及项目面试](zh-cn/慕课/前端框架及项目面试)
+
+- 小工具
+  - <a href="zh-cn/小工具/文本转字幕.html">文本转字幕</a>

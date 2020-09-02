@@ -47,7 +47,7 @@
         timer = requestAnimationFrame(function fn(){
             var oTop = document.body.scrollTop || document.documentElement.scrollTop;
             if(oTop > 0){
-                document.body.scrollTop = document.documentElement.scrollTop = oTop - 100;
+                document.body.scrollTop = document.documentElement.scrollTop = oTop - 1000;
                 timer = requestAnimationFrame(fn);
             }else{
                 cancelAnimationFrame(timer);
@@ -89,5 +89,6 @@
   <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
   <script src="//unpkg.com/docsify/lib/plugins/search.js"></script>
   <script src="//unpkg.com/docsify-copy-code"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.10.0/jquery.js"></script>
 </body>
 </html>
