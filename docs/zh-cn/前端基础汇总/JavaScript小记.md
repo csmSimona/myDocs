@@ -18,6 +18,8 @@
 
 2020.03.11     更新Iterator，添加大标题目录
 
+2020.11.24     更新ES6最新基本数据类型BigInt
+
 ------
 
 ## :smile: 大标题目录
@@ -280,13 +282,26 @@ screen.height
 
 另外可以看看这篇文章：[js中的值类型和引用类型的区别](https://www.cnblogs.com/leiting/p/8081413.html)
 
-基本数据类型（值类型）：undefined、null、string、number、boolean、symbol
+**基本数据类型（值类型）**：undefined、null、string、number、boolean、symbol、BigInt
 
 （占用空间固定，保存在栈中）
 
-复杂数据类型：object
 
-引用类型：array、function、object 
+
+> [BigInt](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/BigInt) 是一种内置对象，它提供了一种方法来表示大于 2**53 - 1 的整数。这原本是 Javascript中可以用 Number 表示的最大数字。BigInt 可以表示任意大的整数。
+>
+> 可以用在一个整数字面量后面加 n 的方式定义一个 BigInt ，如：10n，或者调用函数BigInt()。
+>
+> ```js
+> const alsoHuge = BigInt(9007199254740991);
+> // ↪ 9007199254740991n
+> ```
+>
+> 它在某些方面类似于 Number ，但是也有几个关键的不同点：不能用于 Math 对象中的方法；不能和任何 Number 实例混合运算，两者必须转换成同一种类型。在两种类型来回转换时要小心，因为 BigInt 变量在转换成 Number 变量时可能会丢失精度。
+
+
+
+**引用类型**：array、function、object 
 
 （占用空间不固定，保存在堆中。存储在栈中的是指向堆中的数组或者对象的地址）
 
