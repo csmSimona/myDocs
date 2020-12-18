@@ -2,6 +2,7 @@
 
 * 前端基础汇总
   * [JavaScript小记](zh-cn/前端基础汇总/JavaScript小记)
+  * [TypeScript小记](zh-cn/前端基础汇总/TypeScript小记)
   * [HTML小记](zh-cn/前端基础汇总/HTML小记)
   * [CCS小记](zh-cn/前端基础汇总/CSS小记)
   * [react基础](zh-cn/前端基础汇总/react基础)
