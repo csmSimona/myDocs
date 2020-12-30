@@ -8,6 +8,8 @@
 
 2020.12.18  理了一遍基础知识点排列顺序
 
+2020.12.30  更新至泛型，完成ts小实践：使用 TypeScript 编写爬虫工具
+
 ------
 
 参考来源：
@@ -16,35 +18,79 @@
 
 [史上最全的TypeScript入门教程](https://blog.csdn.net/qq_40566547/article/details/100055437)
 
+[TypeScript －系统入门到项目实战](https://coding.imooc.com/class/chapter/412.html#Anchor)
 
+
+
+ts小实践：[使用 TypeScript 编写爬虫工具](https://github.com/csmSimona/crawler)
 
 ### 安装编译
 
-**全局安装ts**
+##### 全局安装ts
 
 ```shell
 npm install typescript -g
 ```
 
-**编译成js 再执行js**
+##### 编译成js 再执行js
 
 ```shell
 tsc demo.ts
 node demo.js
 ```
 
-**ts-node 直接执行**
+##### ts-node 直接执行
 
 ```shell
 npm install -g ts-node
 ts-node  demo.ts
 ```
 
-**生成```tsconfig.json```文件，这个文件是用来将ts编译成js代码的文件**
+##### 生成```tsconfig.json```文件，这个文件是用来将ts编译成js代码的文件
 
 ```shell
 tsc --init
 ```
+
+
+
+#### `tsconfig.json` ts配置文件 常用配置项说明
+
+执行命令  `tsc` 会走tsconfig.json 编译根目录下的ts文件 
+
+- 配置需要编译的文件(默认编译所有ts文件)
+
+  ```json
+  "include": ["./src/crawler.ts"]
+  ```
+
+  或
+
+  ```json
+  "files": ["./src/crawler.ts"]
+  ```
+
+- exclude：配置不需要编译的ts文件
+
+  ```json
+  "exclude": ["./src/crawler.ts"]
+  ```
+
+- removeComment：编译时移除注释
+
+- noImplicitAny：不能有隐式的any
+
+- outDir：输出文件
+
+- rootDir：输入文件
+
+- incremental：已编译的不会再编译，只编译新增的内容
+
+- allowJs：编译js为es5语法
+
+- checkJs：检查js语法
+
+- noUnusedParameters：没有未使用的局部变量  报警告
 
 
 
@@ -81,10 +127,10 @@ let decLiteral: number = 6;
 // 3.字符串
 let myName: string = 'Tom';
 
-// 4.undefined
+// 4.null
 let n: null = null;
 
-// 5.null
+// 5.undefined
 let u: undefined = undefined;
 // undefined可以赋值给任意类型
 let num: number = undefined;
@@ -466,6 +512,31 @@ tom.id = 9527;
 
 
 
+#### 可索引接口
+
+ 可索引接口主要是对数组或对象的key和value做出约束 
+
+```ts
+// 可索引接口（对数组的约束）
+interface UseArr {
+    [index: number]: string 
+    // 索引是number类型，索引值是string类型
+}
+// 对对象的约束
+interface UseObj {
+    [index: string]: number 
+    // 索引是string类型（重要），索引值number类型（或其他类型）
+}
+
+let obj: UseObj = {
+    name: 1
+};
+
+let arr: UseArr = ['234'];
+```
+
+
+
 #### 类实现接口
 
 ```ts
@@ -511,9 +582,184 @@ square.sideLength = 10;
 
 
 
+#### 接口继承类
+
+```ts
+// 将Point当做一个类型来用
+class Point {
+    x: number;
+    y: number;
+    constructor(x: number, y: number) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+interface Point3d extends Point {
+    z: number;
+}
+
+let point3d: Point3d = {x: 1, y: 2, z: 3};
+```
+
+
+
 ### 类
 
+#### ES6中类的用法
+
 基本概念可以看这里 :point_right: [ES6 中类的用法](https://csmsimona.github.io/myDocs/#/zh-cn/前端基础汇总/JavaScript小记?id=_13%e3%80%81class)
+
+
+
+**当父类的方法被重写时，可以用super调用父类原来的那个方法**
+
+```js
+class Person {
+    name = '张';
+	getName() {
+        return this.name;
+    }
+}
+
+class Teacher extends Person {
+    getTeacherName() {
+        return 'Teacher';
+    }
+    getName() {
+        return super.getName() + '三'
+    }
+}
+```
+
+
+
+
+
+#### TypeScript 中类的用法
+
+##### 类的访问类型
+
+```ts
+// private, protected, public 访问类型
+// public 允许在类的内外被调用
+// private 允许在类内被使用
+// protected 允许在类内及继承的子类中使用
+class Person {
+    private name: string;
+    protected job: string;
+    public sayHi() {
+        this.name;
+        this.job;
+        console.log('hi');
+    }
+}
+
+class Teacher extends Person {
+    this.sayHi();
+    public sayBye() {
+        this.name;	// 报错
+        this.job;
+    }
+}
+```
+
+
+
+##### 构造器constructor
+
+构造器constructor的执行时间是在 new的一瞬间
+
+```ts
+class Person {
+    private name: string;
+    constructor(name: string) {
+        this.name = name;
+    }
+}
+const person = new Person('张三')
+```
+
+
+
+constructor的传统写法和简化写法
+
+```ts
+class Person {
+    // 传统写法
+    // public name: string;
+    // constructor(name: string) {
+    //     this.name = name;
+    // }
+    // 简化写法
+    constructor (public name: string) {}
+}
+```
+
+
+
+super调父类的构造函数并传值
+
+```ts
+class Person {
+    constructor(public name: string) {}
+}
+
+class Teacher extends Person {
+    constructor(public age: number) {
+        super('张三')	// super调父类的构造函数并传值
+    }
+}
+const teacher = new Teacher(28)
+```
+
+
+
+##### 抽象类
+
+1、抽象类不能被直接实例化，要被类继承使用
+
+2、 抽象类中的抽象方法必须被子类实现
+
+```ts
+abstract class Animal {
+  public name;
+  public constructor(name) {
+    this.name = name;
+  }
+  public abstract sayHi();
+}
+
+class Cat extends Animal {
+  public sayHi() {
+    console.log(`Meow, My name is ${this.name}`);
+  }
+}
+
+let cat = new Cat('Tom');
+```
+
+
+
+##### ts实现单例模式
+
+```ts
+class Demo {
+    private static instance: Demo;
+    private constructor(public name: string) {}
+    
+    static getInstance() {
+        if (!this.instance) {
+            this.instance = new Demo('张三');
+        }
+        return this.instance;
+    }
+}
+
+const demo1 = Demo.getInstance()	
+const demo2 = Demo.getInstance()
+console.log(demo1 === demo2);  // true
+```
 
 
 
@@ -527,7 +773,7 @@ square.sideLength = 10;
 
 #### 将一个联合类型断言为其中一个类型
 
-用于解决 **访问联合类型里不是共有的属性或方法会报错** 的问题
+用于解决 **访问联合类型里不是共有的属性或方法会报错** 的问题（类型保护）
 
 ```ts
 interface Cat {
@@ -712,11 +958,18 @@ const teacherList: [string, string, number][] = [
 
 枚举类型是一种特殊的类型，主要用于状态码的取值
 
+默认情况下，每一个元组key的value都是number，而且是从0开始计，而且都可以被指定新的value。
+  但是我们可以认为改变这个value，value的改变规则如下：
+
+1. 将第一个改变为number类型时，第二个以及以后的key他的value紧接着第一个key的value+1
+2. 将第一个改变为string类型时，第二个必须指定为number类型或一个string类型，若指定为string类型，第三个和第二个的情况一样，依此类推。
+3. 类似其他情况与第二种情况一样，若某一个改变为string类型其下一个的value必须指定为number或string，依此类推。
+
 [直接看这里吧](https://ts.xcatliu.com/advanced/enum.html)
 
 枚举成员会被**赋值为从 0 开始递增的数字**，同时也会对枚举值到枚举名进行**反向映射**
 
-不仅可以取得他的key，而且可以取得他的value，不必像对象那样进行Object.keys操作
+**不仅可以取得他的key，而且可以取得他的value**，不必像对象那样进行Object.keys操作
 
 ```ts
 enum Days {Sun, Mon, Tue, Wed, Thu, Fri, Sat};
@@ -751,15 +1004,100 @@ var Days;
 
 
 
-### 泛型
+### 泛型（Generics）
+
+#### 基本概念
+
+泛型（Generics）是指在定义函数、接口或类的时候，不预先指定具体的类型，而在使用的时候再指定类型的一种特性。 
+
+```ts
+function join<T>(first: T, second: T) {
+    return  `${first}${second}`;
+}
+function map<T>(params: T[]) {
+    return params;
+}
+// T[] <==> Array<T>
+
+join<number>(1, 1);
+map<string>(['123'])
+```
+
+
+
+#### 多个类型参数
+
+```ts
+function join<T, P>(first: T, second: P) {
+    return `${first}${second}`;
+}
+
+join<number, string>(1, '2');
+
+```
+
+
+
+#### 泛型约束
+
+在函数内部使用泛型变量的时候，由于事先不知道它是哪种类型，所以不能随意的操作它的属性或方法：
+
+```ts
+function loggingIdentity<T>(arg: T): T {
+    console.log(arg.length);
+    return arg;
+}
+
+// index.ts(2,19): error TS2339: Property 'length' does not exist on type 'T'.
+```
+
+ 这时，我们可以对泛型进行约束，只允许这个函数传入那些包含 `length` 属性的变量。这就是泛型约束： 
+
+```ts
+interface Lengthwise {
+    length: number;
+}
+
+function loggingIdentity<T extends Lengthwise>(arg: T): T {
+    console.log(arg.length);
+    return arg;
+}
+```
+
+
+
+#### 类中泛型的使用
+
+```ts
+class DataManager<T> {
+    constructor(private data: T[]) {}
+    getItem(index: number): T {
+        return this.data[index];
+    }
+}
+const data = new DataManager<string>(['1']);
+data.getItem(0);
+```
 
 
 
 ### 模块化
 
+各种模块化 :point_right: [模块化](https://csmsimona.github.io/myDocs/#/zh-cn/前端基础汇总/JavaScript小记?id=%e6%a8%a1%e5%9d%97%e5%8c%96)
+
+ts中模块化规则与ES6一致
 
 
-### 命名空间
+
+### 命名空间（namespace）
+
+假设这么一个情况，我们有多人在开发一个ts项目，那么就必然会存在函数或者方法重名的情况。这个时候我们就需要命名空间来解决这一问题。
+
+命名空间关键字是`namespace`，并且支持命名空间的导入和导出，并且在命名空间内部的属性必须通过`export`才能够实现命名空间的调用 
+
+
+
+
 
 
 
@@ -773,7 +1111,7 @@ var Days;
 
 ### 声明文件
 
-
+[声明文件](https://ts.xcatliu.com/basics/declaration-files.html)
 
 
 
