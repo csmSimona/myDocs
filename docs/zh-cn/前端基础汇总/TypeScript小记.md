@@ -10,11 +10,13 @@
 
 2020.12.30  更新至泛型，完成ts小实践：使用 TypeScript 编写爬虫工具
 
+2021.2.7      更新装饰器
+
 ------
 
 参考来源：
 
-[TypeScript入门教程](https://ts.xcatliu.com/)
+[TypeScript中文网](https://www.tslang.cn/docs/handbook/basic-types.html)
 
 [史上最全的TypeScript入门教程](https://blog.csdn.net/qq_40566547/article/details/100055437)
 
@@ -1081,6 +1083,25 @@ data.getItem(0);
 
 
 
+#### 泛型中keyof语法的使用
+
+因为类型除了string，number等类型，也可以是一个具体的值/字符串
+
+```typescript
+type T = 'age'
+key: 'age'
+Person['age']
+
+class Teacher {
+    constructor(private info: Person) {}
+    getInfo<T extend keyof Person>(key: T): Person[T] {
+        return this.info[key];
+    }
+}
+```
+
+
+
 ### 模块化
 
 各种模块化 :point_right: [模块化](https://csmsimona.github.io/myDocs/#/zh-cn/前端基础汇总/JavaScript小记?id=%e6%a8%a1%e5%9d%97%e5%8c%96)
@@ -1097,11 +1118,388 @@ ts中模块化规则与ES6一致
 
 
 
+#### 命名空间的拆分
 
+**namespace2.ts中有一个和namespace1.ts同名的命名空间时，相当于一个命名空间分布在两个ts文件中，共享一个命名空间** 
+
+ *namespace1.ts*
+
+```ts
+namespace Shape {
+    const pi = Math.PI
+    // 全局可见
+    export function circle(r: number){
+        return pi * r ** 2
+    }
+}
+```
+
+*namespace2.ts*
+
+```ts
+namespace Shape {
+    export function square(x: number){
+        return x * x
+    }
+}
+```
+
+
+
+#### 命名空间的使用
+
+直接使用命名空间名称进行访问即可
+
+```js
+// 命名空间
+namespace Shape {
+    export function square(x: number){
+        return x * x
+    }
+}
+
+console.log(Shape.circle(1))    // namespace1.ts
+console.log(Shape.square(1))    // namespace2.ts
+```
+
+
+
+如果 namespace2.ts引用namespace1.ts ，需要使用三斜线指令
+
+```text
+/// <reference path="引用文件的相对路径">
+```
+
+
+
+```js
+/// <reference path="namespace.ts"/>
+
+// 命名空间
+namespace Shape {
+    export function square(x: number){
+        return x * x
+    }
+}
+
+console.log(Shape.circle(1))    // namespace1.ts
+console.log(Shape.square(1))    // namespace2.ts
+```
+
+
+
+如何要在html中引入 typescript 编译后的 js文件，需要把这两个文件都引入。
+
+```html
+<body>
+    <div class="app"></div>
+    <script src="src/namespace.js"></script>
+    <script src="src/namespace2.js"></script>
+</body>
+```
+
+或者编辑tsconfig.json文件，编译在一个js文件中
+
+```json
+"module": "amd"
+"outFile": "./build/page.js"
+```
+
+```html
+<script src="./build/page.js"></script>
+```
+
+
+
+#### 命名空间的别名
+
+在引用命名空间时，可以通过import关键字起一个别名
+
+biology.ts
+
+```js
+namespace Biology {
+     export interface Animal {
+         name: string;
+         eat(): void;
+     }
+ }
+```
+
+
+
+```js
+/// <reference path="biology.ts" />
+
+import bio_other = Biology;     // 别名
+```
 
 
 
 ### 装饰器
+
+- 装饰器本身是一个函数
+
+- 装饰器通过@符号来使用
+
+- 装饰器在类定义的时候执行
+
+- 装饰器后定义先执行：
+
+  1、有多个参数装饰器时：从最后一个参数依次向前执行
+
+  2、方法和方法参数中参数装饰器先执行。
+
+  3、类装饰器总是最后执行。
+
+  4、方法和属性装饰器，谁在前面谁先执行。因为参数属于方法一部分，所以参数会一直紧紧挨着方法执行。
+
+  
+
+#### 类的装饰器
+
+```typescript
+function testDecorator() {
+    return function(constructor: any) {
+        constructor.prototype.getName = () => {
+            console.log('decorator')
+        }
+    }
+}
+
+@testDecorator()
+class Test {}
+```
+
+
+
+##### 装饰器先定义后执行
+
+```typescript
+function testDecorator(constructor: any) {
+    console.log('decorator')
+}
+function testDecorator1(constructor: any) {
+    console.log('decorator1')
+}
+
+@testDecorator @testDecorator1 class Test {}
+
+const test = new Test();
+test();
+
+// decorator1
+// decorator
+```
+
+
+
+##### 装饰器传值
+
+```typescript
+function testDecorator(flag: boolean) {
+    if (flag) {
+        return function(constructor: any) {
+            constructor.prototype.getName = () => {
+                console.log('decorator')
+            }
+        }
+    } else {
+        return function(constructor: any) {}
+    }
+}
+
+@testDecoraot(false)
+class Test{}
+```
+
+
+
+##### 更优写法
+
+工厂模式包裹，构造函数形式
+
+装饰器装饰过后的类 test.getName() 有提示了
+
+```typescript
+function testDecorator() {
+    return function<T extends new (...args: any[]) => any>(constructor: T) {
+        return class extends constructor {
+            name = 'ccc';
+            getName() {
+                return this.name;
+            }
+        };
+    };
+}
+
+const Test = testDecorator() {
+    class {
+        name: string;
+        constructor(name: string) {
+            this.name = name;
+        }
+    }
+}
+
+const test = new Test('csm');
+console.log(test.getName());		// csm
+```
+
+
+
+
+
+#### 方法的装饰器
+
+
+方法装饰会在运行时传入下列3个参数：
+
+- target：对于静态方法是类的构造函数，对于普通方法是类的原型对象。
+- key：方法的名字。
+- descriptor：成员的属性描述符。
+
+```typescript
+function getNameDecorator(target: any, key: string, descriptor: PropertyDescriptor) {
+  // console.log(target, key);
+  // descriptor.writable = true;		// 设置后修改内容编译报错
+  descriptor.value = function() {
+    return 'decorator';
+  };
+}
+
+class Test {
+  name: string;
+  constructor(name: string) {
+    this.name = name;
+  }
+  @getNameDecorator
+  getName() {
+    return this.name;
+  }
+}
+
+const test = new Test('csm');
+console.log(test.getName());	// decorator
+```
+
+
+
+#### 访问器的装饰器
+
+入参与方法的装饰器类似
+
+```typescript
+function visitDecorator(target: any, key: string, descriptor: PropertyDescriptor) {
+  // descriptor.writable = false;
+}
+
+class Test {
+  private _name: string;
+  constructor(name: string) {
+    this._name = name;
+  }
+  get name() {
+    return this._name;
+  }
+  @visitDecorator
+  set name(name: string) {
+    this._name = name;
+  }
+}
+
+const test = new Test('ccc');
+test.name = 'csm';
+console.log(test.name);
+```
+
+
+
+#### 属性的装饰器
+
+```typescript
+// 修改的并不是实力上的name，而是原型上的name
+function nameDecorator(target: any, key: string): any {
+    target[key] = 'csm'
+}
+// name 放在实例上
+class Test {
+    @nameDecorator
+    name = 'ccc';
+}
+const test = new Test();
+console.log(test.name);						// ccc
+console.log((test as any).__proto__.name);	// csm
+```
+
+
+
+#### 参数装饰器
+
+参数装饰器表达式会在运行时当作函数被调用，传入下列3个参数：
+
+- target：对于静态方法是类的构造函数，对于普通方法是类的原型对象。
+- method：参数的名字。
+- paramIndex：参数在函数参数列表中的索引。
+
+```typescript
+function paramDecorator(target: any, method: string, paramIndex: number) {
+    console.log(target, method, paramIndex);
+}
+
+class Test {
+    getInfo(name: string, @paramDecorator age: number) {
+        console.log(name, age);
+    }
+}
+
+const test = new Test();
+test.getInfo('csm', 18);
+
+// Test { getInfo: [Function] } getInfo 1
+// csm 18
+```
+
+
+
+#### 装饰器实际使用的小例子——解决try catch反复编写的问题
+
+ ```typescript
+const userInfo: any = undefined;
+
+function catchError(msg: string) {
+  return function(target: any, key: string, descriptor: PropertyDescriptor) {
+    const fn = descriptor.value;
+    descriptor.value = function() {
+      try {
+        fn();
+      } catch (e) {
+        console.log(msg);
+      }
+    }
+  }
+}
+
+class Test {
+  @catchError('userInfo.name 不存在')
+  getName() {
+    return userInfo.name;
+  }
+  @catchError('userInfo.age 不存在')
+  getAge() {
+    return userInfo.age;
+  }
+  @catchError('userInfo.gender 不存在')
+  getGender() {
+    return userInfo.gender;
+  }
+}
+
+const test = new Test();
+test.getName();		// userInfo.name 不存在
+test.getAge();		// userInfo.age 不存在
+test.getGender()	// userInfo.gender 不存在
+ ```
 
 
 

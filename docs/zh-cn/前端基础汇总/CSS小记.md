@@ -1,5 +1,7 @@
 ## CSS小记（持续更新）
 
+[CSS实现多种常见布局](https://www.cnblogs.com/longlongdan/p/10532891.html)
+
 ### 1、text-decoration属性
 
 | 值           | 描述                                            |
