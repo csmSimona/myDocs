@@ -184,7 +184,7 @@ var box2 = $box.get(0);   // 方法二
 
 3、appendChild()：向节点的子节点列表的结尾添加新的子节点
 
-4、cloneNode()：复制节点
+4、cloneNode()：复制节点。在参数为true的情况下，执行深复制，复制节点以及整个子节点树；在参数为false的情况下，执行浅复制，即只复制节点本身。复制后属于文档所有，并没有给它指定父节点
 
 5、insertBefore(newNode，target)：在指定的子节点前插入新的子节点
 
