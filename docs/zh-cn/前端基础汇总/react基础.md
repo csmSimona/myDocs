@@ -404,6 +404,8 @@ TodoItem.defaultProps = {
 
 #### diff算法：同层比对，列表使用不同的key值
 
+[一个元素的 key](# 6、一个元素的 key)
+
 - 把树形结构按照层级分解，只比较同级元素。
 - 给列表结构的每个单元添加唯一的 key 属性，方便比较。
 - React 只会匹配相同 class 的 component（这里面的 class 指的是组件的名字）
