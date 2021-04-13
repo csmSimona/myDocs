@@ -500,7 +500,9 @@ ECMAScript 的Function实际上就是一个功能完整的对象。
 var result = “a” < 3; // false，因为“a”被转化成了NaN
 ```
 
-根据规则，任何操作数与NaN进行关系比较，结果都是false
+根据规则，任何操作数与NaN进行关系比较，结果都是false。
+
+Number函数转化规则中，如果是null，返回零；如果是undefined，返回NaN 。
 
 ### 4、{} == false / {} == {}
 

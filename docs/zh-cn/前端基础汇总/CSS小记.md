@@ -2,6 +2,8 @@
 
 [CSS实现多种常见布局](https://www.cnblogs.com/longlongdan/p/10532891.html)
 
+[1.5 万字 CSS 基础拾遗（核心知识、常见需求）](https://juejin.cn/post/6941206439624966152)
+
 ### 1、text-decoration属性
 
 | 值           | 描述                                            |

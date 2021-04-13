@@ -1714,7 +1714,7 @@ Vue.use(VueRouter)
 
 ##### hash模式
 
-hash ——即地址栏URL中的#符号（此hsah 不是密码学里的散列运算）。
+hash ——即地址栏URL中的#符号（此hash 不是密码学里的散列运算）。
 
 主要通过监听url中的hash变化来进行路由跳转。用 `window.location.hash` 读取。
 
