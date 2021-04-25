@@ -1582,6 +1582,25 @@ function fn(name) {
 - bind：bind() 方法会创建一个新函数，称为绑定函数，当调用这个绑定函数时，绑定函数会以创建它时传入 bind() 方法的**第一个参数 作为 this**，传入 bind() 方法的**第二个以及以后的参数加上绑定函数运行时本身的参数按照顺序作为原函数的参数**来调用原函数。bind改变this作用域会返回一个新的函数，这个函数**不会马上执行**。
 
   `xw.say.bind(xh, 1, 2, 3, 4)();` 或 `xw.say.bind(xh)(1, 2, 3, 4);`
+  
+  ```js
+  Function.prototype.bind = function(context, ...args) {
+      var fn = this;
+      return function(...rest) {
+          // 改变this指向给context
+          return fn.apply(context, [...args, ...rest]);
+      }
+  }
+  
+  function func(...arg){
+      console.log(this);		// {a: 1}
+      console.log(arg);		// [1, 2, 3, 4, 5, 6, 7, 8]
+  }
+  let newFunc = func.bind({a: 1}, 1, 2, 3, 4);
+  newFunc(5, 6, 7, 8);	// args:[1, 2, 3, 4]  rest:[5, 6, 7, 8]
+  ```
+  
+  
 
 ### 4、作用域
 
