@@ -1,7 +1,5 @@
 ## CSS小记
 
-[CSS实现多种常见布局](https://www.cnblogs.com/longlongdan/p/10532891.html)
-
 部分参考[1.5 万字 CSS 基础拾遗（核心知识、常见需求）](https://juejin.cn/post/6941206439624966152)
 
 
@@ -138,7 +136,7 @@
 
 
 
-### 3、& 的作用
+### 4、& 的作用
 
 ```css
 ul{
@@ -162,7 +160,7 @@ ul > li{
 
 
 
-### 4、`a:link`,`a:visited`,`a:hover`,`a:active` 顺序
+### 5、`a:link`,`a:visited`,`a:hover`,`a:active` 顺序
 
 **L（link）V（visited）H（hover）A（active）**
 
@@ -173,7 +171,7 @@ ul > li{
 
 
 
-### 5、CSS优先级由高到低：
+### 6、CSS优先级由高到低：
 
 1.在属性后面使用!important会覆盖页面内任何位置定义的元素样式。
 
@@ -191,7 +189,7 @@ ul > li{
 
 
 
-### 6、css可继承属性：
+### 7、css可继承属性：
 
 所有元素可继承：visibility和cursor。
 
@@ -205,7 +203,7 @@ direction。
 
 
 
-### 7、CSS盒模型
+### 8、CSS盒模型
 
 CSS中的盒子模型包括IE盒子模型和标准的W3C盒子模型。
 
@@ -225,7 +223,7 @@ CSS中的盒子模型包括IE盒子模型和标准的W3C盒子模型。
 
 
 
-### 8、dispaly type
+### 9、dispaly type
 
 #### `display: inline`
 
@@ -247,7 +245,7 @@ CSS中的盒子模型包括IE盒子模型和标准的W3C盒子模型。
 
 
 
-### 9、格式化上下文
+### 10、格式化上下文
 
 格式上下文(formatting context)是个布局环境，不同的布局环境定有不同的布局规则，而处在什么布局环境里的元素（盒子），就得遵守什么环境的布局规则。
 
@@ -294,7 +292,7 @@ CSS中的盒子模型包括IE盒子模型和标准的W3C盒子模型。
 
 
 
-### 10、浮动清除的方法
+### 11、浮动清除的方法
 
 **方法一：使用带clear属性的空元素**
 
@@ -329,9 +327,9 @@ CSS中的盒子模型包括IE盒子模型和标准的W3C盒子模型。
 }
 ```
 
-### 
 
-### 11、关于定位（position属性）
+
+### 12、关于定位（position属性）
 
 #### 1、absolute
 
@@ -417,7 +415,7 @@ CSS3新属性，可以说是position: relative和position: fixed的合体。主�
 
 
 
-### 12、px、em、rem的区别
+### 13、px、em、rem的区别
 
 - px：像素，在 CSS 中它是绝对的长度单位，也是最基础的单位，其他长度单位会自动被浏览器换算成 px。像素px是相对于显示器屏幕分辨率而言的。使用px可以准确的定位网页元素，但是，不同显示器网页的显示效果可能会有差异，比较难兼容。
 
@@ -481,7 +479,7 @@ CSS3新属性，可以说是position: relative和position: fixed的合体。主�
 
 
 
-### 13、自定义属性
+### 14、自定义属性
 
 通过自定义属性引用变量
 
@@ -509,23 +507,7 @@ document.body.style.setProperty('--theme-color', this.themeColor)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### 9、white-space 属性设置如何处理元素内的空白
+### 15、white-space 属性设置如何处理元素内的空白
 
 | 值       | 描述                                                         |
 | -------- | ------------------------------------------------------------ |
@@ -538,9 +520,9 @@ document.body.style.setProperty('--theme-color', this.themeColor)
 
 
 
-### 44、实现单行、多行文本溢出显示省略号(…) 
+### 16、长文本处理
 
-单行文本
+#### 单行文本超出省略
 
 ```css
 overflow: hidden;
@@ -548,7 +530,7 @@ text-overflow: ellipsis;
 white-space: nowrap;
 ```
 
-多行文本
+#### 多行文本超出省略
 
 ```css
 -webkit-line-clamp: 2;          /* 用来限制在一个块元素显示的文本的行数,2表示最多显示2行。 为了实现该效果，它需要组合其他的WebKit属性 */
@@ -558,13 +540,21 @@ overflow: hidden;
 text-overflow: ellipsis;
 ```
 
+#### 字符超出部分换行
+
+```css
+overflow-wrap: break-word;
+```
+
+#### 字符超出部分使用连字符
+
+```css
+hyphens: auto;
+```
 
 
 
-
-
-
-### 23、CSS3新增属性：
+### 17、CSS3新增属性：
 
 1、box-shadow(阴影效果)
 
@@ -598,13 +588,15 @@ text-overflow: ellipsis;
 
 16、hsl(通过色调、饱和度、亮度来指定颜色颜色值)
 
-17、hsla(在hsl的基础上增加透明度设置）
+17、hsla(在hsl的基础上增加透明度设置）（色相(hue)-饱和度(saturation)-亮度(lightness)-不透明度）
 
 18、rgba(基于rgb设置颜色，a设置透明度）
 
+
+
 ### 18、calc属性
 
-1、css3的一个新增的功能，用来指定元素的长度，你可以使用calc()给元素的border、margin、pading、font-size和width等属性动态的设置值。动态计算长度值，任何长度值都可以使用calc()函数计算，需要注意的是，运算符前后都需要保留一个空格，例如：width: calc(100% - 10px)；
+1、css3的一个新增的功能，用来指定元素的长度，你可以使用calc()给元素的border、margin、pading、font-size和width等属性动态的设置值。动态计算长度值，任何长度值都可以使用calc()函数计算，需要注意的是，**运算符前后都需要保留一个空格**，例如：width: calc(100% - 10px)；
 
 2、calc()语法
 
@@ -616,21 +608,24 @@ text-overflow: ellipsis;
 
 3、calc()的运算法则
 
-　　1）、使用 "+"、"-"、"*" 和 "/" 运算
-
-　　2）、可以使用百分比、px、em、rem等单位运算
-
-　　3）、可以混合使用各种单位进行运算
-
-　　4）、表达式中有 "+" 和 "-" 时，其前后必须有空格。
-
-　　5）、表达式中有 "*" 和 "/" 时，其前后可以没有空格，但建议保留
+- 使用 "+"、"-"、"*" 和 "/" 运算
 
 
+- 可以使用百分比、px、em、rem等单位运算
+
+
+- 可以混合使用各种单位进行运算
+
+
+- 表达式中有 "+" 和 "-" 时，其前后必须有空格。
+
+
+- 表达式中有 "*" 和 "/" 时，其前后可以没有空格，但建议保留
 
 
 
-### 36、高斯模糊效果
+
+### 19、高斯模糊效果
 
 css3  filter滤镜
 
@@ -640,75 +635,48 @@ css3  filter滤镜
 
 
 
-### 13、当margin、padding的值是百分比时，是相对最近父级块级元素的width
+### 20、CSS3 动画
 
-[css height width padding margin 百分比取值的基准问题](https://blog.csdn.net/qq_35809245/article/details/54233662)
-
-
-
-
-
-### 19、visibility=hidden, opacity=0，display:none的区别
-
-`opacity = 0`：该元素隐藏起来了，但不会改变页面布局，并且，如果该元素已经绑定一些事件，如click事件，那么点击该区域，也能触发点击事件的
-
-`visibility = hidden`：该元素隐藏起来了，但不会改变页面布局，但是不会触发该元素已经绑定的事件
-
-`display: none`：把元素隐藏起来，并且会改变页面布局，可以理解成在页面中把该元素删除掉一样。
-
-
-
-
-
-### 40、两个元素之间会有空隙，可在父元素设置font-size: 0;使两元素完全贴合
-
-如果在父元素设置font-size: 0;的同时设置了文字内容超出隐藏，省略号会不见，这是不宜设font-size: 0;，可把两元素代码中间的换行删掉即可。
-
-### 26、如何画一个三角形
-
-三角形原理：边框的均分原理
+@keyframes 规则用于创建动画。在 @keyframes 中规定某项 CSS 样式，就能创建由当前样式逐渐改为新样式的动画效果。
 
 ```css
-// 这是一个倒三角
-div {
-    width:0px;
-    height:0px;
-    border-top:10px solid red;
-    border-right:10px solid transparent;
-    border-bottom:10px solid transparent;
-    border-left:10px solid transparent;
+// 用关键词 "from" 和 "to"，等同于 0% 和 100%
+@keyframes myfirst
+{
+	from {background: red;}
+	to {background: yellow;}
+}
+
+// 可用百分比来规定变化发生的时间
+@keyframes myfirst
+{
+    0%   {background: red;}
+    25%  {background: yellow;}
+    50%  {background: blue;}
+    100% {background: green;}
+}
+```
+
+在 @keyframes 中创建动画时，需把它捆绑到某个选择器，否则不会产生动画效果。
+
+通过规定至少以下两项 CSS3 动画属性，即可将动画绑定到选择器：
+
+- 规定动画的名称
+- 规定动画的时长
+
+```css
+div
+{
+    animation: myfirst 5s;
+    -moz-animation: myfirst 5s;	/* Firefox */
+    -webkit-animation: myfirst 5s;	/* Safari 和 Chrome */
+    -o-animation: myfirst 5s;	/* Opera */
 }
 ```
 
 
 
-### 28、画一条0.5px的线
-
-**1.采用meta viewport的方式**
-
-```css
-<meta name="viewport" content="width=device-width, initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5"/>
-```
-
-这样子就能缩放到原来的0.5倍，如果是1px那么就会变成0.5px
-
-要记得viewport只针对于移动端，只在移动端上才能看到效果
-
-**2.采用tansform: scale()的方式**
-
-```css
-transform: scaleY(0.5);
-```
-
-
-
-
-
-
-
-
-
-### 30、animation（动画）、transition（过渡）、transform（变形）、translate（移动）
+### 21、animation（动画）、transition（过渡）、transform（变形）、translate（移动）
 
 来源：http://www.imooc.com/article/79030 
 
@@ -755,232 +723,334 @@ functions提供多种方法，如：skewX(angle)沿着 X 轴的 2D 倾斜转换�
 1. translate(x,y) 2D平移，x/y分别是x坐标平移多少像素，y坐标平移多少像素
 2. translate3d(x,y,z) 3D平移，和2D一样
 
-### 
+
+
+### 22、visibility=hidden, opacity=0，display:none的区别
+
+`opacity = 0`：该元素隐藏起来了，但不会改变页面布局，并且，如果该元素已经绑定一些事件，如click事件，那么点击该区域，也能触发点击事件的
+
+`visibility = hidden`：该元素隐藏起来了，但不会改变页面布局，但是不会触发该元素已经绑定的事件
+
+`display: none`：把元素隐藏起来，并且会改变页面布局，可以理解成在页面中把该元素删除掉一样。
 
 
 
-### 41、CSS3 动画
+### 23、小Tips
 
-如需在 CSS3 中创建动画，需要运用 @keyframes 规则。
+#### 当margin、padding的值是百分比时，是相对最近父级块级元素的width
 
-@keyframes 规则用于创建动画。在 @keyframes 中规定某项 CSS 样式，就能创建由当前样式逐渐改为新样式的动画效果。
+[css height width padding margin 百分比取值的基准问题](https://blog.csdn.net/qq_35809245/article/details/54233662)
+
+#### 两个元素之间会有空隙，可在父元素设置font-size: 0;使两元素完全贴合
+
+如果在父元素设置font-size: 0;的同时设置了文字内容超出隐藏，省略号会不见，这是不宜设font-size: 0;，可把两元素代码中间的换行删掉即可。
+
+#### 消除默认样式
+
+[Normalize.css](https://necolas.github.io/normalize.css/latest/normalize.css)
+
+[reset.css](https://meyerweb.com/eric/tools/css/reset/) 
+
+
+
+### 24、画一条0.5px的线
+
+**1.采用meta viewport的方式**
+
+同时通过设置对应viewport的rem基准值，这种方式就可以像以前一样轻松愉快的写1px了。
+在devicePixelRatio = 2 时，输出viewport：
 
 ```css
-// 用关键词 "from" 和 "to"，等同于 0% 和 100%
-@keyframes myfirst
-{
-	from {background: red;}
-	to {background: yellow;}
-}
+<meta name="viewport" content="width=device-width, initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5"/>
+```
 
-// 可用百分比来规定变化发生的时间
-@keyframes myfirst
-{
-    0%   {background: red;}
-    25%  {background: yellow;}
-    50%  {background: blue;}
-    100% {background: green;}
+这样子就能缩放到原来的0.5倍，如果是1px那么就会变成0.5px
+
+要记得viewport只针对于移动端，只在移动端上才能看到效果
+
+**2.采用`transform: scaleY(0.5)`的方式**
+
+把原先元素的 border 去掉，然后利用 :before 或者 :after 重做 border ，并 transform 的 scale 缩小一半，原先的元素相对定位，新做的 border 绝对定位。
+
+单条border样式设置：
+
+```css
+.scale-1px{
+  position: relative;
+  border: none;
+}
+.scale-1px:after{
+  content: '';
+  position: absolute;
+  bottom: 0;
+  background: #000;
+  width: 100%;
+  height: 1px;
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
 }
 ```
 
-在 @keyframes 中创建动画时，需把它捆绑到某个选择器，否则不会产生动画效果。
 
-通过规定至少以下两项 CSS3 动画属性，即可将动画绑定到选择器：
 
-- 规定动画的名称
-- 规定动画的时长
+### 25、如何画一个三角形
+
+三角形原理：边框的均分原理
 
 ```css
-div
-{
-    animation: myfirst 5s;
-    -moz-animation: myfirst 5s;	/* Firefox */
-    -webkit-animation: myfirst 5s;	/* Safari 和 Chrome */
-    -o-animation: myfirst 5s;	/* Opera */
+/* 这是一个倒三角 */
+div {
+    width: 0px;
+    height: 0px;
+    border-top: 10px solid red;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid transparent;
 }
 ```
 
 
 
-### 43、CSS sprites
+### 26、CSS sprites
 
 CSS Sprites其实就是把网页中一些背景图片整合到一张图片文件中，再利用CSS的“background-image”，“background- repeat”，“background-position”的组合进行背景定位，background-position可以用数字能精确的定位出背景图片的位置。
 
-这样可以减少很多图片请求的开销，因为请求耗时比较长；请求虽然可以并发，但是也有限制，一般浏览器都是6个。对于未来而言，就不需要这样做了，因为有了`http2`。
+这样可以减少很多图片请求的开销，因为请求耗时比较长；请求虽然可以并发，但是也有限制，一般浏览器都是6个。
 
 
 
+### 27、水平垂直居中
 
+#### 单行的文本、inline 或 inline-block 元素
 
+##### 水平居中
 
-
-### 33、水平垂直居中的方法
-
-(1) margin: auto法
-
-父元素为relative，子元素定位为上下左右为0，margin：auto可以实现脱离文档流的居中.
+此类元素需要水平居中，则父级元素必须是块级元素(`block level`)，且父级元素上需要这样设置样式：
 
 ```css
-div {
-    width: 400px;
-    height: 400px;
-    position: relative;
-    border: 1px solid #465468;
+.parent {
+    text-align: center;
 }
-p {
-    position: absolute;
-    margin: auto;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100px;
-    height: 100px;
-    background: red;
-}
-html:
-<div>
-	<p></p>
-</div>
 ```
 
-(2) margin负值法
+##### 垂直居中
+
+方法一：通过设置上下内间距一致达到垂直居中的效果：
+
+```css
+.single-line {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+```
+
+方法二：通过设置 `height` 和 `line-height` 一致达到垂直居中：
+
+```css
+.single-line {
+    height: 100px;
+    line-height: 100px;
+}
+```
+
+
+
+#### 固定宽高的块级盒子
+
+**方法一：absolute + 负 margin**
 
 先绝对定位到父元素距离顶部和左边50%的位置，然后再往左、上移动自身长宽的50%
 
 ```css
-div {
-    width: 500px;
-    height: 400px;
-    border: 2px solid #379;
+.parent {
     position: relative;
 }
-p {
+.child {
     width: 100px;
     height: 100px;
-    background-color: red;
     position: absolute;
     top: 50%;
     left: 50%;
-    margin-top: -50px;    /* height的一半 */
-    margin-left: -50px;   /* width的一半 */
+    margin: -50px 0 0 -50px;
 }
-
-/* 补充：其实这里也可以将marin-top和margin-left负值替换成 */
-transform：translate(-50%, -50%)       /* 往左，上移动自身长宽的50% */
 ```
 
-(3) table-cell（未脱离文档流的）
+**方法二：absolute + margin auto**
 
-设置父元素的display:table-cell,并且vertical-align:middle，这样子元素可以实现垂直居中。
+父元素为relative，子元素定位为上下左右为0，margin：auto可以实现脱离文档流的居中
 
 ```css
-div{
-    width: 300px;
-    height: 300px;
-    border: 3px solid #555;
+.parent {
+    position: relative;
+}
+.child {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+```
+
+**方法三：absolute + calc**
+
+```css
+.parent {
+    position: relative;
+}
+.child {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    left: calc(50% - 50px);		/* 注意“-”前后要有空格 */
+    top: calc(50% - 50px);
+}
+```
+
+
+
+#### 不固定宽高的块级盒子
+
+**方法一：absolute + transform**
+
+```css
+.parent {
+    position: relative;
+}
+.child {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+```
+
+**方法二：grid**
+
+```css
+.parent {
+    display: grid;
+}
+.child {
+    justify-self: center;
+    align-self: center;
+}
+```
+
+**方法三：table-cell**
+
+```css
+.parent {
     display: table-cell;
-    vertical-align: middle;     /* 垂直居中 */
-    text-align: center;         /* 水平居中 */
+    vertical-align: middle;
+    text-align: center;
 }
-p{
-    display: inline-block; 
-    width: 100px;
-    height: 100px;
-    background: red;
+.child {
+    display: inline-block;
 }
 ```
 
-(4)利用flex
-
-将父元素设置为`display: flex`，并且设置`align-items: center; justify-content: center;`
+**方法四：flex**
 
 ```css
-div {
-    width: 500px;
-    height: 500px;
-    border: 3px solid #546461;
+.parent {
     display: flex;
-    align-items: center;              /* 在侧轴（纵轴）方向上居中 */
-    justify-content: center;          /* 在主轴（横轴）方向上居中 */
-}
-p {
-    width: 100px;
-    height: 100px;
-    background: red;
+    justify-content: center;
+    align-items: center;
 }
 ```
 
-
-
-### 22、css布局
-
-**圣杯布局**是指布局从上到下分为header、container、footer，然后container部分定为三栏布局。这种布局方式同样分为header、container、footer。圣杯布局的缺陷在于 center 是在 container 的padding中的，因此宽度小的时候会出现混乱。
-
-**双飞翼布局**给center 部分包裹了一个 main 通过设置margin主动地把页面撑开。
-
-**Flex布局**是由CSS3提供的一种方便的布局方式。
-
-请看：
-
-[Flex 布局教程：语法篇](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html?utm_source=tuicool)
-
-[Flex 布局教程：实例篇](http://www.ruanyifeng.com/blog/2015/07/flex-examples.html)
-
-**绝对定位布局**是给container 设置position: relative和overflow: hidden，因为绝对定位的元素的参照物为第一个postion不为static的祖先元素。 left 向左浮动，right 向右浮动。center 使用绝对定位，通过设置left和right并把两边撑开。 center 设置top: 0和bottom: 0使其高度撑开。
-
-**表格布局**的好处是能使三栏的高度统一。
-
-**网格布局**可能是最强大的布局方式了，使用起来极其方便，但目前而言，兼容性并不好。网格布局，可以将页面分割成多个区域，或者用来定义内部元素的大小，位置，图层关系。
-
-
-
-### 35、三栏布局的实现
-
-1、使用float+margin：
-
-给div设置float：left，left的div添加属性margin-right：left和center的间隔px,right的div添加属性margin-left：left和center的宽度之和加上间隔
-
-2、使用float+overflow：
-
-给div设置float：left，再给right的div设置overflow:hidden。这样子两个盒子浮动，另一个盒子触发bfc达到自适应
-
-3、使用position：
-
-父级div设置position：relative，三个子级div设置position：absolute，这个要计算好盒子的宽度和间隔去设置位置，兼容性比较好，
-
-4、使用table实现：
-
-父级div设置display：table，设置border-spacing：10px//设置间距，取值随意,子级div设置display:table-cell，这种方法兼容性好，适用于高度宽度未知的情况，但是margin失效，设计间隔比较麻烦，
-
-5、flex实现：
-
-parent的div设置display：flex；left和center的div设置margin-right；然后right 的div设置flex：1；这样子right自适应，但是flex的兼容性不好
-
-6、grid实现：
-
-parent的div设置display：grid，设置grid-template-columns属性，固定第一列第二列宽度，第三列auto
-
-
-
-### 21、css实现一个左侧固定20px，右侧响应式的布局
-
-**1.将左侧div浮动，右侧div设置margin-left**
+**方法五：line-height + vertical-align**
 
 ```css
-/*方法1*/
-.outer{overflow: hidden; border: 1px solid red;}
-.sidebar{float: left;width:200px;height: 150px; background: #BCE8F1;}
-.content{margin-left:200px;height:100px;background: #F0AD4E;}
+.parent {
+    line-height: 150px;
+    text-align: center;
+}
+.child {
+    display: inline-block;
+    line-height: initial;
+    vertical-align: middle;
+}
 ```
 
-**2.固定区采用绝对定位，自适应区设置margin**
+##### 
+
+### 28、常用布局
+
+#### 两栏布局（边栏定宽主栏自适应）
+
+**方法一：float + overflow（BFC 原理）**
+
+左侧浮动，右侧盒子通过`overflow: hidden;`形成了BFC，因此右侧盒子不会与浮动的元素重叠
 
 ```css
-/*方法2*/
-.outer2{position: relative;height:150px; border: 1px solid red;}
-.sidebar2{position: absolute;left: 0;top:0;width:200px;height:100%;background: #BCE8F1;}
-.content2{margin-left:200px;height:100px;background: #F0AD4E;} 
+aside {
+    float: left;
+    width: 200px;
+}
+main {
+    overflow: hidden;
+}
+```
+
+**方法二：float + margin**
+
+将左侧div浮动，右侧div设置margin-left
+
+```css
+aside {
+    float: left;
+    width: 200px;
+}
+main {
+    margin-left: 200px;
+}
+```
+
+**方法三：flex**
+
+`flex`可以说是最好的方案了，代码少，使用简单。但存在兼容性，有朝一日，大家都改用现代浏览器，就可以使用了。
+
+需要注意的是，`flex`容器的一个默认属性值:`align-items: stretch;`。这个属性导致了列等高的效果。
+如果要让两个盒子高度自动，需要设置: `align-items: flex-start;`
+
+```css
+.layout {
+    display: flex;
+}
+aside {
+    width: 200px;
+}
+main {
+    flex: 1;
+}
+```
+
+**方法四：grid**
+
+```css
+.layout {
+    display: grid;
+    grid-template-columns: 200px auto;
+}
+```
+
+**方法五：绝对定位 + margin**
+
+```css
+aside {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 200px;
+}
+main {
+    margin-left: 200px;
+}
 ```
 
 缺点:
@@ -988,67 +1058,236 @@ parent的div设置display：grid，设置grid-template-columns属性，固定第
 - 使用了绝对定位，若是用在某个div中，需要更改父容器的position。
 - 没有清除浮动的方法，若左侧盒子高于右侧盒子，就会超出父容器的高度。因此只能通过设置父容器的min-height来放置这种情况。
 
-**3.标准浏览器的方法**  
+**方法六：双float + calc**
 
 ```css
-/*方法3*/
-.outer3{display: table;width:100%; border: 1px solid red;}
-.sidebar3{display:table-cell;width:200px;height:150px;background: #BCE8F1;}
-.content3{display:table-cell;height:100px;background: #F0AD4E;}
+aside {
+    float: left;
+    width: 200px;
+}
+main {
+    float: left;
+    width: calc(100% - 200px);
+}
 ```
 
-**4.双float + calc()计算属性**
+
+
+#### 三栏布局（两侧栏定宽主栏自适应）
+
+**方法一：圣杯布局**
 
 ```css
-/*方法4*/
-.outer4{overflow: hidden; border: 1px solid red;}
-.sidebar4{float:left;width:200px;height:150px;background: #BCE8F1;}
-.content4{float:left;width:calc(100% - 200px);height:100px;background: #F0AD4E;}
+/*
+<layout>
+    <main>
+    <left>
+    <right>
+</layout>
+*/
+
+.layout {
+    padding: 0 200px;
+}
+main {
+    float: left;
+    width: 100%;
+}
+aside {
+    float: left;
+    width: 200px;
+}
+.left {
+    position: relative;
+    left: -200px;
+    margin-left: -100%;
+}
+.right {
+    position: relative;
+    right: -200px;
+    margin-left: -200px;
+}
 ```
 
-**5.双inline-block + calc()计算属性**
+**方法二：双飞翼布局**
 
 ```css
-/*方法5*/
-.outer5{box-sizing: content-box;font-size: 0; border: 1px solid red;}
-.sidebar5,.content5{display: inline-block;vertical-align: top;box-sizing: border-box;width: 200px;height:150px; background: #BCE8F1;font-size: 14px;}
-.outer5 .content5{width:calc(100% - 200px);height:100px;background: #F0AD4E;}
+/*
+<layout>
+    <main>
+		<inner>
+    </main>
+    <left>
+    <right>
+</layout>
+*/
+
+
+main {
+    float: left;
+    width: 100%;
+}
+.inner {
+    margin: 0 200px;
+}
+aside {
+    float: left;
+    width: 200px;
+}
+.left {
+    margin-left: -100%;
+}
+.right {
+    margin-left: -200px;
+}
 ```
 
-这种方法是通过width: calc(100% - 140px)来动态计算右侧盒子的宽度。需要知道右侧盒子距离左边的距离，以及左侧盒子具体的宽度(content+padding+border)，以此计算父容器宽度的100%需要减去的数值。同时，还需要知道右侧盒子的宽度是否包含border的宽度。
-在这里，为了简单的计算右侧盒子准确的宽度，设置了子元素的box-sizing:border-box;以及父元素的box-sizing: content-box;。
-同时，作为两个inline-block的盒子，必须设置vertical-align来使其顶端对齐。
-另外，为了准确地应用计算出来的宽度，需要消除div之间的空格，需要通过设置父容器的font-size: 0;,或者用注释消除html中的空格等方法。
-
-缺点:
-
-- 需要知道左侧盒子的宽度，两个盒子的距离，还要设置各个元素的box-sizing
-- 需要消除空格字符的影响
-- 需要设置vertical-align: top满足顶端对齐。
-
-**6.float + BFC方法**
+**方法三：float + overflow（BFC 原理）**
 
 ```css
-/*方法6*/
-.outer6{overflow: auto; border: 1px solid red;}
-.sidebar6{float: left;height:150px;background: #BCE8F1;}
-.content6{overflow:auto;height:100px;background: #F0AD4E;}
+/*
+<layout>
+    <left>
+    <right>
+    <main>
+</layout>
+*/
+
+aside {
+    width: 200px;
+}
+.left {
+    float: left;
+}
+.right {
+    float: right;
+}
+main {
+    overflow: hidden;
+}
 ```
 
-这个方案同样是利用了左侧浮动，但是右侧盒子通过`overflow: auto;`形成了BFC，因此右侧盒子不会与浮动的元素重叠。
-
-**7.flex**
+**方法四：flex**
 
 ```css
-/*方法7*/
-.outer7{display: flex; border: 1px solid red;}
-.sidebar7{flex:0 0 200px;height:150px;background: #BCE8F1;}
-.content7{flex: 1;height:100px;background: #F0AD4E;}
+/*
+<layout>
+    <aside>
+    <main>
+    <aside>
+</layout>
+*/
+
+.layout {
+    display: flex;
+}
+aside {
+    width: 200px;
+}
+main {
+    flex: 1;
+}
 ```
 
-`flex`可以说是最好的方案了，代码少，使用简单。但存在兼容性，有朝一日，大家都改用现代浏览器，就可以使用了。
+**方法五：grid**
 
-需要注意的是，`flex`容器的一个默认属性值:`align-items: stretch;`。这个属性导致了列等高的效果。
-为了让两个盒子高度自动，需要设置: `align-items: flex-start;`
+```css
+/*
+<layout>
+    <aside>
+    <main>
+    <aside>
+</layout>
+*/
 
-### 
+.layout {
+    display: grid;
+    grid-template-columns: 200px auto 200px;
+}
+```
+
+
+
+#### 三行布局（头尾定高主栏自适应）
+
+基于如下的 HTML 和 CSS
+
+```html
+<div class="layout">
+    <header></header>
+    <main>
+        <div class="inner"></div>
+    </main>
+    <footer></footer>
+</div>
+
+html,
+body,
+.layout {
+    height: 100%;
+}
+body {
+    margin: 0;
+}
+header, 
+footer {
+    height: 50px;
+}
+main {
+    overflow-y: auto;
+}
+
+```
+
+**方法一：calc**
+
+```css
+main {
+    height: calc(100% - 100px;)
+}
+```
+
+**方法二：absolute**
+
+```css
+.layout {
+    position: relative;
+}
+header {
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+main {
+    height: 100%;
+    padding: 50px 0;
+    boxing-sizing: border-box;
+}
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+```
+
+**方法三：flex**
+
+```css
+.layout {
+    display: flex;
+    flex-firection: column;
+}
+main {
+    flex: 1;
+}
+```
+
+**方法四：grid**
+
+```css
+.layout {
+    display: grid;
+    grid-template-rows: 50px 1fr 50px;
+}
+```
+
