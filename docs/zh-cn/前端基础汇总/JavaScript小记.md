@@ -4597,13 +4597,36 @@ coll.forEach(item => console.log(item));	  // 3 5 feng true
 for (let item of coll) {console.log(item);}   // 3 5 feng true
 ```
 
-可以使用Set来实现数组去重
+#### Set的应用
+
+1、数组去重
 
 ```js
-let coll = [1,1,12,3,3,true,true,NaN,NaN]
-let coll1 = [...(new Set(coll))]
-console.log(coll1)//[ 1, 12, 3, true, NaN ]
+let arr = [1,1,12,3,3,true,true,NaN,NaN]
+let unique = [...(new Set(arr))]
+console.log(unique)//[ 1, 12, 3, true, NaN ]
 ```
+
+2、并集（Union）、交集（Intersect）和差集（Difference）
+
+```js
+let a = new Set([1, 2, 3]);
+let b = new Set([4, 3, 2]);
+
+// 并集
+let union = new Set([...a, ...b]);
+// Set {1, 2, 3, 4}
+
+// 交集
+let intersect = new Set([...a].filter(x => b.has(x)));
+// set {2, 3}
+
+// 差集
+let difference = new Set([...a].filter(x => !b.has(x)));
+// Set {1}
+```
+
+
 
 ### 10、Map的基本用法
 
