@@ -977,7 +977,7 @@ CSS Sprites其实就是把网页中一些背景图片整合到一张图片文件
 }
 ```
 
-##### 
+
 
 ### 28、常用布局
 
@@ -1077,6 +1077,8 @@ main {
 
 **方法一：圣杯布局**
 
+[圣杯布局](https://codepen.io/csmsimona/pen/rNyWLQE)
+
 ```css
 /*
 <layout>
@@ -1099,17 +1101,19 @@ aside {
 }
 .left {
     position: relative;
-    left: -200px;
-    margin-left: -100%;
+    margin-left: -100%;		/* 回到上一行左侧 */
+    left: -200px;			/* 左移定宽 */
 }
 .right {
     position: relative;
-    right: -200px;
-    margin-left: -200px;
+    margin-left: -200px;	/* 回到上一行右侧 */
+    right: -200px;			/* 右移定宽 */
 }
 ```
 
 **方法二：双飞翼布局**
+
+[双飞翼布局](https://codepen.io/csmsimona/pen/jOBVrKp)
 
 ```css
 /*
@@ -1121,7 +1125,6 @@ aside {
     <right>
 </layout>
 */
-
 
 main {
     float: left;
@@ -1135,10 +1138,10 @@ aside {
     width: 200px;
 }
 .left {
-    margin-left: -100%;
+    margin-left: -100%;		/* 回到上一行左侧 */
 }
 .right {
-    margin-left: -200px;
+    margin-left: -200px;	/* 回到上一行右侧 */
 }
 ```
 
@@ -1243,7 +1246,7 @@ main {
 
 ```css
 main {
-    height: calc(100% - 100px;)
+    height: calc(100vh - 100px);
 }
 ```
 
