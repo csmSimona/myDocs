@@ -4428,9 +4428,9 @@ Math.max(...[3, 2, 5])
 
 由于 JavaScript 不提供求数组最大元素的函数，所以只能套用Math.max函数，将数组转为一个参数序列，然后求最大值。有了扩展运算符以后，就可以直接用Math.max了。
 
-3、扩展运算符也可以复制对象
+3、拷贝对象
 
-作用是用于取出对象中所有可以遍历的属性，拷贝到当前对象中，是浅拷贝
+注意：扩展操作符和 `Object.assign`类似 只能深拷贝一层的对象，如果对象是两层的结构，那么使用扩展操作符拷贝会是浅拷贝。
 
 ```js
 var obj = {name: "feng", color: ["yellow", "blue"]};
@@ -4447,8 +4447,14 @@ console.log(obj)    // { name: 'feng', color: [ 'yellow', 'blue', 'red' ] }
     const arr = [...arguments];
     console.log(arr)
 }(2,3)    // [2,3]
+
 // Dom返回的对象
 console.log(Array.isArray([...document.getElementsByTagName("li")])) // true
+
+// 字符串转数组
+let str = 'hello'
+let arr = [...str]
+console.log(arr)  // ['h', 'e', 'l', 'l', 'o']
 ```
 
 扩展运算符所使用的是遍历器接口（Iterator），如果一个对象没有这个接口，就无法转化。
