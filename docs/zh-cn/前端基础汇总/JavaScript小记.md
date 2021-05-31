@@ -323,7 +323,7 @@ screen.height
 
 对一个值使用typeof操作符可能返回： 
 
-undefined、string、number、boolean、object（对象或null）、function、symbol（新）
+undefined、string、number、boolean、object（对象或null）、function、symbol、bigint
 
 ```js
 console.log(typeof 2);               // number
@@ -334,6 +334,7 @@ console.log(typeof function(){});    // function
 console.log(typeof {});              // object
 console.log(typeof undefined);       // undefined
 console.log(typeof null);            // object    null 的数据类型被 typeof 解释为 object
+console.log(typeof BigInt(10));      // bigint
 ```
 
 typeof 对于基本类型，除了null都可以显示正确的类型；对于对象，除了函数都会显示object。
@@ -2850,7 +2851,7 @@ $.ajax({
 
 ​	fetch号称是AJAX的替代品，是在ES6出现的，使用了ES6中的promise对象。Fetch是基于promise设计的。Fetch的代码结构比起ajax简单多了，参数有点像jQuery ajax。
 
-​	但是，一定记住fetch不是ajax的进一步封装，而是原生js。Fetch函数就是原生js，没有使用XMLHttpRequest对象。
+​	fetch不是ajax的进一步封装，而是原生js。Fetch函数就是原生js，没有使用XMLHttpRequest对象。
 
 ```js
 try {
@@ -2880,16 +2881,26 @@ fetch(req).then(function(response) {
 });
 ```
 
-##### fetch和ajax 的主要区别
-
-1、fetch()返回的promise将不会拒绝http的错误状态，即使响应是一个HTTP 404或者500
-
-2、在默认情况下 fetch不会接受或者发送cookies
-
 ##### fetch的配置
 
-Promise fetch(String url [, Object options]);
-Promise fetch(Request req [, Object options]);
+`Promise fetch(String url [, Object options]);`
+`Promise fetch(Request req [, Object options]);`
+
+
+
+fetch是一个低层次的API，你可以把它考虑成原生的XHR，所以使用起来并不是那么舒服，需要进行封装
+
+- fetch只对网络请求报错，对400，500都当做成功的请求，服务器返回 400，500 错误码时并不会 reject，只有网络错误这些导致请求不能完成时，fetch 才会被 reject。
+
+- fetch默认不会带cookie，需要添加配置项： fetch(url, {credentials: 'include'})
+
+- fetch不支持abort，不支持超时控制，使用setTimeout及Promise.reject的实现的超时控制并不能阻止请求过程继续在后台运行，造成了流量的浪费
+
+- fetch没有办法原生监测请求的进度，而XHR可以
+
+
+
+
 
 #### Axios：
 
