@@ -1042,6 +1042,14 @@ function flatArr(arr) {
 
 **2、reduce**
 
+语法：`array.reduce(function(total, currentValue, currentIndex, arr), initialValue)`
+
+- total：必需。初始值或计算结束之后的返回值
+- currentValue：必需。当前元素
+- currentIndex：可选。当前元素的索引
+- arr：可选。当前元素所属的数组对象
+- initialValue：可选。传递给函数的初始值
+
 ```js
 function flatArr(arr) {
    return arr.reduce((pre, cur) => pre.concat(Array.isArray(cur) ? flatArr(cur) : cur), [])
