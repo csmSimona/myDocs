@@ -611,7 +611,7 @@ hyphens: auto;
 - 使用 "+"、"-"、"*" 和 "/" 运算
 
 
-- 可以使用百分比、px、em、rem等单位运算
+- 可以使用百分比、px、em、rem、vm、vh等单位运算
 
 
 - 可以混合使用各种单位进行运算
@@ -1294,3 +1294,8 @@ main {
 }
 ```
 
+### 29、flex布局
+
+[Flex 布局教程：语法篇](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)
+
+[Flex 布局教程：实例篇](http://www.ruanyifeng.com/blog/2015/07/flex-examples.html)

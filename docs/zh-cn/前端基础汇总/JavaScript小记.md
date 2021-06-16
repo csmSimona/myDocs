@@ -1297,6 +1297,7 @@ function deepAssign() {
 |   .    |                匹配任意字符除了换行符和回车。                |
 |   []   |  匹配方括号内的任意字符。比如[0-9]就可以用来匹配任意数字。   |
 |   ^    | ^9，这样使用代表匹配以9开头。[ ^9 ]，这样使用代表不匹配方括号内除了9的字符。 |
+|   $    | 匹配输入字符串的结尾位置。如果设置了 RegExp 对象的 Multiline 属性，则 $ 也匹配 '\n' 或 '\r'。 |
 | {n,m}  | 匹配n~m位字符。如 /b{n,m}/g，就是最少出现n次b，最多出现m次b。 |
 | (abc)  |                  只匹配和abc相同的字符串。                   |
 |   \|   |                     匹配\|前后任意字符。                     |
@@ -1936,7 +1937,7 @@ V8将内存（堆）分为新生代和老生代两部分
 
 什么情况下对象会出现在老生代空间中：
 
-- 新生代的对象是否已经经历过一次Scavenge算法，如果经历过得话，会将对象从新生代空间移到老生代空间中
+- 新生代的对象是否已经经历过一次Scavenge算法，如果经历过的话，会将对象从新生代空间移到老生代空间中
 - To空间的对象占比大小超过25%。在这种情况下，为了不影响到内存分配，会将对象从新生代空间移到老生代空间中
 
 老生代中的空间很复杂。
@@ -1976,9 +1977,9 @@ p1.run = function() {
 
 问题：使用内置构造函数的方式和字面量的方式来创建对象差不多但都存在以下问题
 
-​	1、创建的对象无法复用，复用性差
+​	1）创建的对象无法复用，复用性差
 
-​	2、如果需要创建多个同类型的对象，需要书写大量重复的代码，代码冗余度高
+​	2）如果需要创建多个同类型的对象，需要书写大量重复的代码，代码冗余度高
 
 3、简单工厂函数方式
 
@@ -2206,7 +2207,7 @@ console.log(`${obj1}`);   //"[object Object]"
 console.log(obj1 + "");   //"[object Object]"
 ```
 
-上面的结果我们可以通过上面说的toSting()方法和value方法去理解。 
+上面的结果我们可以通过上面说的toString()方法和value方法去理解。 
 第一个，+符号。可以看成是是把数据转化为数字类型，由于obj是个空对象，所以结果是NaN 
 第二个，是es6中的字符串的新语法，这里需要的结果是一个字符串，所以使用的是toString()方法，而toString()方法返回的是对象的类型。 
 第三个，这里是连接符连接obj。实际上也是需要字符串的结果，所以同理。
@@ -2343,7 +2344,7 @@ console.log(Object.getOwnPropertySymbols(obj));//[ Symbol() ]
 
 - 所有的引用类型（数组，对象，函数）,_ proto _属性值指向他的构造函数的prototype属性
 
-- 当试图得到一个对象的某个属性时，如果这个对象本身没有这个属性，那么会去它的_ proto _（即它的构造函数的prototype）
+- 当试图得到一个对象的某个属性时，如果这个对象本身没有这个属性，那么会去它的_ proto _（即它的构造函数的prototype）里面找
 
   例：
 
@@ -3006,7 +3007,7 @@ jsonp(
 
 **JSONP的缺点：**
 
-- JSON只支持get，因为script标签只能使用get请求；
+- JSON**只支持get，因为script标签只能使用get请求**；
 
 - JSONP需要后端配合返回指定格式的数据。
 - jsonp在调用失败的时候不会返回各种HTTP状态码
@@ -3015,7 +3016,7 @@ jsonp(
 **ajax与jsonp的异同**
 
 - ajax和jsonp这两种技术再调用方式上“看起来很像”，目的也一样，都是请求一个url，然后把服务器返回的数据进行处理，因此jquery和ext等框架都把jsonp作为ajax的一种形式进行了封装。
-- 但ajax和jsonp在本质上是不同的东西。ajax的核心是通过XmlHttpRequest获取非本页内容，而jsonp的核心则是动态添加。
+- 但ajax和jsonp在本质上是不同的东西。ajax的核心是通过XMLHttpRequest获取非本页内容，而jsonp的核心则是动态添加。
 
 2、document.domain + iframe跨域：两个页面都通过js强制设置document.domain为基础主域，就实现了同域。
 
@@ -3188,7 +3189,6 @@ $.ajax({
 不同的任务源会被分配到不同的任务队列中，任务源可以分为微任务（microtask）和宏任务（macrotask）。在ES6规范中，microtask称为jobs，macrotask称为task。
 
 - 微任务包括process.nextTick，promise，Object.observe，MutationObserver
-
 - 宏任务包括script，setTimeout，setInterval，setImmediate，requestAnimationFrame，I/O，UI rendering 
 
 ```js
@@ -3719,7 +3719,7 @@ result.then(function (img) {
 
 - 使用await函数必须用async标识
 - await后面跟的是一个Promise实例
-- 任何一个async函数都会隐式返回一个Promise，并且promise resolve的值就是return返回的值
+- **任何一个async函数都会隐式返回一个Promise，并且promise resolve的值就是return返回的值**
 
 ```js
 async function test() {
@@ -3895,6 +3895,10 @@ generator.next().value.then(data=>{
 2、async函数内置执行器，可以像普通函数那样调用，generator函数需要使用co模块来实现流程控制或者自定义流程控制。
 
 3、async是generator的语法糖
+
+
+
+
 
 ## 模块化
 
@@ -4116,11 +4120,11 @@ listNode.appendChild(frag)					// 只执行一次DOM操作
 当我们需要对DOM做出大量修改时，可以先创建一个虚拟结点，将所有修改附加在该节点，最后将该虚拟节点一次性提交给在render tree上存在的结点，则相当于只提交了一次修改操作。
 
 （3）查找元素的优化
-因为ID是唯一的，也有原始的方法，因此使用ID查找元素是最快的，其次的是根据类和类型查找元素，通过属性查找元素是最慢的，因此应该尽可能的通过ID或者类来查找元素，避免通过类来查找元素。
+因为ID是唯一的，也有原始的方法，因此使用ID查找元素是最快的，其次的是根据类和类型查找元素，通过属性查找元素是最慢的，因此应该尽可能的通过ID或者类来查找元素，避免通过属性来查找元素。
 
 #### 5.  DNS预解析
 
-DNS解析也是需要时间的，可以通过与解析的方式来预先获得域名所对应的IP
+DNS解析也是需要时间的，可以通过预解析的方式来预先获得域名所对应的IP
 
 `<link rel="dns-prefetch" href="//yuchengkai.cn">`
 
@@ -4150,7 +4154,7 @@ DNS解析也是需要时间的，可以通过与解析的方式来预先获得�
 
 - 对于Webpack4，打包项目使用production模式，这样会自动开启代码压缩
 - 使用ES6模块来开启tree shaking，这个技术可以移除没有使用的代码
-- 优化照片，对于小图可以使用base64的方式写入文件中
+- 优化图片，对于小图可以使用base64的方式写入文件中
 - 按照路由拆分代码，实现按需加载
 - 给打包出来的文件名添加哈希，实现浏览器缓存文件
 
@@ -4235,6 +4239,8 @@ function preLoadImg(pars){
 ##### 节流
 
 防抖动和节流本质是不一样的。防抖动是将多次执行变为最后一次执行，节流是将多次执行变成每隔一段时间执行。比如搜索框就会用到节流。
+
+
 
 ## 总结一下ES6常用功能
 
