@@ -5,10 +5,10 @@
   * [TypeScript小记](zh-cn/前端基础汇总/TypeScript小记)
   * [HTML小记](zh-cn/前端基础汇总/HTML小记)
   * [CCS小记](zh-cn/前端基础汇总/CSS小记)
-  * [react基础](zh-cn/前端基础汇总/react基础)
-  * [vue.js基础](zh-cn/前端基础汇总/vue.js基础)
+  * [React小记](zh-cn/前端基础汇总/React小记)
+  * [Vue小记](zh-cn/前端基础汇总/Vue小记)
   * [计算机网络](zh-cn/前端基础汇总/计算机网络)
-  * [手写js代码](zh-cn/前端基础汇总/手写js)
+  * [手写js合集](zh-cn/前端基础汇总/手写js)
 * node
   * [nodejs](zh-cn/node/nodejs)
 * 算法
