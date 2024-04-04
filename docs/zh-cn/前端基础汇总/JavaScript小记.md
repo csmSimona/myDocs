@@ -360,8 +360,8 @@ console.log('str' instanceof String);                // false
 console.log([] instanceof Array);                    // true
 console.log(function(){} instanceof Function);       // true
 console.log({} instanceof Object);                   // true    
-// console.log(undefined instanceof Undefined);
-// console.log(null instanceof Null);
+// console.log(undefined instanceof Undefined);	 // 报错
+// console.log(null instanceof Null);	// 报错
 ```
 
 
@@ -635,7 +635,7 @@ let arr = [1, 2, 3, 4, 5];
 
 ```js
 arr.forEach((num, index) => {
-    return arr[index] = num * 2;
+    arr[index] = num * 2;
 });
 ```
 
@@ -1163,6 +1163,15 @@ var arr = [1,2,3,4,5]
 var arr2 = arr.concat()
 ```
 
+4.扩展运算符...
+
+```js
+var arr = [1,2,3,4,5]
+var arr2 = [...arr]
+```
+
+
+
 **深拷贝对象**
 
 迭代递归法
@@ -1265,10 +1274,11 @@ console.log(receiver); // {type: "css", name: "file.js"}
 // 只有两个对象
 function deepAssign(obj1, obj2){
     for(var item in obj2){
-        obj1[item] = typeof obj2[item] === 'object' ? deepClone(obj1[item], obj2[item]) : obj2[item];
+        obj1[item] = typeof obj2[item] === 'object' ? deepAssign(obj1[item], obj2[item]) : obj2[item];
     }
     return obj1;
 }
+
 // 通用
 function deepAssign() {
   var args = Array.from(arguments);
@@ -1289,6 +1299,8 @@ function deepAssign() {
 ## RexgExp等
 
 ### 1、正则表达式
+
+[正则表达式入门](zh-cn/JavaScript/正则表达式入门)
 
 #### 元字符
 
@@ -1316,16 +1328,16 @@ function deepAssign() {
 
 #### 字符简写
 
-| 简写 |         作用         |
-| :--: | :------------------: |
-|  \w  | 匹配字母数字或下划线 |
-|  \W  |      和上面相反      |
-|  \s  |   匹配任意的空白符   |
-|  \S  |      和上面相反      |
-|  \d  |       匹配数字       |
-|  \D  |      和上面相反      |
-|  \b  | 匹配单词的开始和结束 |
-|  \B  |      和上面相反      |
+| 简写 |               作用               |
+| :--: | :------------------------------: |
+|  \w  |       匹配字母数字或下划线       |
+|  \W  |            和上面相反            |
+|  \s  |         匹配任意的空白符         |
+|  \S  |            和上面相反            |
+|  \d  |             匹配数字             |
+|  \D  |            和上面相反            |
+|  \b  | 匹配单词边界（单词的开始和结束） |
+|  \B  |            和上面相反            |
 
 #### 检索规则
 
@@ -1357,9 +1369,7 @@ attributes：g:全局匹配	i:大小写匹配	m:多行匹配
 
 "/ /"这个是固定写法，"\s"是转移符号用以匹配任何空白字符，包括空格、制表符、换页符等等，"g"表示全局匹配将替换所有匹配的子串，如果不加"g"当匹配到第一个后就结束了。
 
-### 2、正则表达式的先行断言(lookahead)和后行断言(lookbehind)
 
-[看这里~](zh-cn/JavaScript/正则表达式的先行断言(lookahead)和后行断言(lookbehind))
 
 ## Function
 
@@ -1490,7 +1500,7 @@ function fn(name) {
   ```js
   function Foo(name) {
       this.name = name
-      console.log(this)  // this -> f这个被新创建出来的对象
+      console.log(this)  // this -> f 这个被新创建出来的对象
   }
   var f = new Foo('zhangsan')
   ```
@@ -1631,8 +1641,8 @@ function F1() {
     function F2() {
         var c = 300
         console.log(a)	// a是自由变量，向父级作用域寻找a，未果，再向上一级父级作用域寻找a
-        console.log(a)	// b是自由变量，向父级作用域寻找b
-        console.log(a)
+        console.log(b)	// b是自由变量，向父级作用域寻找b
+        console.log(c)
     }
     F2()
 }
@@ -1669,13 +1679,15 @@ function F1() {
 F1()             // 200
 ```
 
-## 闭包
+
+
+## 闭包:star:
 
 ### 1、闭包以及实际应用
 
 **闭包就是能够读取其他函数内部变量的函数。**只有函数内部的子函数才能读取局部变量，所以闭包可以理解成“定义在一个函数内部的函数“。在本质上，闭包是将函数内部和函数外部连接起来的桥梁。
 
-简单来说：闭包是在 A 函数里面返回的 B 函数，然后 B 函数里面一直引用着 A 函数的布局变量。
+简单来说：闭包是在 A 函数里面返回的 B 函数，然后 B 函数里面一直引用着 A 函数的局部变量。
 
 **闭包的用途**：
 
@@ -2121,7 +2133,7 @@ delete 删除对象中的属性；删除没有使用var关键字声明的全局�
 
 4、不能删除window下面的全局变量（使用var声明）但可以删除定义在window上面的属性
 
-### 4、in、hasOwnProperty、isPrototypeOf和Object.getPrototypeOf()
+### 4、in、hasOwnProperty、isPrototypeOf、Object.getPrototypeOf()
 
 #### 1、in
 
