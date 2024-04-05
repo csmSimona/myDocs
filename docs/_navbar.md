@@ -8,11 +8,9 @@
   - [Vue小记](zh-cn/前端基础汇总/Vue小记)
   - [手写js合集](zh-cn/前端基础汇总/手写js)
   - [前端性能优化](zh-cn/前端基础汇总/前端性能优化)
+  - [正则表达式入门](zh-cn/JavaScript/正则表达式入门)
   - [TypeScript小记](zh-cn/前端基础汇总/TypeScript小记)
 * [前端框架及项目面试](zh-cn/慕课/前端框架及项目面试)
-* JavaScript
-  - [正则表达式入门](zh-cn/JavaScript/正则表达式入门)
-  - [js异步及处理异步的几种方法](zh-cn/JavaScript/js异步及处理异步的几种方法)
 * 算法
   - [排序](zh-cn/算法/排序)
   - [算法题](zh-cn/算法/算法题)

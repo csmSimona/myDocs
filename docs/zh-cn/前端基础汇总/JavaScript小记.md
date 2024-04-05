@@ -1681,7 +1681,7 @@ F1()             // 200
 
 
 
-## 闭包:star:
+## :star:闭包
 
 ### 1、闭包以及实际应用
 
@@ -2298,14 +2298,14 @@ obj[Symbol()]="bol";
 > for...in 是用来遍历自身属性，和继承的可以枚举的属性。
 
 ```js
-for(var item in obj){
-    console.log(item);//name,age,sex
+for(var key in obj){
+    console.log(key);//name,age,sex
 }
 
 // 此时只输出自身属性
-for(var item in obj){
-    if (obj.hasOwnProperty(item)) {
-        console.log(item);//name,age
+for(var key in obj){
+    if (obj.hasOwnProperty(key)) {
+        console.log(key);//name,age
     }
 }
 ```
@@ -2637,7 +2637,7 @@ console.log(stu1.age);
 
 
 
-## 事件
+## :star:事件
 
 ### 1、事件捕获、事件冒泡、事件委托（代理）
 
@@ -2661,7 +2661,7 @@ console.log(stu1.age);
 
 **为什么要用事件委托：**
 
-在JavaScript中，添加到页面上的事件处理程序数量将直接关系到页面的整体运行性能，因为需要不断的与dom节点进行交互，访问dom的次数越多，引起浏览器重绘与重排的次数也就越多，就会延长整个页面的交互就绪时间，这就是为什么性能优化的主要思想之一就是减少DOM操作的原因；如果要用事件委托，就会将所有的操作放到js程序里面，与dom的操作就只需要交互一次，这样就能大大的减少与dom的交互次数，提高性能；
+在JavaScript中，添加到页面上的事件处理程序数量将直接关系到页面的整体运行性能，因为需要不断的与dom节点进行交互，访问dom的次数越多，引起浏览器重绘与重排的次数也就越多，就会延长整个页面的交互就绪时间，这就是为什么性能优化的主要思想之一就是减少DOM操作的原因；如果要用事件委托，就会将所有的操作放到js程序里面，与dom的操作就只需要交互一次，这样就能**大大的减少与dom的交互次数，提高性能**；
 
 **事件委托怎么实现：**
 
@@ -2950,7 +2950,7 @@ axios({
 
 因为你用的fetch post修改了请求头,导致fetch第一次发送一个options请求，询问服务器是否支持修改的请求头，如过服务器支持，那么将会再次发送真正的请求。
 
-## 跨域
+## :star:跨域
 
 ### 1、跨域
 
@@ -2968,7 +2968,7 @@ PS：http默认端口：80，https默认端口：443
 
 - DOM 和 JS 对象无法获取
 
-可以跨越的三个标签：
+可以跨域的三个标签：
 
 - `<img src="xxx.png">`
 
@@ -3074,7 +3074,7 @@ response.setHeader("Access-Control-Allow-Credential", "true")
 
 
 
-## 异步
+## :star:异步
 
 ### 1、defer和async
 
@@ -3210,13 +3210,13 @@ setTimeout(function() {
     console.log('setTimeout');
 }, 0);
 
-new Promise((resolve) => {
+new Promise((resolve) => {		// 同步
     console.log('Promise');
     resolve();
-}).then(function() {
+}).then(function() {			// 	异步
     console.log('promise1');
 }).then(function() {
-    console.log('promise2');
+    console.log('promise2');	// 异步
 });
 
 console.log('script end');
@@ -3701,7 +3701,7 @@ function PromiseRace(promises) {
 result.then(function (img) {
     console.log(img.width)
     return img // 防止出现异常
-}).then(unction (img) {
+}).then(function (img) {
     console.log(img.height)
 }).catch(function(err) {  // 最后统一catch，统一捕获异常
     console.log(err)
@@ -3820,7 +3820,7 @@ generator因其中断/恢复执行和传值等优秀功能被人们用于异步�
 
 
 
-`Generator`函数之所以可以用于异步操作是因为`yield`关键字，`Generator`函数在执行过程中遇到`yield`语句时就会暂停执行，并返回`yield`语句后面的内容，要想继续执行后续的代码就需要手动调用`next`方法。这样就找到了顺序执行异步操作的方法了，也就是**将所有异步操作都放在`yield`关键字后面，同时在异步操作内配置相应的`next`方法**，以便在异步操作结束后返回出操作的结果并交出执行权
+**`Generator`函数之所以可以用于异步操作是因为`yield`关键字，`Generator`函数在执行过程中遇到`yield`语句时就会暂停执行，并返回`yield`语句后面的内容，要想继续执行后续的代码就需要手动调用`next`方法。**这样就找到了顺序执行异步操作的方法了，也就是**将所有异步操作都放在`yield`关键字后面，同时在异步操作内配置相应的`next`方法**，以便在异步操作结束后返回出操作的结果并交出执行权
 
 
 
@@ -4083,11 +4083,13 @@ module.a; // 1
 
 webpack是一个前端模块化方案，更侧重模块打包，我们可以把开发中的所有资源（图片、js文件、css文件等）都看成模块，通过loader（加载器）和plugins（插件）对资源进行处理，打包成符合生产环境部署的前端资源。
 
-[webpack概念与配置](zh-cn/webpack/webpack概念与配置)
+[webpack概念与配置](../其他/webpack概念与配置)
 
 gulp强调的是前端开发的工作流程，我们可以通过配置一系列的task，定义task处理的事务（例如文件压缩合并、雪碧图、启动server、版本控制等），然后定义执行顺序，来让gulp执行这些task，从而构建项目的整个前端开发流程。
 
 ## 性能优化
+
+[前端性能优化](../前端基础汇总/前端性能优化)
 
 ### 1、性能优化
 
