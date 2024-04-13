@@ -104,10 +104,6 @@ Doctype声明于文档最前面，告诉浏览器以何种方式来渲染页面�
 
 1）盒模型的高宽包含内边距padding和边框border
 
-![img](http://img.blog.csdn.net/20130912194842984?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZnJlc2hsb3Zlcg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
-
- 
-
 ​    在W3C标准中，如果设置一个元素的宽度和高度，指的是元素内容的宽度和高度，而在IE5.5及以下的浏览器及其他版本的Quirks模式下，IE的宽度和高度还包含了padding和border。
 
 2）可以设置行内元素的高宽
@@ -245,7 +241,7 @@ position:absolute;和position:fixed;会直接将元素从排版中拿走从而�
 4、图片默认有间距
 解决方案：使用float 为img 布局
 
-5、IE9一下浏览器不能使用opacity
+5、IE9以下浏览器不能使用opacity
 解决方案：
 opacity: 0.5;
 

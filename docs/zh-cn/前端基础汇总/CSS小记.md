@@ -209,10 +209,10 @@ CSS中的盒子模型包括IE盒子模型和标准的W3C盒子模型。
 
 这两种盒子模型最主要的区别就是width的包含范围：
 
-- 标准盒模型的盒子总宽度：左右border+左右padding+width
+- 标准盒模型的盒子总宽度：左右border+左右padding+width（即设定的width就是内容宽度）
 
 
-- IE盒模型的盒子总宽度：width（即IE的内容宽度还包含了padding和border）
+- IE盒模型的盒子总宽度：width（即设定的width除了内容宽度还包含了padding和border）
 
 
 在CSS3中引入了box-sizing属性
@@ -502,7 +502,7 @@ h1 {
 也可以在js中定义后在css中使用
 
 ```js
-document.body.style.setProperty('--theme-color', this.themeColor)
+document.body.style.setProperty('--theme-color', '#000')
 ```
 
 
@@ -718,16 +718,16 @@ functions提供多种方法，如：skewX(angle)沿着 X 轴的 2D 倾斜转换�
 
 #### translate（移动）
 
-`translate`其实是 `transform`的一种属性值，进去2D或者3D移动
+`translate`其实是 `transform`的一种属性值，进行2D或者3D移动
 
 1. translate(x,y) 2D平移，x/y分别是x坐标平移多少像素，y坐标平移多少像素
 2. translate3d(x,y,z) 3D平移，和2D一样
 
 
 
-### 22、visibility=hidden, opacity=0，display:none的区别
+### 22、 opacity=0，visibility=hidden,display:none的区别
 
-`opacity = 0`：该元素隐藏起来了，但不会改变页面布局，并且，如果该元素已经绑定一些事件，如click事件，那么点击该区域，也能触发点击事件的
+`opacity = 0`：透明度为0，该元素隐藏起来了，但不会改变页面布局，并且，如果该元素已经绑定一些事件，如click事件，那么点击该区域，也能触发点击事件的
 
 `visibility = hidden`：该元素隐藏起来了，但不会改变页面布局，但是不会触发该元素已经绑定的事件
 

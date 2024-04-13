@@ -2040,8 +2040,6 @@ https://pan.baidu.com/disk/home#list/vmode=list
 7、当只改变浏览器地址栏URL的hash部分，这时按下enter,浏览器不会发送任何请求至服务器，这时发生的只是设置hash值新修改的hash值，并触发onhashchange事件。
 
 8、html` <a>` 标签属性href可以设置为页面的元素ID如#top,当点击该锚链接时页面跳转至该id元素所在区域，同时浏览器自动设置window.location.hash属性，同时地址栏hash值发生改变，并触发onhashchange事件。
-————————————————
-版权声明：本文为CSDN博主「峰际流云」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
 
 ##### history路由(放在服务器环境下测试)
 
@@ -2078,7 +2076,7 @@ window.onpopstate = function(event){
 
 通过`pushstate`把页面的状态保存在state对象中，当页面的url再变回这个url时，可以通过`event.state`取到这个`state`对象，从而可以对页面状态进行还原，这里的页面状态就是页面字体颜色，其实**滚动条的位置，阅读进度，组件的开关的这些页面状态都可以存储到state的里面**。
 
-这两个方法应用于浏览器的历史记录站，在当前已有的back、forward、go 的基础之上，它们提供了对历史记录进行修改的功能。只是当它们执行修改是，虽然改变了当前的URL，但你浏览器不会立即向后端发送请求。
+这两个方法应用于浏览器的历史记录站，在当前已有的back、forward、go 的基础之上，它们提供了对历史记录进行修改的功能。只是当它们执行修改时，虽然改变了当前的URL，但你浏览器不会立即向后端发送请求。
 
 ##### history模式的问题
 
@@ -2358,21 +2356,21 @@ Vuex将状态管理单独拎出来，应用统一的方式进行处理，采用�
 
 [vue组件间通信六种方式（完整版）](https://www.cnblogs.com/hpx2020/p/10936279.html)
 
-#### 2、vuex五大核心属性
+#### :star:2、vuex五大核心属性
 
 **state，getter，mutation，action，module**
 
 - state：存储数据，存储状态；在根实例中注册了store 后，用 `this.$store.state` 来访问；对应vue里面的data；存放数据方式为响应式，vue组件从store中读取数据，如数据发生变化，组件也会对应的更新。
 - getter：可以认为是 store 的计算属性，它的返回值会根据它的依赖被缓存起来，且只有当它的依赖值发生了改变才会被重新计算。
 - mutation：更改 Vuex 的 store 中的状态的唯一方法是提交 mutation。
-- action：包含任意异步操作，通过提交 mutation 间接更变状态。
+- action：包含任意异步操作，通过提交 mutation 间接变更状态。
 - module：将 store 分割成模块，每个模块都具有state、mutation、action、getter、甚至是嵌套子模块。
 
 #### 3、Vuex原理
 
 Vuex实现了一个单向数据流，在全局拥有一个State存放数据，当组件要更改State中的数据时，必须通过Mutation进行，Mutation同时提供了订阅者模式供外部插件调用获取State数据的更新。而当所有异步操作(常见于调用后端接口异步获取更新数据)或批量的同步操作需要走Action，但Action也是无法直接修改State的，还是需要通过Mutation来修改State的数据。最后，根据State的变化，渲染到视图上。
 
-#### 4、各模块在流程中的功能
+#### :star:4、各模块在流程中的功能
 
 - Vue Components：Vue组件。HTML页面上，负责接收用户操作等交互行为，执行dispatch方法触发对应action进行回应。
 - dispatch：操作行为触发方法，是唯一能执行action的方法。

@@ -376,7 +376,7 @@ TodoItem.defaultProps = {
 
 当父组件的render函数被运行时，它的子组件的render都将被重新运行一次。
 
-### 15、虚拟DOM
+### :star:15、虚拟DOM
 
 什么是虚拟DOM？用JS模拟DOM结构，DOM变化的对比，放在JS层进行（因为前端语言中只有JS是图灵完备语言）[什么是图灵完备语言？](https://blog.csdn.net/Roselane_Begger/article/details/101176694)
 
@@ -466,7 +466,7 @@ function replaceNode(vnode, newVnode) {
 }
 ```
 
-#### 虚拟DOM实现
+#### （重点）虚拟DOM实现
 
 **1、state数据**
 
@@ -707,7 +707,7 @@ class TodoList extends Component {
 
 1、先派发一个action，通过dispatch方法传递给store
 
-2、reducer中接收state和action进行处理，返回一个新的state返回给store，替换原来的store
+2、store 自动调用 reducer，reducer中接收state和action进行处理，返回一个新的state返回给store，替换原来的store
 
 3、store中数据改变react感知到store数据的改变，通过store.subscribe()订阅方法设置更新数据
 
