@@ -1430,7 +1430,7 @@ export default{
 </script>
 ```
 
-#### 2、$nextTick
+#### :star:2、$nextTick
 
 由于Vue是异步渲染，所以data改变之后，DOM不会立刻渲染，$nextTick会在DOM渲染之后被触发，以获取最新DOM节点
 
