@@ -631,11 +631,11 @@ import {CSSTransition} from 'react-transition-group';
 }
 ```
 
-### 21、Redux
+### :star:21、Redux
 
 Redux是js应用的 一种可预测的状态容器
 
-用户页面行为触发一个`Action`，然后，`Store `自动调用 `Reducer`，并且传入两个参数：当前 State 和收到的 Action。Reducer 会返回新的 State 。每当state更新之后，`view`会根据state触发重新渲染。
+**用户页面行为触发一个`Action`，然后，`Store `自动调用 `Reducer`，并且传入两个参数：当前 State 和收到的 Action。Reducer 会返回新的 State 。每当state更新之后，`view`会根据state触发重新渲染。**
 
 Redux = Reducer + Flux
 

@@ -1,6 +1,4 @@
-# JavaScript小记（持续更新）
-
-学习js遇到的疑问和js基础都记录在这里，持续更新中。
+# JavaScript小记
 
 ------
 
@@ -5858,7 +5856,7 @@ MVVM实质上是把 MVC 中的C的功能给拆分了。
 
  jquery： 依靠dom操作去组合业务逻辑。事件驱动
 
-#### React和Vue对比
+#### :star:React和Vue对比
 
 这篇文章挺好的：https://www.jianshu.com/p/b7cd52868e95?from=groupmessage
 
