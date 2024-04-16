@@ -1,6 +1,6 @@
 ## 手写js代码
 
-### 数据类型判断
+### √1、数据类型判断
 
 ```js
 function typeOf(obj) {
@@ -10,7 +10,7 @@ function typeOf(obj) {
 
 
 
-### 简单实现instanceof 
+### 2、简单实现instanceof 
 
 ```js
 function instance_of(left, right) {
@@ -26,7 +26,7 @@ function instance_of(left, right) {
 
 
 
-### 实现Object.create
+### 3、实现Object.create
 
 ```js
 function objCreate(obj) {
@@ -39,7 +39,7 @@ function objCreate(obj) {
 
 
 
-### 实现 new 关键字
+### :star:4、实现 new 关键字
 
 new 一个对象的过程
 
@@ -69,7 +69,7 @@ function myNew(fn, ...args) {
 
 
 
-### 手写call
+### 5、手写call
 
 ```js
 Function.prototype.myCall = function(thisArg, ...args) {
@@ -87,7 +87,7 @@ Function.prototype.myCall = function(thisArg, ...args) {
 
 
 
-### 手写bind
+### 6、手写bind
 
 ```js
 Function.prototype.myBind = function(thisArg, ...args) {
@@ -100,7 +100,7 @@ Function.prototype.myBind = function(thisArg, ...args) {
 
 
 
-### 函数科里化
+### √7、函数科里化
 
 将使用多个参数的函数转换成一系列使用一个参数的函数
 
@@ -127,7 +127,7 @@ curry(1, 2)(3)(4)
 
 
 
-### 偏函数
+### √8、偏函数
 
 将一个 n 参的函数转换成固定 x 参的函数，剩余参数（n - x）将在下次调用全部传入
 
@@ -147,7 +147,9 @@ partialAdd(2, 3)
 
 
 
-### 数组去重
+### √9、数组去重
+
+https://csmsimona.github.io/myDocs/#/zh-cn/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80%E6%B1%87%E6%80%BB/JavaScript%E5%B0%8F%E8%AE%B0?id=_9%e3%80%81%e6%95%b0%e7%bb%84%e5%8e%bb%e9%87%8d%e7%9a%84%e6%96%b9%e6%b3%95
 
 ```js
 var unique = arr => [...new Set(arr)]
@@ -190,7 +192,9 @@ function unique(arr){
 
 
 
-### 数组扁平化
+### √10、数组扁平化
+
+https://csmsimona.github.io/myDocs/#/zh-cn/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80%E6%B1%87%E6%80%BB/JavaScript%E5%B0%8F%E8%AE%B0?id=_10%e3%80%81%e6%95%b0%e7%bb%84%e6%8b%8d%e5%b9%b3
 
 ```js
 // 数组方法flat()，默认打平一层，Infinity打平任意层
@@ -238,13 +242,13 @@ function flatArr(arr) {
 
 
 
-### 数组排序
+### √:star:11、数组排序
 
 #### 冒泡排序
 
 时间复杂度 O(n*n) 稳定
 
-原理：第一个元素默认是已排序元素，取出下一个元素和当前元素比较，如果当前元素大就交换位置。那么此时第一个元素就是当前的最小数，所以下次取出操作从第三个元素开始，向前对比，重复之前的操作。
+原理：从第一个元素开始，把当前元素和下一个索引元素进行比较。如果当前元素大，那么就交换位置，重复操作直到比较到最后一个元素，那么此时最后一个元素就是该数组中最大的数。下一轮重复以上操作，但是此时最后一个元素也就是最大数了，所以不需要再比较最后一个元素，只需要比较到length-1的位置。
 
 ```js
 function bubbleSort(arr) {
@@ -333,7 +337,9 @@ function quickSort(arr) {
 
 
 
-### 深浅拷贝
+### √:star:12、深浅拷贝
+
+https://csmsimona.github.io/myDocs/#/zh-cn/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80%E6%B1%87%E6%80%BB/JavaScript%E5%B0%8F%E8%AE%B0?id=_1%e3%80%81%e6%b7%b1%e6%8b%b7%e8%b4%9d%e5%92%8c%e6%b5%85%e6%8b%b7%e8%b4%9d
 
 #### 普通数组深拷贝
 
@@ -478,7 +484,7 @@ function deepAssign() {
 
 
 
-### 数组随机排序
+### √13、数组随机排序
 
 ```js
 function randomArr(arr) {
@@ -494,7 +500,7 @@ randomArr(arr)
 
 
 
-### 防抖
+### √14、防抖
 
 ```js
 function debounce(fn, wait = 100) {
@@ -510,7 +516,7 @@ function debounce(fn, wait = 100) {
 
 
 
-### 节流
+### √15、节流
 
 函数的节流和函数的去抖都是通过减少实际逻辑处理过程的执行来提高事件处理函数运行性能的手段，并没有实质上减少事件的触发次数
 
@@ -541,7 +547,7 @@ function throttle(fn, delay) {
 
 
 
-### 随机数
+### √16、随机数
 
 ```js
 function randomNum(min, max) {
@@ -552,7 +558,9 @@ function randomNum(min, max) {
 
 
 
-### 随机字符串
+### √17、随机字符串
+
+toString(36)将数值转换成36进制，包含了0-9和a-z的所有字符
 
 ```js
 function randomStr(len) {
@@ -566,7 +574,7 @@ function randomStr(len) {
 
 
 
-### 斐波那契数列
+### √18、斐波那契数列
 
 ```js
 function fibonacci(n) {
@@ -577,7 +585,7 @@ function fibonacci(n) {
 
 function fibonacci(n) {
   let arr = [0, 1]
-  for (let i = 2; i < len; i++) {
+  for (let i = 2; i < n; i++) {
     arr[i] = arr[i-1] + arr[i-2]
   }
   return arr[n]
@@ -586,7 +594,7 @@ function fibonacci(n) {
 
 
 
-### 继承
+### 19、继承
 
 #### 原型链继承
 
@@ -845,7 +853,7 @@ console.log(teacher.getJob());
 
 
 
-### 事件总线（发布订阅模式）
+### 20、事件总线（发布订阅模式）
 
 实现思路
 
@@ -919,7 +927,7 @@ eventBus.emit('event2', false, 24)		// age 24  my age is 24
 
 
 
-### 字符串模板
+### 21、字符串模板
 
 ```js
 function render(template, data) {
@@ -942,7 +950,7 @@ render(template, person); // 我是ccc，年龄12，性别undefined
 
 
 
-### Promise
+### 22、Promise
 
 #### promise的使用
 
@@ -1233,7 +1241,7 @@ promiseAll([p1, p2, p3]).then(results => {
 
 
 
-### 根据数组中对象的某一个属性值进行排序
+### √23、根据数组中对象的某一个属性值进行排序
 
 ```js
 var arr = [
@@ -1258,7 +1266,7 @@ arr.sort((a,b) => a.age - b.age)
 
 
 
-### ajax
+### 24、ajax
 
 ```js
 let xhr = new XMLHttpRequest()      // 创建Ajax对象
@@ -1276,7 +1284,7 @@ xhr.send()    // 如果是post  send(data)
 
 
 
-### 封装一个jsonp
+### 25、封装一个jsonp
 
 ```js
 function jsonp({url, params, callbackName}) {
@@ -1315,7 +1323,7 @@ jsonp({
 
 
 
-### 利用 async await 实现 sleep 效果
+### 26、利用 async await 实现 sleep 效果
 
 ```js
 function sleep(fn, delay) {
@@ -1341,7 +1349,7 @@ test()
 
 
 
-### 图片懒加载
+### 27、图片懒加载
 
 首先，给所有的图片一个占位资源：
 
@@ -1420,7 +1428,7 @@ Array.from(imgs).forEach(item => observe.observe(item))
 
 
 
-### 事件委托应用
+### 28、事件委托应用
 
 #### 给li绑定点击事件
 
@@ -1482,7 +1490,7 @@ bindEvent(a, 'click', function(e){
 
 
 
-### 用正则实现 trim()    去掉首位多余的空格
+### 29、用正则实现 trim()    去掉首位多余的空格
 
 ```js
 // 去掉首位多余的空格
@@ -1493,7 +1501,7 @@ function trim(str) {
 
 
 
-### 数字转字符串千分位（暂时没有掌握）
+### 30、数字转字符串千分位（暂时没有掌握）
 
 #### 方法一:利用字符串提供的toLocaleString()方法处理,此方法最简单
 

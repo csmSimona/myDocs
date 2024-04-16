@@ -433,7 +433,7 @@ var p = new Person('csm', 21);
 console.log(p.constructor.name); 	// Person
 ```
 
-#### object.prototype.toString.call()
+#### Object.prototype.toString.call()
 
 ```js
 console.log(Object.prototype.toString.call(2));    			// [object Number]
@@ -447,6 +447,15 @@ console.log(Object.prototype.toString.call(null));			// [object Null]
 ```
 
 ​        使用 Object 对象的原型方法 toString ，使用 call 进行狸猫换太子，借用Object的 toString  方法结果精准的显示我们需要的数据类型。就算我们改变对象的原型，依然会显示正确的数据类型。
+
+```js
+// 数据类型判断
+function typeOf(obj) {
+  return Object.prototype.toString.call(obj).slice(8, -1).toLowerCase();
+}
+```
+
+
 
 ### 4、object和Object
 
@@ -852,6 +861,8 @@ arr.length = 0;
 
 ### 9、数组去重的方法
 
+https://csmsimona.github.io/myDocs/#/zh-cn/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80%E6%B1%87%E6%80%BB/%E6%89%8B%E5%86%99js?id=%e6%95%b0%e7%bb%84%e5%8e%bb%e9%87%8d
+
 **1、利用ES6 Set去重（ES6中最常用）**
 
 ```js
@@ -1023,6 +1034,8 @@ console.log(unique(arr));
 
 ### 10、数组拍平
 
+https://csmsimona.github.io/myDocs/#/zh-cn/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80%E6%B1%87%E6%80%BB/%E6%89%8B%E5%86%99js?id=%e6%95%b0%e7%bb%84%e6%89%81%e5%b9%b3%e5%8c%96
+
 **1、递归**
 
 ```js
@@ -1119,7 +1132,9 @@ console.log(arr.sort((a,b) => a.age - b.age));
 
 ## Object
 
-### 1、深拷贝和浅拷贝
+### :star:1、深拷贝和浅拷贝
+
+https://csmsimona.github.io/myDocs/#/zh-cn/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80%E6%B1%87%E6%80%BB/%E6%89%8B%E5%86%99js?id=%e6%b7%b1%e6%b5%85%e6%8b%b7%e8%b4%9d
 
 **区别**
 
@@ -1424,7 +1439,7 @@ var foo = 1;
 
 
 
-## 作用域
+## :star:作用域
 
 ### 1、变量提升
 
@@ -1836,17 +1851,17 @@ function myTool() {
 </script>
 ```
 
-**4.实现函数节流**
+**4.实现防抖函数**
 
 ```js
-   function throttle(fn, delay) {
+   function debounce(fn, delay) {
         var timer = null;
         return function () {
             clearTimeout(timer);
             timer = setTimeout(fn, delay);
         }
     }
-   throttle(function () {
+   debounce(function () {
        console.log('大家好!!!');
    }, 200)();
 ```
@@ -2117,6 +2132,8 @@ new (Foo.getName());
 (new Foo()).getName();
 ```
 
+
+
 ### 3、删除对象
 
 delete 删除对象中的属性；删除没有使用var关键字声明的全局变量
@@ -2384,13 +2401,11 @@ console.log(Object.getOwnPropertySymbols(obj));//[ Symbol() ]
 
   ![](..\picture\原型链.png)
 
-### 2、原型链
+### :star:2、原型链
 
-1. 每个函数都能构建出一个对象, 这个对象内部有个属性指向着这个函数的原型对象
+1. 每个构造函数都能构建出一个对象, 这个对象内部有个属性指向着这个函数的原型对象
 
 2. 原型对象本质也是一个对象,也是由另外一个构造函数构造出来, 也指向那个构造函数的原型对象，形成一个链式的结构，就称为是原型链
-
-3. 以上，形成一个链式的结构，就称为是原型链
 
    数组的完整原型链图
 
@@ -2954,13 +2969,13 @@ axios({
 
 **什么是跨域**
 
-跨域，是指浏览器不能执行其他网站的脚本。它是由浏览器的同源策略造成的，是浏览器对JavaScript实施的安全限制。
+**跨域，是指浏览器不能执行其他网站的脚本。它是由浏览器的同源策略造成的，是浏览器对JavaScript实施的安全限制。**
 
 **浏览器的同源策略**是指 协议、域名、端口相同，也就是说 协议、域名、端口有一个不同就算跨域。
 
 PS：http默认端口：80，https默认端口：443
 
-同源策略限制了一下行为：
+**同源策略限制了以下行为**：
 
 - Cookie、LocalStorage 和 IndexDB 无法读取
 
@@ -3143,7 +3158,9 @@ console.log(300)
 - 网络请求：ajax请求、动态`<img>`加载
 - 事件绑定
 
-### 4、事件轮询（event-loop）
+Promise本身是同步的("resolve before" 在"同步"之前先执行)，而then()则是异步任务("success" 在"同步之后再执行")
+
+### :star:4、事件轮询（event-loop）
 
 事件轮询是JS实现异步的具体解决方案。
 
@@ -3194,12 +3211,32 @@ $.ajax({
 
 准确的说是：第一个setTimeout在100ms后才会被放到异步队列中，第二个setTimeout会立刻放入异步队列，而添加到异步队列的任务，只有等到主线程执行栈中的同步任务全部执行完毕之后，才会被执行。如果主线程执行任务很多，执行时间超过100ms，那么这个函数只能等待。
 
-### 5、微任务和宏任务
+### :star:（待重新整理）5、微任务和宏任务
 
-不同的任务源会被分配到不同的任务队列中，任务源可以分为微任务（microtask）和宏任务（macrotask）。在ES6规范中，microtask称为jobs，macrotask称为task。
+宏任务（MacroTask）和微任务（MicroTask）有什么区别？
 
-- 微任务包括process.nextTick，promise，Object.observe，MutationObserver
-- 宏任务包括script，setTimeout，setInterval，setImmediate，requestAnimationFrame，I/O，UI rendering 
+https://blog.csdn.net/NancyFyn/article/details/118407548
+
+https://juejin.cn/post/7020710294083092493
+
+[微任务/宏任务和同步/异步之间的关系](https://juejin.cn/post/6962312899960242213)
+
+
+
+以上的事件循环过程是一个宏观的表述，实际上因为异步任务之间并不相同，因此他们的执行优先级也有区别。不同的异步任务被分为两类：微任务 `(micro task)` 和宏任务 `(macro task)`。
+
+- 微任务包括process.nextTick，Promise.then()，Object.observe，MutationObserver
+- 宏任务包括script (可以理解为外层同步代码)，setTimeout，setInterval，setImmediate，requestAnimationFrame，I/O，UI rendering 
+
+
+
+前面我们介绍过，在一个事件循环中，异步事件返回结果后会被放到一个任务队列中。然而，根据这个异步事件的类型，这个事件实际上会被对应的宏任务队列或者微任务队列中去。
+
+在当前执行栈为空的时候，主线程会 查看微任务队列是否有事件存在。如果不存在，那么再去宏任务队列中取出一个事件并把对应的回到加入当前执行栈；如果存在，则会依次执行队列中事件对应的回调，直到微任务队列为空，然后去宏任务队列中取出最前面的一个事件，把对应的回调加入当前执行栈...如此反复，进入循环。
+
+我们只需记住当前执行栈执行完毕时会立刻先处理所有微任务队列中的事件，然后再去宏任务队列中取出一个事件。同一次事件循环中，微任务永远在宏任务之前执行。
+
+同步代码 => 微任务 => 宏任务
 
 ```js
 console.log('script start');
@@ -3222,11 +3259,15 @@ console.log('script end');
 // script start => Promise => script end => promise1 => promise2 => setTimeout
 ```
 
+
+
 虽然setTimeout写在Promise之前，但是Promise属于微任务而setTimeout属于宏任务。Promise.then是异步执行的，而创建Promise实例（executor）是同步执行的。
 
 注意：Promise不等于异步，整个promise执行过程是同步的，Promise只是个**异步操作容器**，把异步操作包起来，以更易读更有条理更符合人类思维习惯的方式来写异步代码。
 
 可以看看这篇文章：[Promise≠异步，async函数≠异步](https://www.jianshu.com/p/dd9d35107f48)
+
+
 
 很多人有个误区，认为微任务快于宏任务，其实是错误的。因为宏任务中包括了script，浏览器会先执行一个宏任务，接下来是异步代码的话就先执行微任务。
 
@@ -3241,6 +3282,20 @@ console.log('script end');
 4、必要的话渲染UI
 
 5、然后开始下一轮Event loop，执行宏任务中的异步代码
+
+
+
+1.主体代码（第一次事件循环开始，所有的script代码）作为宏任务进入任务执行栈，但在主线程执行之前要做一系列操作判断。
+
+2.判断当前任务是同步还是异步，同步的由主线程在任务栈中按先进后出顺序（先局部上下文，再全局上下文）执行，异步判断是宏任务还是微任务。
+
+3.异步中的宏任务放入异步的宏任务event Table（异步队列分两种，宏任务队列和微任务队列,event Table也一样），微任务进入微任务event Table，在回调函数注册之后，再次进入它们对应的队列。
+
+4.当主线程的任务执行完后，会检查微任务队列是否有任务，如果有就执行，如此循环，知道微任务队列没有任务。
+
+5.当前事件的微任务执行完后，开始执行下一次事件，即会执行宏任务队列中的宏任务，如此循环下去，直到没有任务。
+
+
 
 ### 6、Node.js的Event Loop
 
@@ -4049,7 +4104,7 @@ module.a; // 1
 ##### commonjs和ES6模块化的区别
 
 - 前者支持动态导入，也就是require(${path}/xx.js)，后者目前不支持，但是已有提案
-- 前者是同步导入，因为用于服务端，文件都在本地，同步导入即使卡住主线程影响也不大。而后者是异步导入，因为用于浏览器，需要下载文件，如果也采用导入会对渲染有很大影响
+- 前者是同步导入，因为用于服务端，文件都在本地，同步导入即使卡住主线程影响也不大。而后者是异步导入，因为用于浏览器，需要下载文件，如果也采用异步导入会对渲染有很大影响
 - 前者在导出时都是值拷贝，就算导出的值变了，导入的值也不会改变，所以如果想更新值，必须重新导入一次。但是后者采用实时绑定的方式，导入导出的值都指向同一个内存地址，所以导入值会跟随导出值变化。
 - 后者会编译成require/export来执行
 
@@ -4245,7 +4300,11 @@ function preLoadImg(pars){
 
 ### 4、防抖和节流
 
+节流（Throttle）和防抖（Debounce）是两种常用的优化高频率执行JavaScript代码的技术。
+
 ##### 防抖
+
+**防抖是指在事件被触发后延迟一段时间后再执行回调，如果在这段延迟时间内事件又被触发，则重新计算延迟时间。** 
 
 在日常开发中，像在滚动事件中需要做个复杂计算或者实现一个按钮的防二次点击操作这些需求都可以通过函数防抖动来实现。
 
@@ -4276,12 +4335,14 @@ function debounce(fn, wait = 100) {
 
 ##### 节流
 
-防抖动和节流本质是不一样的。防抖动是将多次执行变为最后一次执行，节流是将多次执行变成每隔一段时间执行。比如搜索框就会用到节流。
+**节流是指在一段时间内，不管事件触发了多少次，只执行一次回调。** 
+
+防抖动和节流本质是不一样的。**防抖动是将多次执行变为最后一次执行，节流是将多次执行变成每隔一段时间执行。**比如搜索框就会用到节流。
 
 - 如果这个事件会被频繁触发，那么节流函数会按照一定的频率来执行函数；
 - 不管在这个中间有多少次触发这个事件，执行函数的频率总是固定的；
 
-应用场景：鼠标移动事件、王者荣耀攻击键、点击再快也是以一定攻速(频率)进行攻击等等
+应用场景：搜索联想功能、鼠标移动事件、王者荣耀攻击键、点击再快也是以一定攻速(频率)进行攻击等等
 
 ```js
 function throttle(fn, duration) {
@@ -4451,7 +4512,7 @@ test('a', 'b') // 1
 // 注意：Function.length统计的是 没有默认值的参数的个数
 ```
 
-### 5、箭头函数
+### :star:5、箭头函数
 
 ```javascript
 //JS
@@ -4494,6 +4555,8 @@ let person = (name) => ({
 - 箭头函数通过call()或apply()方法调用一个函数时，只传入了一个参数，对this并没有影响
 - 箭头函数没有原型属性
 - 箭头函数不能当做Generator函数，不能使用yield关键词
+
+
 
 ### 6、扩展运算符的应用
 
