@@ -6,9 +6,15 @@
 
 
 
+## 原书所有示例
+
+http://play.csssecrets.io/
+
+
+
 ## 一、背景与边框
 
-https://codepen.io/csmsimona/pen/VwxEVEN
+示例：https://codepen.io/csmsimona/pen/VwxEVEN
 
 ### 半透明边框
 
@@ -288,7 +294,7 @@ repeating-linear-gradient：重复线性渐变，linear-gradient的循环加强�
 
 ## 二、形状
 
-https://codepen.io/csmsimona/pen/QWrJyOa
+示例：https://codepen.io/csmsimona/pen/QWrJyOa
 
 ### 椭圆
 
@@ -581,7 +587,7 @@ corner-shape: bevel;
 
 ## 三、视觉效果
 
-https://codepen.io/csmsimona/pen/bGMOaqe
+示例：https://codepen.io/csmsimona/pen/bGMOaqe
 
 ### 投影
 
@@ -781,7 +787,7 @@ background:
 
 ## 四、字体排印
 
-https://codepen.io/csmsimona/pen/vYjvwLG
+示例：https://codepen.io/csmsimona/pen/vYjvwLG
 
 ### 文本行的斑马条纹
 
@@ -832,6 +838,8 @@ box-shadow: 0px 1px red;
 }
 ```
 
+![css36](./images/css36.png)
+
 
 
 #### 未来
@@ -865,6 +873,8 @@ text-shadow:
 
 这种方法并不总是可以得到完美的效果，而且性能消耗较高。因为用了模糊算法
 
+![css37](./images/css37.png)
+
 #### 2、svg
 
 ```css
@@ -890,7 +900,7 @@ text-shadow:
 .example6 svg { overflow: visible }
 ```
 
-
+![css38](./images/css38.png)
 
 #### 文字凸起效果
 
@@ -906,7 +916,7 @@ text-shadow:
 		0 5px 5px black;
 ```
 
-
+![css39](./images/css39.png)
 
 
 
@@ -962,11 +972,13 @@ http://thoughts.hyperchain.cn:8099/workspaces/5d4b89ddbe825b1e266e05b8/docs/61d7
 
 
 
+![css40](./images/css40.png)
+
 
 
 ## 五、用户体验
 
-https://codepen.io/csmsimona/pen/vYrYKXV
+示例：https://codepen.io/csmsimona/pen/vYrYKXV
 
 ### 扩大可点击区域
 
@@ -1077,11 +1089,15 @@ ul {
 }
 ```
 
+![css41](./images/css41.gif)
+
+
+
 
 
 ### 交互式的图片对比控件
 
-图片对比滑动控件
+图片对比滑动控件：使用css的resize属性
 
 效果：把两张图片叠加起来，允许用户拖动分割条来控制这两张图片的显露区域
 
@@ -1146,7 +1162,7 @@ CSS resize属性
 }
 ```
 
-
+![css42](./images/css42.gif)
 
 不足：
 
@@ -1159,7 +1175,7 @@ CSS resize属性
 
 ## 六、结构与布局
 
-https://codepen.io/csmsimona/pen/ZEREgVq
+示例：https://codepen.io/csmsimona/pen/ZEREgVq
 
 ### 自适应内部元素
 
@@ -1206,7 +1222,7 @@ https://codepen.io/csmsimona/pen/ZEREgVq
 
 
 
-
+![css43](./images/css43.png)
 
 ### 根据兄弟元素的数量来设置样式
 
@@ -1270,13 +1286,13 @@ li:first-child:nth-last-child(n+4)~li {
 }
 ```
 
-
+![css44](./images/css44.png)
 
 
 
 ## 七、过渡与动画
 
-https://codepen.io/csmsimona/pen/qBKExoZ
+示例：https://codepen.io/csmsimona/pen/qBKExoZ
 
 
 
@@ -1293,21 +1309,13 @@ https://codepen.io/csmsimona/pen/qBKExoZ
 
 
 
-
-
-
-
-
-## All demos
-
-http://play.csssecrets.io/
 
 
 
 ## 书籍分享
 
-链接:https://pan.baidu.com/s/1zN80hqgWaTK0XOxzjHl94w?pwd=ww3g 
-提取码:ww3g
+链接：https://pan.baidu.com/s/1zN80hqgWaTK0XOxzjHl94w?pwd=ww3g 
+提取码：ww3g
 
 
 
