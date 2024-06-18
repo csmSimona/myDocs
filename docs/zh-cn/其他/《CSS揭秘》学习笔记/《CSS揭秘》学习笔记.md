@@ -23,8 +23,7 @@ https://codepen.io/csmsimona/pen/VwxEVEN
 }
 ```
 
-<img src="./images/css1.png" style="zoom:50%;" />
-
+![css1](./images/css1.png)
 
 
 https://developer.mozilla.org/zh-CN/docs/Web/CSS/background-clip
@@ -55,7 +54,7 @@ https://developer.mozilla.org/zh-CN/docs/Web/CSS/background-clip
 
 注意：只能实现实线边框，不影响布局，也不会受到box-sizing属性的影响，可以通过内边距或外边距来额外模拟出边框所需要占据的空间；不响应鼠标事件，可以给box-shadow 属性加上 inset 关键字，来使投影绘制在元素的内圈。
 
-<img src="./images/css2.png" style="zoom:50%;" />
+![css2](./images/css2.png)
 
 
 
@@ -85,7 +84,7 @@ https://developer.mozilla.org/zh-CN/docs/Web/CSS/background-clip
 }
 ```
 
-<img src="./images/css3.png" style="zoom:50%;" />
+![css3](./images/css3.png)
 
 
 
@@ -98,7 +97,7 @@ https://developer.mozilla.org/zh-CN/docs/Web/CSS/background-clip
 }
 ```
 
-<img src="./images/css4.png" style="zoom:50%;" />
+![css4](./images/css4.png)
 
 
 
@@ -157,7 +156,7 @@ background-size 控制大小
 }
 ```
 
-<img src="./images/css5.png" style="zoom:50%;" />
+![css5](./images/css5.png)
 
 #### 2、垂直条纹
 
@@ -172,7 +171,7 @@ to right 或 90deg
 }
 ```
 
-<img src="./images/css6.png" style="zoom:50%;" />
+![css6](./images/css6.png)
 
 #### 3、斜向条纹
 
@@ -190,7 +189,7 @@ to right 或 90deg
 }
 ```
 
-<img src="./images/css7.png" style="zoom:50%;" />
+![css7](./images/css7.png)
 
 **任意角度倾斜条纹**
 
@@ -206,7 +205,7 @@ repeating-linear-gradient：重复线性渐变，linear-gradient的循环加强�
 }
 ```
 
-<img src="./images/css8.png" style="zoom:50%;" />
+![css8](./images/css8.png)
 
 
 
@@ -244,7 +243,7 @@ repeating-linear-gradient：重复线性渐变，linear-gradient的循环加强�
 }
 ```
 
-<img src="./images/css9.png" style="zoom:50%;" />
+![css9](./images/css9.png)
 
 ### 老式信封边框
 
@@ -264,7 +263,7 @@ repeating-linear-gradient：重复线性渐变，linear-gradient的循环加强�
 }
 ```
 
-<img src="./images/css10.png" style="zoom:50%;" />
+![css10](./images/css10.png)
 
 ### 蚂蚁行军边框
 
@@ -283,7 +282,7 @@ repeating-linear-gradient：重复线性渐变，linear-gradient的循环加强�
 
 ```
 
-<img src="./images/css11.gif" style="zoom:50%;" />
+![css11](./images/css11.gif)
 
 
 
@@ -305,7 +304,7 @@ border-radius: 50%;
 
 border-radius还可以单独指定水平半径和垂直半径，只要用一个斜杠（/）分隔即可
 
-<img src="./images/css12.png" style="zoom:50%;" />
+![css12](./images/css12.png)
 
 - 这个形状是垂直对称的，这意味着左上角和右上角的半径值应该是相同的；与此类似，左下角和右下角的半径值也应该是相同的。 
 
@@ -319,7 +318,7 @@ border-radius还可以单独指定水平半径和垂直半径，只要用一个�
 border-radius: 50% / 100% 100% 0 0;
 ```
 
-<img src="./images/css13.png" style="zoom:50%;" />
+![css13](./images/css13.png)
 
 #### 3、左半椭圆
 
@@ -327,7 +326,7 @@ border-radius: 50% / 100% 100% 0 0;
 border-radius: 100% 0 0 100% / 50%;
 ```
 
-<img src="./images/css14.png" style="zoom:50%;" />
+![css14](./images/css14.png)
 
 #### 4、四分之一椭圆
 
@@ -337,7 +336,7 @@ border-radius: 100% 0 0 100% / 50%;
 border-radius: 100% 0 0 0;
 ```
 
-<img src="./images/css15.png" style="zoom:50%;" />
+![css15](./images/css15.png)
 
 ### 平行四边形
 
@@ -347,7 +346,7 @@ transform: skewX(-45deg);
 
 但是内容也倾斜了
 
-<img src="./images/css16.png" style="zoom:50%;" />
+![css16](./images/css16.png)
 
 
 
@@ -367,7 +366,7 @@ transform: skewX(-45deg);
 }
 ```
 
-<img src="./images/css17.png" style="zoom:50%;" />
+![css17](./images/css17.png)
 
 如果你想把这个效果应用到一个默认显示为行内的元素，不要忘记把它的 display 属性设置为 其他值， 比 如 inline-block或 block，否则变形是不会生效的。
 
@@ -407,7 +406,7 @@ transform: skewX(-45deg);
 
 #### 1、基于变形的方案
 
-<img src="./images/css18.png" style="zoom:50%;" />
+![css18](./images/css18.png)
 
 ```css
 .example7 {
@@ -463,7 +462,7 @@ clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
 background: linear-gradient(-45deg, transparent 15px, orange 0);
 ```
 
-<img src="./images/css19.png" style="zoom:50%;" />
+![css19](./images/css19.png)
 
 **设置两个切角**
 
@@ -483,7 +482,7 @@ background: linear-gradient(-45deg, transparent 15px, orange 0);
 }
 ```
 
-<img src="./images/css20.png" style="zoom:50%;" />
+![css20](./images/css20.png)
 
 **设置四个切角**
 
@@ -500,7 +499,7 @@ background: linear-gradient(-45deg, transparent 15px, orange 0);
 }
 ```
 
-<img src="./images/css21.png" style="zoom:50%;" />
+![css21](./images/css21.png)
 
 **内凹圆角**
 
@@ -518,19 +517,19 @@ background: linear-gradient(-45deg, transparent 15px, orange 0);
 }
 ```
 
-<img src="./images/css22.png" style="zoom:50%;" />
+![css22](./images/css22.png)
 
 #### 2、内联 SVG 与 border-image方案
 
 border-image 属性可以通过一些简单的规则，将一副图像划分为 9 个单独的部分，浏览器会自动使用相应的部分来替换边框的默认样式
 
-<img src="./images/css23.png" style="zoom:50%;" />
+![css23](./images/css23.png)
 
-<img src="./images/css24.png" style="zoom:50%;" />
+![css24](./images/css24.png)
 
 使用 border-image，并通过一个内联的 SVG 图像来产生切角效果
 
-<img src="./images/css25.png" style="zoom:50%;" />
+![css25](./images/css25.png)
 
 - 使用的切片尺寸是 1，这并不表示 1 像素，它所对应的是SVG 文件的坐标系统（因此不需要单位）
 - fill关键词添加背景色
@@ -549,7 +548,7 @@ border-image 属性可以通过一些简单的规则，将一副图像划分为 
 }
 ```
 
-<img src="./images/css26.png" style="zoom:50%;" />
+![css26](./images/css26.png)
 
 #### 3、裁切路径
 
@@ -622,7 +621,7 @@ box-shadow: 2px 3px 4px rgba(0,0,0,.5);
 box-shadow: 0 5px 4px -4px black;
 ```
 
-<img src="./images/css27.png" style="zoom:50%;" />
+![css27](./images/css27.png)
 
 #### 2、邻边投影
 
@@ -633,7 +632,7 @@ box-shadow: 0 5px 4px -4px black;
 box-shadow: 3px 3px 6px -3px black;
 ```
 
-<img src="./images/css28.png" style="zoom:50%;" />
+![css28](./images/css28.png)
 
 #### 3、双侧投影
 
@@ -644,7 +643,7 @@ box-shadow: 5px 0 4px -4px black,
     -5px 0 4px -4px black;
 ```
 
-<img src="./images/css29.png" style="zoom:50%;" />
+![css29](./images/css29.png)
 
 #### 4、不规则投影
 
@@ -667,7 +666,7 @@ box-shadow: 4px 4px 2px rgba(0, 0, 0, .5);
 filter: drop-shadow(4px 4px 2px rgba(0, 0, 0, .5));
 ```
 
-<img src="./images/css30.png" style="zoom:50%;" />
+![css30](./images/css30.png)
 
 注意：任何非透明的部分都会被一视同仁地打上投影，包括文本（如果背景是透明的）。并且无法用text-shadow: none; 来取消文本上的投影，如果你已经用 text-shadow 在文本上加了投影效果，文本投影还会被 drop-shadow() 滤镜再加上投影，这本质上是给投影打了投影
 
@@ -723,7 +722,7 @@ div {
 
 ```
 
-<img src="./images/css31.png" style="zoom:50%;" />
+![css31](./images/css31.png)
 
 ### 折角效果
 
@@ -738,7 +737,7 @@ background:
     linear-gradient(-135deg, transparent 15px, orange 0);
 ```
 
-<img src="./images/css32.png" style="zoom:50%;" />
+![css32](./images/css32.png)
 
 #### 其他角度折角
 
@@ -750,7 +749,7 @@ background:
     linear-gradient(-150deg, transparent 15px, orange 0)
 ```
 
-<img src="./images/css33.png" style="zoom:50%;" />
+![css33](./images/css33.png)
 
 #### 旋转折角效果
 
@@ -778,7 +777,7 @@ background:
 }
 ```
 
-<img src="./images/css34.png" style="zoom:50%;" />
+![css34](./images/css34.png)
 
 ## 四、字体排印
 
@@ -799,7 +798,7 @@ https://codepen.io/csmsimona/pen/vYjvwLG
 }
 ```
 
-<img src="./images/css35.png" style="zoom:50%;" />
+![css35](./images/css35.png)
 
 ### 自定义下划线
 
