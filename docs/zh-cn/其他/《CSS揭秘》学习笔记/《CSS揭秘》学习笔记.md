@@ -1296,13 +1296,180 @@ li:first-child:nth-last-child(n+4)~li {
 
 
 
+### 缓动效果
+
+CSS 提供了一个 cubic-bezier()函数，允许我们指定自定义的调速函数。
+
+> cube-bezier() 函数定义三次贝塞尔曲线（Cubic Bezier curve）。
+>
+> 三次贝塞尔曲线由 P0、P1、P2 和 P3 四个点进行定义。P0 和 P3 是曲线的起点和终点，在 CSS 中，这两个点是固定的，因为坐标是成比例。P0 为 (0, 0)，代表初始时间和初始状态，P3 为 (1, 1)，代表最终时间和最终状态。
+>
+> 其余的中间点 P1(x1,y1)、P2(x2,y2) 是可以动态改变的两个点，对应 cubic-bezier(x1,y1,x2,y2) 中的四个参数,通过改变 P1、P2 两点的坐标值来动态生成的贝塞尔曲线表示动画中的速度变化。
+>
+> 可以将 cubic-bezier() 函数与 animation-timing-function 属性和 transition-timing-function 属性一起使用。
+
+从逻辑上来说，只要我们把控制锚点的水平坐标和垂直坐标互换，就可以得到任何调速函数的反向版本。
+
+
+
+#### 弹跳动画
+
+以纯技术的角度来看，回弹效果是指当一个过渡达到最终值时，往回倒一点，然后再次回到最终值，如此往复一次或多次，并逐渐收敛，最终稳定在最终值。
+
+https://dabblet.com/gist/1b37089310d0a5a2d8e6
+
+```css
+@keyframes bounce {
+	60%, 80%, to {
+		transform: translateY(400px);
+		animation-timing-function: ease;
+	}
+	70% { transform: translateY(300px); }
+	90% { transform: translateY(360px); }
+}
+
+.ball {
+	width: 0; height: 0; padding: 1.5em;
+	border-radius: 50%;
+	margin: auto;
+	background: red radial-gradient(at 30% 30%, #fdd, red);
+	animation: bounce 2s cubic-bezier(.1,.25,1,.25) forwards;
+}
+
+body {
+	background: linear-gradient(skyblue, white 450px, yellowgreen 0);
+	min-height: 100vh;
+}
+```
+
+
+
+#### 弹性过渡
+
+https://dabblet.com/gist/6cf33228089efef8a5ac
+
+```css
+/**
+ * Elastic transitions
+ */
+
+input:not(:focus) + .callout:not(:hover) {
+	transform: scale(0);
+	transition: .25s transform;
+}
+
+.callout {
+	transition: .5s cubic-bezier(.25,.1,.3,1.5) transform;
+	transform-origin: 1.4em -.4em;
+}
+
+/* Styling */
+body {
+	padding: 1.5em;
+	font: 200%/1.6 Baskerville;
+}
+
+input {
+	display: block;
+	padding: 0 .4em;
+	font: inherit;
+}
+
+.callout {	
+	position: absolute;
+	max-width: 14em;
+	padding: .6em .8em;
+	border-radius: .3em;
+	margin: .3em 0 0 -.2em;
+	background: #fed;
+	border: 1px solid rgba(0,0,0,.3);
+	box-shadow: .05em .2em .6em rgba(0,0,0,.2);
+	font-size: 75%;
+}
+
+.callout:before {
+	content: "";
+	position: absolute;
+	top: -.4em;
+	left: 1em;
+	padding: .35em;
+	background: inherit;
+	border: inherit;
+	border-right: 0;
+	border-bottom: 0;
+	transform: rotate(45deg);
+}
+```
+
+
+
+### 逐帧动画
+
+- 把动画中的所有帧全部拼合到一张 PNG 图片中
+
+  ![css45](./images/css45.png)
+
+- 然后用一个元素来容纳这个加载提示，并把它的宽高设置为单帧的尺寸
+
+- 采用 steps() 这个调速函数进行帧的切换
+
+> steps() 会根据你指定的步进数量，把整个动画切分为多帧，而且整个动画会在帧与帧之间硬切，不会做任何插值处理
+
+
+
+https://dabblet.com/gist/bcc082518391f45b41dc
+
+```css
+/**
+ * Frame-by-frame animations
+ */
+
+@keyframes loader {
+	to { background-position: -800px 0; }
+}
+
+.loader {
+	width: 100px; height: 100px;
+	text-indent: 999px; overflow: hidden; /* Hide text */
+	background: url(http://dabblet.com/img/loader.png) 0 0;
+	animation: loader 1s infinite steps(8);
+}
+```
 
 
 
 
 
+### 打字动画
+
+核心思路就是让容器的宽度成为动画的主体：把所有文本包裹在这个容器中，然后让它的宽度从 0 开始以步进动画的方式、一个字一个字地扩张到它应有的宽度。
+
+缺点：不适用于多行文本
 
 
+
+https://dabblet.com/gist/b04ab9f41084b0a66960
+
+```css
+@keyframes typing {
+	from { width: 0 }
+}
+
+@keyframes caret {
+	50% { border-right-color: transparent; }
+}
+
+h1 {
+	font: bold 200% Consolas, Monaco, monospace;
+	/*width: 8.25em;*/
+	width: 15ch;
+	white-space: nowrap;
+	overflow: hidden;
+	border-right: .05em solid;
+	animation: typing 8s steps(15),
+	           caret 1s steps(1) infinite;
+}
+```
 
 
 
