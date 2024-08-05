@@ -22,5 +22,7 @@
   - [Echarts基本使用](zh-cn/其他/Echarts基本使用)
   - [Three.js学习笔记](zh-cn/其他/Three.js学习笔记)
   - [《CSS揭秘》学习笔记](zh-cn/其他/《CSS揭秘》学习笔记/《CSS揭秘》学习笔记)
+* python
+  - [python入门](zh-cn/python/Python编程：从入门到实践)
 * 小工具
   - <a href="zh-cn/小工具/文本转字幕.html">文本转字幕</a>
